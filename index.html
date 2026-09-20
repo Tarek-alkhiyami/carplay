@@ -13,12 +13,12 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .nav{background:#fff;border-bottom:1px solid var(--line);padding:0 max(24px,3vw);height:48px;display:flex;align-items:center;gap:30px}.nav button{height:48px;border:0;background:none;color:var(--blue);font-size:16px;font-weight:800;cursor:pointer}.nav button.active{border-bottom:3px solid var(--blue)}
 .wrap{max-width:1250px;margin:0 auto;padding:30px 24px 60px}.intro h1{margin:0;font-size:30px}.intro p{color:#667085;margin:8px 0 26px}
 .panel,.service-card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}.panel-title{padding:20px 22px;font-size:20px;font-weight:800;border-bottom:1px solid var(--line)}
-.brands{display:grid;grid-template-columns:repeat(4,1fr)}.brand{border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;padding:19px 22px;text-align:left;font-size:16px;font-weight:700;color:#555;cursor:pointer}.brand:hover,.brand.active{background:#f0f6ff;color:var(--blue)}
+.brands{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}.brand{border:1px solid var(--line);border-radius:12px;background:#fff;padding:15px 18px;text-align:left;font-size:16px;font-weight:700;color:#18202b;cursor:pointer;display:flex;align-items:center;gap:14px;min-height:76px}.brand:hover,.brand.active{background:#f0f6ff;color:var(--blue);border-color:#b8cce5}.brand-logo{width:54px;height:42px;object-fit:contain;flex:0 0 54px}.brand-name{flex:1}.brand-arrow{font-size:24px;font-weight:400;color:#18202b}
 .results{margin-top:24px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:20px}.card b{font-size:18px}.muted{color:#667085;margin-top:6px}.price{font-size:22px;font-weight:900;color:var(--blue);margin-top:10px}
 .add-cart{border:0;background:#0860bd;color:#fff;font-size:16px;font-weight:800;padding:13px 20px;border-radius:9px;cursor:pointer;white-space:nowrap}.add-cart:hover{opacity:.9}.notice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:30px;text-align:center;color:#667085}
 .service-card{padding:24px;display:flex;align-items:center;justify-content:space-between;gap:25px}.service-copy h2{margin:0 0 10px}.service-copy p{margin:0 0 12px;color:#667085}.service-points{margin-top:20px;padding:18px;background:#f0f6ff;border-radius:10px;line-height:2;color:#526174}
 #servicesPage{display:none}
-@media(max-width:800px){.top{flex-wrap:wrap;gap:10px;padding:12px 14px}.logo{font-size:27px}.phone{font-size:14px}.vehicle{order:4;min-width:100%}.vehicle select{padding:14px 8px;font-size:13px}.nav{padding:0 14px}.wrap{padding:22px 14px}.brands{grid-template-columns:repeat(2,1fr)}.card,.service-card{align-items:flex-start;flex-direction:column}.add-cart{width:100%}}
+@media(max-width:800px){.brands{grid-template-columns:1fr}.top{flex-wrap:wrap;gap:10px;padding:12px 14px}.logo{font-size:27px}.phone{font-size:14px}.vehicle{order:4;min-width:100%}.vehicle select{padding:14px 8px;font-size:13px}.nav{padding:0 14px}.wrap{padding:22px 14px}.brands{grid-template-columns:repeat(2,1fr)}.card,.service-card{align-items:flex-start;flex-direction:column}.add-cart{width:100%}}
 .cart-modal{display:none;position:fixed;inset:0;background:#0008;z-index:50}.cart-box{background:#f6f8fb;position:absolute;right:0;top:0;width:min(520px,100%);height:100%;padding:22px;overflow:auto}.cart-top{display:flex;justify-content:space-between;align-items:center}.cart-top h2{margin:0}.close-cart{border:0;background:none;font-size:28px;cursor:pointer}.cart-item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:12px}.cart-line{display:flex;justify-content:space-between;gap:15px}.cart-actions{display:flex;align-items:center;gap:8px;margin-top:12px}.cart-actions button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 10px;cursor:pointer}.cart-actions .remove{margin-left:auto;color:#b42318}.cart-total{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:18px;display:flex;justify-content:space-between;font-size:21px;font-weight:900}.empty{padding:45px 10px;text-align:center;color:#667085}</style></head><body>
 <header class="top"><div class="logo">CARPLAY</div><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button></nav>
@@ -67,7 +67,20 @@ let cart=[];
 function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(x=>opt(M,x));
-allBrands.forEach(b=>{const x=document.createElement("button");x.className="brand";x.textContent=b;x.onclick=()=>{M.value=b;Y.value="";loadModels();showBrand(b,x)};B.appendChild(x)});
+const brandLogos={
+"BMW":"https://cdn.simpleicons.org/bmw",
+"Chevrolet":"https://cdn.simpleicons.org/chevrolet",
+"Dodge":"https://cdn.simpleicons.org/dodge",
+"Fiat":"https://cdn.simpleicons.org/fiat",
+"Ford":"https://cdn.simpleicons.org/ford",
+"GMC":"https://cdn.simpleicons.org/gmc",
+"Honda":"https://cdn.simpleicons.org/honda",
+"Mercedes-Benz":"https://cdn.simpleicons.org/mercedes",
+"Nissan":"https://cdn.simpleicons.org/nissan",
+"Toyota":"https://cdn.simpleicons.org/toyota",
+"Volkswagen":"https://cdn.simpleicons.org/volkswagen"
+};
+allBrands.forEach(b=>{const x=document.createElement("button");x.className="brand";const logo=brandLogos[b];x.innerHTML=(logo?'<img class="brand-logo" src="'+logo+'" alt="'+b+' logo">':'<span class="brand-logo"></span>')+'<span class="brand-name">'+b+'</span><span class="brand-arrow">›</span>';x.onclick=()=>{M.value=b;Y.value="";loadModels();showBrand(b,x)};B.appendChild(x)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("")}
 function card(x){const key=encodeURIComponent(JSON.stringify(x));return '<div class="card"><div><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+x[2]+'–'+x[3]+' &nbsp; • &nbsp; '+x[4]+(x[5]?' &nbsp; • &nbsp; '+x[5]:'')+'</div><div class="price">$'+x[6].toFixed(2)+' CAD</div></div><button class="add-cart" onclick="addProduct(\''+key+'\')">🛒 &nbsp; Add to Cart</button></div>'}
