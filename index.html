@@ -16,7 +16,7 @@
 .wrap{max-width:1250px;margin:0 auto;padding:30px 24px 60px}.intro h1{margin:0;font-size:30px}.install-fee{display:inline-block;margin-top:8px;font-size:20px;font-weight:900;color:#073d82}.intro p{color:#667085;margin:7px 0 26px}
 .panel{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}.panel-title{padding:20px 22px;font-size:20px;font-weight:800;border-bottom:1px solid var(--line)}
 .brands{display:grid;grid-template-columns:repeat(4,1fr)}.brand{border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff;padding:19px 22px;text-align:left;font-size:16px;font-weight:700;color:#555;cursor:pointer}
-.brand:hover,.brand.active{background:#f0f6ff;color:var(--blue)}.results{margin-top:24px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:12px}.card b{font-size:18px}.muted{color:#667085;margin-top:6px}.notice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:30px;text-align:center;color:#667085}
+.brand:hover,.brand.active{background:#f0f6ff;color:var(--blue)}.results{margin-top:24px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:20px}.card b{font-size:18px}.add-cart{border:0;background:#073d82;color:#fff;font-size:16px;font-weight:800;padding:13px 20px;border-radius:9px;cursor:pointer;white-space:nowrap}.add-cart:hover{opacity:.9}.cart-count{position:absolute;transform:translate(13px,-15px);background:#fff;color:#073d82;border-radius:50%;font-size:11px;font-weight:900;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center}.muted{color:#667085;margin-top:6px}.notice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:30px;text-align:center;color:#667085}
 @media(max-width:800px){.top{flex-wrap:wrap;gap:12px;padding:13px 16px}.logo{font-size:28px}.phone{font-size:14px}.vehicle{order:3;min-width:100%}.vehicle select{padding:14px 8px;font-size:13px}.nav{padding:0 16px}.wrap{padding:22px 14px}.brands{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -28,7 +28,7 @@
   <select id="year"><option value="">Year</option></select>
   <select id="model"><option value="">Model</option></select>
  </div>
- <a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a>\n <a class="cart" href="#cart" aria-label="Shopping cart" title="Shopping cart">🛒</a>
+ <a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a>\n <a class="cart" href="#cart" aria-label="Shopping cart" title="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a>
 </header>
 <div class="nav"><span>Brands</span><div>Services</div></div>
 <main class="wrap">
@@ -79,8 +79,23 @@ for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(b=>{const x=document.createElement("button");x.className="brand";x.textContent=b;x.onclick=()=>{M.value=[...M.options].some(o=>o.value===b)?b:"";Y.value="";loadModels();showBrand(b,x)};B.appendChild(x)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));el.classList.add("active");const a=stock.filter(x=>x[0]===b);R.innerHTML=a.length?a.map(card).join(""):'<div class="notice">No screen currently listed for '+b+'.</div>'}
+let cart=[];
 function card(x){
- return '<div class="card"><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+x[2]+'–'+x[3]+' &nbsp; • &nbsp; '+x[4]+(x[5]?' &nbsp; • &nbsp; '+x[5]:'')+'</div><div style="font-size:22px;font-weight:900;color:#073d82;margin-top:10px">$'+x[6].toFixed(2)+' CAD</div></div>';
+ const key=encodeURIComponent(JSON.stringify(x));
+ return '<div class="card"><div><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+x[2]+'–'+x[3]+' &nbsp; • &nbsp; '+x[4]+(x[5]?' &nbsp; • &nbsp; '+x[5]:'')+'</div><div style="font-size:22px;font-weight:900;color:#073d82;margin-top:10px">
+function render(){
+ document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));
+ let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));
+ R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):"";
+}
+M.onchange=loadModels;D.onchange=render;Y.onchange=render;
+</script>
+</body>
+</html>+x[6].toFixed(2)+' CAD</div></div><button class="add-cart" onclick="addToCart(\''+key+'\')">Add to Cart</button></div>';
+}
+function addToCart(key){
+ cart.push(JSON.parse(decodeURIComponent(key)));
+ document.querySelector("#cartCount").textContent=cart.length;
 }
 function render(){
  document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));
