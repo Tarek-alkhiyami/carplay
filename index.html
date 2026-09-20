@@ -79,12 +79,15 @@ for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(b=>{const x=document.createElement("button");x.className="brand";x.textContent=b;x.onclick=()=>{M.value=[...M.options].some(o=>o.value===b)?b:"";Y.value="";loadModels();showBrand(b,x)};B.appendChild(x)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));el.classList.add("active");const a=stock.filter(x=>x[0]===b);R.innerHTML=a.length?a.map(card).join(""):'<div class="notice">No screen currently listed for '+b+'.</div>'}
-function card(x){return '<div class="card"><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+x[2]+'–'+x[3]+' &nbsp; • &nbsp; '+x[4]+(x[5]?' &nbsp; • &nbsp; '+x[5]:'')+'</div><div style="font-size:22px;font-weight:900;color:#073d82;margin-top:10px">
-function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):""}
+function card(x){
+ return '<div class="card"><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+x[2]+'–'+x[3]+' &nbsp; • &nbsp; '+x[4]+(x[5]?' &nbsp; • &nbsp; '+x[5]:'')+'</div><div style="font-size:22px;font-weight:900;color:#073d82;margin-top:10px">$'+x[6].toFixed(2)+' CAD</div></div>';
+}
+function render(){
+ document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));
+ let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));
+ R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):"";
+}
 M.onchange=loadModels;D.onchange=render;Y.onchange=render;
 </script>
-</body></html>+x[6].toFixed(2)+' CAD</div></div>'}
-function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):""}
-M.onchange=loadModels;D.onchange=render;Y.onchange=render;
-</script>
-</body></html>
+</body>
+</html>
