@@ -75,23 +75,17 @@ function updateCart(){document.querySelector("#cartCount").textContent=cart.redu
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
 function openCart(){renderCart();document.querySelector("#cartModal").style.display="block"}
 function closeCart(){document.querySelector("#cartModal").style.display="none"}
-function renderCart(){let b=document.querySelector("#cartItems"),t=document.querySelector("#cartTotal");if(!cart.length){b.innerHTML='<div class="empty">Your cart is empty.</div>';t.innerHTML='';return}b.innerHTML=cart.map((x,i)=>'<div class="cart-item"><div class="cart-line"><b>'+x.name+'</b><b>
-function addProduct(key){let d=JSON.parse(decodeURIComponent(key));addItem({key:"p:"+JSON.stringify(d),name:d[0]+" "+d[1],price:d[6]})}
-function addService(){addItem({key:"installation",name:"CarPlay / Android Auto Installation",price:200})}
-function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):""}
-function showPage(page){const services=page==="services";document.querySelector("#brandsPage").style.display=services?"none":"block";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",!services);document.querySelector("#servicesTab").classList.toggle("active",services)}
-M.onchange=loadModels;D.onchange=render;Y.onchange=render;
-</script></body></html>+(x.price*x.qty).toFixed(2)+' CAD</b></div><div class="cart-actions"><button onclick="qty('+i+',-1)">−</button><b>'+x.qty+'</b><button onclick="qty('+i+',1)">+</button><button class="remove" onclick="removeItem('+i+')">Remove</button></div></div>').join('');let total=cart.reduce((s,x)=>s+x.price*x.qty,0);t.innerHTML='<div class="cart-total"><span>Total</span><span>
-function addProduct(key){cart.push({type:"product",data:JSON.parse(decodeURIComponent(key))});updateCart()}
-function addService(){cart.push({type:"service",name:"CarPlay / Android Auto Installation",price:200});updateCart()}
-function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):""}
-function showPage(page){const services=page==="services";document.querySelector("#brandsPage").style.display=services?"none":"block";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",!services);document.querySelector("#servicesTab").classList.toggle("active",services)}
-M.onchange=loadModels;D.onchange=render;Y.onchange=render;
-</script></body></html>+total.toFixed(2)+' CAD</span></div>'}
+function renderCart(){
+ let b=document.querySelector("#cartItems"),t=document.querySelector("#cartTotal");
+ if(!cart.length){b.innerHTML='<div class="empty">Your cart is empty.</div>';t.innerHTML='';return}
+ b.innerHTML=cart.map((x,i)=>'<div class="cart-item"><div class="cart-line"><b>'+x.name+'</b><b>$'+(x.price*x.qty).toFixed(2)+' CAD</b></div><div class="cart-actions"><button onclick="qty('+i+',-1)">−</button><b>'+x.qty+'</b><button onclick="qty('+i+',1)">+</button><button class="remove" onclick="removeItem('+i+')">Remove</button></div></div>').join('');
+ let total=cart.reduce((s,x)=>s+x.price*x.qty,0);
+ t.innerHTML='<div class="cart-total"><span>Total</span><span>$'+total.toFixed(2)+' CAD</span></div>';
+}
 function qty(i,d){cart[i].qty+=d;if(cart[i].qty<1)cart.splice(i,1);updateCart();renderCart()}
 function removeItem(i){cart.splice(i,1);updateCart();renderCart()}
-function addProduct(key){cart.push({type:"product",data:JSON.parse(decodeURIComponent(key))});updateCart()}
-function addService(){cart.push({type:"service",name:"CarPlay / Android Auto Installation",price:200});updateCart()}
+function addProduct(key){let d=JSON.parse(decodeURIComponent(key));addItem({key:"p:"+JSON.stringify(d),name:d[0]+" "+d[1],price:d[6]})}
+function addService(){addItem({key:"installation",name:"CarPlay / Android Auto Installation",price:200})}
 function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):""}
 function showPage(page){const services=page==="services";document.querySelector("#brandsPage").style.display=services?"none":"block";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",!services);document.querySelector("#servicesTab").classList.toggle("active",services)}
 M.onchange=loadModels;D.onchange=render;Y.onchange=render;
