@@ -38,12 +38,40 @@
 </main>
 <script>
 const stock=[
-["Honda","CR-V",2002,2006],["Toyota","Corolla",2009,2013],["Nissan","Frontier",2005,2008],
-["Nissan","Altima",2013,2018],["Ford","Mustang",2005,2009],["Ford","Edge",2007,2010],
-["Chevrolet","Silverado",2007,2014],["Dodge","Nitro",2007,2011],["Dodge","Grand Caravan",2008,2020],
-["Volkswagen","Rabbit Mk5",2006,2009]
+["Mercedes-Benz","SL-Class (R230 / SL350 / SL500 / SL63 / SL65)",2005,2012,'9"',"4GB/64GB",149.99],
+["Dodge","Nitro",2007,2011,'7"',"2GB/64GB",149.99],
+["BMW","3 Series E46",1999,2004,'7"',"2GB/64GB",199.99],
+["Honda","CR-V",2002,2006,'9"',"4GB/64GB",99.99],
+["Nissan","Altima",2013,2018,'9"',"2GB/32GB",149.99],
+["Mercedes-Benz","C-Class W204 / S204",2006,2011,'9"',"1GB/32GB or 2GB/64GB",199.99],
+["Ford","Edge",2007,2010,'7"',"4GB/64GB",199.99],
+["Toyota","Tacoma",2005,2013,'10"',"2GB/32GB",249.99],
+["Ford","Escape",2013,2019,'9"',"",249.99],
+["Mercedes-Benz","C-Class W203",2003,2009,'9"',"2GB/64GB",249.99],
+["Mercedes-Benz","CLK W209",2003,2009,'9"',"2GB/64GB",249.99],
+["Fiat","500",2007,2015,'6.86"',"2GB/64GB",199.99],
+["Dodge","Grand Caravan",2008,2020,'7"',"2GB/32GB",199.99],
+["Volkswagen","Rabbit Mk5",2006,2009,'9"',"2GB/32GB",149.99],
+["Chevrolet","Silverado 1500HD / 2500HD / 3500HD",2007,2014,'10"',"2GB/32GB",199.99],
+["Ford","F-250 / F-350 Super Duty",1999,2004,'7"',"4GB/64GB",199.99],
+["Ford","Fusion",2005,2011,'7"',"4GB/64GB",199.99],
+["Ford","Fiesta",2005,2017,'7"',"4GB/64GB",199.99],
+["Ford","Transit",2005,2016,'7"',"4GB/64GB",199.99],
+["Ford","Focus",2005,2008,'7"',"4GB/64GB",199.99],
+["Toyota","Corolla",2009,2013,'7"',"2GB/64GB",149.99],
+["Nissan","Frontier",2005,2008,'7"',"2GB/32GB",149.99],
+["Nissan","Frontier (8-Core)",2005,2008,'7"',"2GB/32GB",179.99],
+["Ford","Mustang",2005,2009,'7"',"2GB/64GB",149.99],
+["Toyota","Corolla",2009,2013,'9"',"4GB/64GB",174.99],
+["Toyota","Corolla",2013,2017,'10.1"',"4GB/64GB",249.99],
+["Ford","F-150",2009,2012,'9"',"2GB/64GB",199.99],
+["Nissan","Altima / Teana",2013,2018,'10"',"2GB/64GB",149.99],
+["Toyota","RAV4",2013,2019,'10.1"',"4GB/64GB",174.99],
+["Nissan","Versa Sedan",2015,2019,'10.1"',"2GB/32GB",149.99],
+["Chevrolet","Silverado / Impala / Tahoe",2003,2006,'7"',"4GB/64GB",124.99],
+["GMC","Sierra / Yukon",2003,2006,'7"',"4GB/64GB",124.99]
 ];
-const allBrands=["Acura","Audi","BMW","Cadillac","Chevrolet","Chrysler","Dodge","Ford","Honda","Hyundai","Jeep","Kia","Lexus","Mazda","Mercedes-Benz","Mitsubishi","Nissan","Subaru","Toyota","Volkswagen"];
+const allBrands=["BMW","Chevrolet","Dodge","Fiat","Ford","GMC","Honda","Mercedes-Benz","Nissan","Toyota","Volkswagen"];
 const Y=document.querySelector("#year"),M=document.querySelector("#make"),D=document.querySelector("#model"),B=document.querySelector("#brands"),R=document.querySelector("#results");
 function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
@@ -51,7 +79,11 @@ for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(b=>{const x=document.createElement("button");x.className="brand";x.textContent=b;x.onclick=()=>{M.value=[...M.options].some(o=>o.value===b)?b:"";Y.value="";loadModels();showBrand(b,x)};B.appendChild(x)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));el.classList.add("active");const a=stock.filter(x=>x[0]===b);R.innerHTML=a.length?a.map(card).join(""):'<div class="notice">No screen currently listed for '+b+'.</div>'}
-function card(x){return '<div class="card"><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+x[2]+'–'+x[3]+'</div></div>'}
+function card(x){return '<div class="card"><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+x[2]+'–'+x[3]+' &nbsp; • &nbsp; '+x[4]+(x[5]?' &nbsp; • &nbsp; '+x[5]:'')+'</div><div style="font-size:22px;font-weight:900;color:#073d82;margin-top:10px">
+function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):""}
+M.onchange=loadModels;D.onchange=render;Y.onchange=render;
+</script>
+</body></html>+x[6].toFixed(2)+' CAD</div></div>'}
 function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));let a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):""}
 M.onchange=loadModels;D.onchange=render;Y.onchange=render;
 </script>
