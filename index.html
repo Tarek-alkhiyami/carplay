@@ -90,7 +90,14 @@ document.querySelector("#totalQty").textContent=stock.length;
 allBrands.forEach(b=>{const wrap=document.createElement("div"),brandItems=stock.filter(x=>x[0]===b);const btn=document.createElement("button");btn.className="tree-brand";btn.innerHTML='<span>+ '+b+'</span><span class="tree-count">'+brandItems.length+'</span>';const models=document.createElement("div");models.style.display="none";[...new Set(brandItems.map(x=>x[1]))].sort().forEach(m=>{const modelItems=brandItems.filter(x=>x[1]===m);const mb=document.createElement("button");mb.className="tree-model";mb.innerHTML='<span>'+m+'</span> <span class="tree-count">'+modelItems.length+'</span>';mb.onclick=()=>{M.value=b;Y.value="";loadModels();D.value=m;render();setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)};models.appendChild(mb)});btn.onclick=()=>{const open=models.style.display!=="none";models.style.display=open?"none":"block";btn.querySelector("span").textContent=(open?"+ ":"− ")+b};wrap.append(btn,models);T.appendChild(wrap)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
-function card(x){const key=encodeURIComponent(JSON.stringify(x));const specs=[x[2]+'–'+x[3],x[4],x[5]].filter(Boolean).join(' &nbsp; • &nbsp; ');const priced=Number.isFinite(x[6]);return '<div class="card"><div><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+specs+'</div><div class="price">'+(priced?'
+function card(x){
+ const key=encodeURIComponent(JSON.stringify(x));
+ const specs=[x[2]+'–'+x[3],x[4],x[5]].filter(Boolean).join(' &nbsp; • &nbsp; ');
+ const priced=typeof x[6]==='number' && isFinite(x[6]);
+ const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
+ const button=priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
+ return '<div class="card"><div><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+specs+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
+}
 function updateCart(){document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
 function openCart(){renderCart();document.querySelector("#cartModal").style.display="block"}
