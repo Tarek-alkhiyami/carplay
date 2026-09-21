@@ -14,52 +14,54 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .wrap{max-width:1250px;margin:0 auto;padding:30px 24px 60px}.intro h1{margin:0;font-size:30px}.intro p{color:#667085;margin:8px 0 26px}
 .panel,.service-card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}.panel-title{padding:20px 22px;font-size:20px;font-weight:800;border-bottom:1px solid var(--line)}
 .brands{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}.brand{border:1px solid var(--line);border-radius:12px;background:#fff;padding:15px 18px;text-align:left;font-size:16px;font-weight:700;color:#18202b;cursor:pointer;display:flex;align-items:center;gap:14px;min-height:76px}.brand:hover,.brand.active{background:#f0f6ff;color:var(--blue);border-color:#b8cce5}.brand-logo{width:54px;height:42px;object-fit:contain;flex:0 0 54px}.brand-name{flex:1}.brand-arrow{font-size:24px;font-weight:400;color:#18202b}
-.results{margin-top:24px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:20px}.card b{font-size:18px}.muted{color:#667085;margin-top:6px}.price{font-size:22px;font-weight:900;color:var(--blue);margin-top:10px}
+.catalog-layout{display:grid;grid-template-columns:230px 1fr;gap:20px}.product-tree{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;height:max-content;position:sticky;top:15px}.tree-title{font-weight:900;font-size:18px;margin-bottom:10px}.tree-brand{border:0;background:none;width:100%;text-align:left;padding:8px 4px;font-weight:800;color:var(--blue);cursor:pointer}.tree-model{display:block;border:0;background:none;width:100%;text-align:left;padding:5px 4px 5px 18px;color:#526174;cursor:pointer}.tree-model:hover{color:var(--blue)}.results{margin-top:24px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:20px}.card b{font-size:18px}.muted{color:#667085;margin-top:6px}.price{font-size:22px;font-weight:900;color:var(--blue);margin-top:10px}
 .add-cart{border:0;background:#0860bd;color:#fff;font-size:16px;font-weight:800;padding:13px 20px;border-radius:9px;cursor:pointer;white-space:nowrap}.add-cart:hover{opacity:.9}.notice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:30px;text-align:center;color:#667085}
 .service-card{padding:24px;display:flex;align-items:center;justify-content:space-between;gap:25px}.service-copy h2{margin:0 0 10px}.service-copy p{margin:0 0 12px;color:#667085}.service-points{margin-top:20px;padding:18px;background:#f0f6ff;border-radius:10px;line-height:2;color:#526174}
 #servicesPage{display:none}
-@media(max-width:800px){.brands{grid-template-columns:1fr}.top{flex-wrap:wrap;gap:10px;padding:12px 14px}.logo{font-size:27px}.phone{font-size:14px}.vehicle{order:4;min-width:100%}.vehicle select{padding:14px 8px;font-size:13px}.nav{padding:0 14px}.wrap{padding:22px 14px}.brands{grid-template-columns:repeat(2,1fr)}.card,.service-card{align-items:flex-start;flex-direction:column}.add-cart{width:100%}}
+@media(max-width:800px){.catalog-layout{display:block}.product-tree{position:static;margin-bottom:16px}.brands{grid-template-columns:1fr}.top{flex-wrap:wrap;gap:10px;padding:12px 14px}.logo{font-size:27px}.phone{font-size:14px}.vehicle{order:4;min-width:100%}.vehicle select{padding:14px 8px;font-size:13px}.nav{padding:0 14px}.wrap{padding:22px 14px}.brands{grid-template-columns:repeat(2,1fr)}.card,.service-card{align-items:flex-start;flex-direction:column}.add-cart{width:100%}}
 .cart-modal{display:none;position:fixed;inset:0;background:#0008;z-index:50}.cart-box{background:#f6f8fb;position:absolute;right:0;top:0;width:min(520px,100%);height:100%;padding:22px;overflow:auto}.cart-top{display:flex;justify-content:space-between;align-items:center}.cart-top h2{margin:0}.close-cart{border:0;background:none;font-size:28px;cursor:pointer}.cart-item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:12px}.cart-line{display:flex;justify-content:space-between;gap:15px}.cart-actions{display:flex;align-items:center;gap:8px;margin-top:12px}.cart-actions button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 10px;cursor:pointer}.cart-actions .remove{margin-left:auto;color:#b42318}.cart-total{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:18px;display:flex;justify-content:space-between;font-size:21px;font-weight:900}.empty{padding:45px 10px;text-align:center;color:#667085}</style></head><body>
 <header class="top"><div class="logo">CARPLAY</div><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button></nav>
 <main class="wrap">
-<section id="brandsPage"><section class="intro"><h1>CarPlay Screen Inventory</h1><p>Select your vehicle or browse by brand to see available screens.</p></section><section class="panel"><div class="panel-title">Shop by Brand</div><div class="brands" id="brands"></div></section><section class="results" id="results"></section></section>
+<section id="brandsPage"><div class="catalog-layout"><aside class="product-tree"><div class="tree-title">Products</div><div id="productTree"></div></aside><div><section class="intro"><h1>CarPlay Screen Inventory</h1><p>Select your vehicle or browse by brand to see available screens.</p></section><section class="panel"><div class="panel-title">Shop by Brand</div><div class="brands" id="brands"></div></section><section class="results" id="results"></section></div></div></section>
 <section id="servicesPage"><section class="intro"><h1>Our Services</h1><p>Add professional installation to your cart.</p></section><div class="service-card"><div class="service-copy"><h2>CarPlay / Android Auto Installation</h2><p>Professional installation for your CarPlay or Android head unit.</p><div class="price">$200.00 CAD</div><div class="service-points">🔧 Professional installation<br>🛡️ Clean and safe wiring<br>✓ Compatible with most vehicles<br>🚗 Burlington / Hamilton area</div></div><button class="add-cart" onclick="addService()">🛒 &nbsp; Add to Cart</button></div></section>
 </main><div class="cart-modal" id="cartModal" onclick="if(event.target===this)closeCart()"><div class="cart-box"><div class="cart-top"><h2>Shopping Cart</h2><button class="close-cart" onclick="closeCart()">×</button></div><div id="cartItems"></div><div id="cartTotal"></div></div></div>
 <script>
 const stock=[
-["Mercedes-Benz","SL-Class (R230 / SL350 / SL500 / SL63 / SL65)",2005,2012,'9"',"4GB/64GB",149.99],
-["Dodge","Nitro",2007,2011,'7"',"2GB/64GB",149.99],
-["BMW","3 Series E46",1999,2004,'7"',"2GB/64GB",199.99],
-["Honda","CR-V",2002,2006,'9"',"4GB/64GB",99.99],
-["Nissan","Altima",2013,2018,'9"',"2GB/32GB",149.99],
-["Mercedes-Benz","C-Class W204 / S204",2006,2011,'9"',"1GB/32GB or 2GB/64GB",199.99],
-["Ford","Edge",2007,2010,'7"',"4GB/64GB",199.99],
-["Toyota","Tacoma",2005,2013,'10"',"2GB/32GB",249.99],
-["Ford","Escape",2013,2019,'9"',"",249.99],
-["Mercedes-Benz","C-Class W203",2003,2009,'9"',"2GB/64GB",249.99],
-["Mercedes-Benz","CLK W209",2003,2009,'9"',"2GB/64GB",249.99],
-["Fiat","500",2007,2015,'6.86"',"2GB/64GB",199.99],
-["Dodge","Grand Caravan",2008,2020,'7"',"2GB/32GB",199.99],
-["Volkswagen","Rabbit Mk5",2006,2009,'9"',"2GB/32GB",149.99],
-["Chevrolet","Silverado 1500HD / 2500HD / 3500HD",2007,2014,'10"',"2GB/32GB",199.99],
-["Ford","F-250 / F-350 Super Duty",1999,2004,'7"',"4GB/64GB",199.99],
-["Ford","Fusion",2005,2011,'7"',"4GB/64GB",199.99],
-["Ford","Fiesta",2005,2017,'7"',"4GB/64GB",199.99],
-["Ford","Transit",2005,2016,'7"',"4GB/64GB",199.99],
-["Ford","Focus",2005,2008,'7"',"4GB/64GB",199.99],
-["Toyota","Corolla",2009,2013,'7"',"2GB/64GB",149.99],
-["Nissan","Frontier",2005,2008,'7"',"2GB/32GB",149.99],
-["Nissan","Frontier (8-Core)",2005,2008,'7"',"2GB/32GB",179.99],
-["Ford","Mustang",2005,2009,'7"',"2GB/64GB",149.99],
-["Toyota","Corolla",2009,2013,'9"',"4GB/64GB",174.99],
-["Toyota","Corolla",2013,2017,'10.1"',"4GB/64GB",249.99],
-["Ford","F-150",2009,2012,'9"',"2GB/64GB",199.99],
-["Nissan","Altima / Teana",2013,2018,'10"',"2GB/64GB",149.99],
-["Toyota","RAV4",2013,2019,'10.1"',"4GB/64GB",174.99],
-["Nissan","Versa Sedan",2015,2019,'10.1"',"2GB/32GB",149.99],
-["Chevrolet","Silverado / Impala / Tahoe",2003,2006,'7"',"4GB/64GB",124.99],
-["GMC","Sierra / Yukon",2003,2006,'7"',"4GB/64GB",124.99]
+["BMW","3 Series E46",1999,2004,'7"',"2GB/64GB",200.00],
+["Honda","CR-V",2002,2006,'9"',"4GB/64GB",100.00],
+["Honda","Civic",2006,2011,"","",null],
+["Hyundai","Sonata",2010,2015,'9.7"',"",300.00],
+["Toyota","Corolla",2013,2017,'10.1"',"4GB/64GB",250.00],
+["Toyota","Corolla",2009,2013,'9"',"4GB/64GB",175.00],
+["Toyota","Corolla",2009,2013,'7"',"2GB/64GB",150.00],
+["Toyota","RAV4",2013,2019,'10.1"',"4GB/64GB",175.00],
+["Toyota","Tacoma",2005,2013,'10"',"",250.00],
+["Nissan","Altima",2013,2018,'9"',"2GB/32GB",150.00],
+["Nissan","Altima / Teana",2013,2018,"","4GB/64GB",150.00],
+["Nissan","Versa Sedan",2015,2019,"","",150.00],
+["Nissan","Frontier",2005,2008,'7"',"2GB/32GB",150.00],
+["Nissan","Frontier (8-Core)",2005,2008,'7"',"2GB/32GB",180.00],
+["Ford","F-150",2009,2012,'9"',"2GB/64GB",200.00],
+["Ford","Escape",2013,2019,'9"',"4GB/64GB",250.00],
+["Ford","Mustang",2005,2009,'7"',"2GB/64GB",150.00],
+["Ford","Fusion",2005,2011,'7"',"4GB/64GB",200.00],
+["Ford","Fiesta",2005,2017,'7"',"4GB/64GB",200.00],
+["Ford","Transit",2005,2016,'7"',"4GB/64GB",200.00],
+["Ford","Focus",2005,2008,'7"',"4GB/64GB",200.00],
+["Ford","F-250 / F-350 Super Duty",1999,2004,'7"',"4GB/64GB",200.00],
+["Ford","Edge",2007,2010,'7"',"4GB/64GB",200.00],
+["Chevrolet","Silverado 1500HD / 2500HD / 3500HD",2007,2014,'10"',"2GB/32GB",200.00],
+["Chevrolet","Silverado / Impala / Tahoe",2003,2006,'7"',"4GB/64GB",125.00],
+["GMC","Sierra / Yukon",2003,2006,'7"',"4GB/64GB",125.00],
+["Dodge","Nitro",2007,2011,'7"',"2GB/64GB",150.00],
+["Dodge","Grand Caravan",2008,2020,'7"',"2GB/32GB",200.00],
+["Volkswagen","Rabbit Mk5",2006,2009,'9"',"2GB/32GB",150.00],
+["Mercedes-Benz","C-Class W204 / S204",2006,2011,'9"',"",200.00],
+["Mercedes-Benz","SL-Class (R230 / SL350 / SL500 / SL63 / SL65)",2005,2012,'7"',"",150.00],
+["Mercedes-Benz","C-Class W203",2003,2009,'9"',"2GB/64GB / 8-Core",250.00],
+["Mercedes-Benz","CLK W209",2003,2009,'9"',"2GB/64GB / 8-Core",250.00],
+["Fiat","500",2007,2015,'6.86"',"2GB/64GB",200.00]
 ];
 const allBrands=[...new Set(stock.map(x=>x[0]))].sort();
 const Y=document.querySelector("#year"),M=document.querySelector("#make"),D=document.querySelector("#model"),B=document.querySelector("#brands"),R=document.querySelector("#results");
@@ -75,12 +77,16 @@ const brandLogos={
 "Ford":"https://cdn.simpleicons.org/ford",
 "GMC":"https://cdn.simpleicons.org/gmc",
 "Honda":"https://cdn.simpleicons.org/honda",
+"Hyundai":"https://cdn.simpleicons.org/hyundai",
 "Mercedes-Benz":"https://cdn.simpleicons.org/mercedes",
 "Nissan":"https://cdn.simpleicons.org/nissan",
 "Toyota":"https://cdn.simpleicons.org/toyota",
 "Volkswagen":"https://cdn.simpleicons.org/volkswagen"
 };
 allBrands.forEach(b=>{const x=document.createElement("button");x.className="brand";const logo=brandLogos[b];x.innerHTML=(logo?'<img class="brand-logo" src="'+logo+'" alt="'+b+' logo">':'<span class="brand-logo"></span>')+'<span class="brand-name">'+b+'</span><span class="brand-arrow">›</span>';x.onclick=()=>{M.value=b;Y.value="";loadModels();showBrand(b,x)};B.appendChild(x)});
+
+const T=document.querySelector("#productTree");
+allBrands.forEach(b=>{const wrap=document.createElement("div");const btn=document.createElement("button");btn.className="tree-brand";btn.textContent="+ "+b;const models=document.createElement("div");models.style.display="none";[...new Set(stock.filter(x=>x[0]===b).map(x=>x[1]))].sort().forEach(m=>{const mb=document.createElement("button");mb.className="tree-model";mb.textContent=m;mb.onclick=()=>{M.value=b;loadModels();D.value=m;render();window.scrollTo({top:R.offsetTop-20,behavior:"smooth"})};models.appendChild(mb)});btn.onclick=()=>{const open=models.style.display!=="none";models.style.display=open?"none":"block";btn.textContent=(open?"+ ":"− ")+b};wrap.append(btn,models);T.appendChild(wrap)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("")}
 function card(x){const key=encodeURIComponent(JSON.stringify(x));return '<div class="card"><div><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+x[2]+'–'+x[3]+' &nbsp; • &nbsp; '+x[4]+(x[5]?' &nbsp; • &nbsp; '+x[5]:'')+'</div><div class="price">$'+x[6].toFixed(2)+' CAD</div></div><button class="add-cart" onclick="addProduct(\''+key+'\')">🛒 &nbsp; Add to Cart</button></div>'}
