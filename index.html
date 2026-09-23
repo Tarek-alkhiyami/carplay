@@ -36,47 +36,47 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 <div class="cart-modal" id="cartModal" onclick="if(event.target===this)closeCart()"><div class="cart-box"><div class="cart-top"><h2>Shopping Cart</h2><button class="close-cart" onclick="closeCart()">×</button></div><div id="cartItems"></div><div id="cartTotal"></div></div></div>
 <script>
 const stock=[
-["BMW","3 Series E46",1999,2004,'7"',"2GB/64GB",200.00],
-["Honda","CR-V",2002,2006,'9"',"4GB/64GB",100.00],
-["Honda","Accord",2013,2016,'10"',"4GB/64GB",200.00],
-["Hyundai","Sonata (Basic)",2010,2014,'9.7" IPS',"4-Core • 4GB/64GB",300.00],
-["Toyota","Corolla",2013,2017,'10.1"',"4GB/64GB",250.00],
-["Toyota","Corolla",2009,2013,'9"',"4GB/64GB",175.00],
-["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/64GB",160.00],
-["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/32GB",150.00],
-["Toyota","RAV4",2013,2019,'10.1"',"4GB/64GB",175.00],
-["Toyota","Tacoma",2005,2013,'10"',"8-Core • 2GB/32GB",250.00],
-["Nissan","Altima",2013,2018,'9"',"2GB/32GB",150.00],
-["Nissan","Altima / Teana",2013,2018,'10"',"Quad-Core • 2GB/64GB",150.00],
-["Nissan","Versa Sedan",2015,2019,'10"',"2GB/32GB",150.00],
-["Nissan","Frontier",2005,2008,'7"',"2GB/32GB",150.00],
-["Nissan","Frontier (8-Core)",2005,2008,'7"',"2GB/32GB",180.00],
-["Ford","F-150",2009,2012,'9" IPS',"2GB/64GB • Android 12 • 5G (WiFi6)",200.00],
-["Ford","Escape",2013,2019,'9"',"4GB/64GB",250.00],
-["Ford","Mustang",2005,2009,'7"',"2GB/64GB",150.00],
-["Ford","Fusion",2005,2011,'7" IPS',"4-Core • 4GB/64GB",200.00],
-["Ford","Fiesta",2005,2017,'7" IPS',"4-Core • 4GB/64GB",200.00],
-["Ford","Transit",2005,2016,'7" IPS',"4-Core • 4GB/64GB",200.00],
-["Ford","Focus",2005,2008,'7" IPS',"4-Core • 4GB/64GB",200.00],
-["Ford","F-250 / F-350 Super Duty",1999,2004,'7"',"4GB/64GB",200.00],
-["Ford","Edge",2007,2010,'7"',"4GB/64GB",200.00],
-["Chevrolet","Silverado 1500HD / 2500HD / 3500HD",2007,2014,'10"',"2GB/32GB",200.00],
-["Chevrolet","Silverado",2003,2006,'7"',"4GB/64GB",125.00],
-["Chevrolet","Impala",2003,2006,'7"',"4GB/64GB",125.00],
-["Chevrolet","Tahoe",2003,2006,'7"',"4GB/64GB",125.00],
-["GMC","Sierra",2003,2006,'7"',"4GB/64GB",125.00],
-["GMC","Yukon",2003,2006,'7"',"4GB/64GB",125.00],
-["Dodge","Nitro",2007,2011,'7"',"2GB/64GB",150.00],
-["Dodge","Grand Caravan",2008,2020,'7"',"2GB/32GB",200.00],
-["Volkswagen","Rabbit Mk5",2006,2009,'9"',"2GB/32GB",150.00],
-["Mercedes-Benz","SL-Class R230",2005,2012,'9"',"4GB/64GB",150.00],
-["Mercedes-Benz","SL350",2005,2012,'9"',"4GB/64GB",150.00],
-["Mercedes-Benz","SL500",2005,2012,'9"',"4GB/64GB",150.00],
-["Mercedes-Benz","SL63",2005,2012,'9"',"4GB/64GB",150.00],
-["Mercedes-Benz","SL65",2005,2012,'9"',"4GB/64GB",150.00],
-["Mercedes-Benz","C-Class W203",2003,2009,'9"',"8-Core • 2GB/64GB",250.00],
-["Mercedes-Benz","CLK W209",2003,2009,'9"',"8-Core • 2GB/64GB",250.00],
-["Fiat","500",2007,2015,'6.86"',"2GB/64GB",200.00]
+["BMW","3 Series E46",1999,2004,'7"',"2GB/64GB",200.00,"CR019"],
+["Honda","CR-V",2002,2006,'9"',"4GB/64GB",100.00,"CR002"],
+["Honda","Accord",2013,2016,'10"',"4GB/64GB",200.00,"CR001"],
+["Hyundai","Sonata (Basic)",2010,2014,'9.7" IPS',"4-Core • 4GB/64GB",300.00,"CR003"],
+["Toyota","Corolla",2013,2017,'10.1"',"4GB/64GB",250.00,"CR004"],
+["Toyota","Corolla",2009,2013,'9"',"4GB/64GB",175.00,"CR005"],
+["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/64GB",160.00,"CR011"],
+["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/32GB",150.00,"CR008 / CR009 / CR010"],
+["Toyota","RAV4",2013,2019,'10.1"',"4GB/64GB",175.00,"CR006"],
+["Toyota","Tacoma",2005,2013,'10"',"8-Core • 2GB/32GB",250.00,"CR007"],
+["Nissan","Altima",2013,2018,'9"',"2GB/32GB",150.00,"CR018"],
+["Nissan","Altima / Teana",2013,2018,'10"',"Quad-Core • 2GB/64GB",150.00,"CR012"],
+["Nissan","Versa Sedan",2015,2019,'10"',"2GB/32GB",150.00,"CR013"],
+["Nissan","Frontier",2005,2008,'7"',"2GB/32GB",150.00,"CR015 / CR016 / CR017"],
+["Nissan","Frontier (8-Core)",2005,2008,'7"',"2GB/32GB",180.00,"CR014"],
+["Ford","F-150",2009,2012,'9" IPS',"2GB/64GB • Android 12 • 5G (WiFi6)",200.00,"CR020"],
+["Ford","Escape",2013,2019,'9"',"4GB/64GB",250.00,"CR021"],
+["Ford","Mustang",2005,2009,'7"',"2GB/64GB",150.00,"CR022"],
+["Ford","Fusion",2005,2011,'7" IPS',"4-Core • 4GB/64GB",200.00,"CR023"],
+["Ford","Fiesta",2005,2017,'7" IPS',"4-Core • 4GB/64GB",200.00,"CR023"],
+["Ford","Transit",2005,2016,'7" IPS',"4-Core • 4GB/64GB",200.00,"CR023"],
+["Ford","Focus",2005,2008,'7" IPS',"4-Core • 4GB/64GB",200.00,"CR023"],
+["Ford","F-250 / F-350 Super Duty",1999,2004,'7"',"4GB/64GB",200.00,"CR024"],
+["Ford","Edge",2007,2010,'7"',"4GB/64GB",200.00,"CR025"],
+["Chevrolet","Silverado 1500HD / 2500HD / 3500HD",2007,2014,'10"',"2GB/32GB",200.00,"CR028"],
+["Chevrolet","Silverado",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
+["Chevrolet","Impala",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
+["Chevrolet","Tahoe",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
+["GMC","Sierra",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
+["GMC","Yukon",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
+["Dodge","Nitro",2007,2011,'7"',"2GB/64GB",150.00,"CR030"],
+["Dodge","Grand Caravan",2008,2020,'7"',"2GB/32GB",200.00,"CR029"],
+["Volkswagen","Rabbit Mk5",2006,2009,'9"',"2GB/32GB",150.00,"CR031"],
+["Mercedes-Benz","SL-Class R230",2005,2012,'9"',"4GB/64GB",150.00,"CR032"],
+["Mercedes-Benz","SL350",2005,2012,'9"',"4GB/64GB",150.00,"CR032"],
+["Mercedes-Benz","SL500",2005,2012,'9"',"4GB/64GB",150.00,"CR032"],
+["Mercedes-Benz","SL63",2005,2012,'9"',"4GB/64GB",150.00,"CR032"],
+["Mercedes-Benz","SL65",2005,2012,'9"',"4GB/64GB",150.00,"CR032"],
+["Mercedes-Benz","C-Class W203",2003,2009,'9"',"8-Core • 2GB/64GB",250.00,"CR033"],
+["Mercedes-Benz","CLK W209",2003,2009,'9"',"8-Core • 2GB/64GB",250.00,"CR033"],
+["Fiat","500",2007,2015,'6.86"',"2GB/64GB",200.00,"CR026"]
 ];
 const allBrands=[...new Set(stock.map(x=>x[0]))].sort();
 const Y=document.querySelector("#year"),M=document.querySelector("#make"),D=document.querySelector("#model"),B=document.querySelector("#brands"),R=document.querySelector("#results");
@@ -101,17 +101,19 @@ const brandLogos={
 allBrands.forEach(b=>{const x=document.createElement("button");x.className="brand";const logo=brandLogos[b];x.innerHTML=(logo?'<img class="brand-logo" src="'+logo+'" alt="'+b+' logo">':'<span class="brand-logo"></span>')+'<span class="brand-name">'+b+'</span><span class="brand-arrow">›</span>';x.onclick=()=>{M.value=b;Y.value="";loadModels();showBrand(b,x)};B.appendChild(x)});
 
 const T=document.querySelector("#productTree");
-document.querySelector("#totalQty").textContent=stock.length;
+const physicalCodes=[...new Set(stock.flatMap(x=>(x[7]||"").split(" / ").filter(Boolean)))];
+document.querySelector("#totalQty").textContent=physicalCodes.length;
 allBrands.forEach(b=>{const wrap=document.createElement("div"),brandItems=stock.filter(x=>x[0]===b);const btn=document.createElement("button");btn.className="tree-brand";btn.innerHTML='<span>+ '+b+'</span><span class="tree-count">'+brandItems.length+'</span>';const models=document.createElement("div");models.style.display="none";[...new Set(brandItems.map(x=>x[1]))].sort().forEach(m=>{const modelItems=brandItems.filter(x=>x[1]===m);const mb=document.createElement("button");mb.className="tree-model";mb.innerHTML='<span>'+m+'</span> <span class="tree-count">'+modelItems.length+'</span>';mb.onclick=()=>{M.value=b;Y.value="";loadModels();D.value=m;render();setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)};models.appendChild(mb)});btn.onclick=()=>{const open=models.style.display!=="none";models.style.display=open?"none":"block";btn.querySelector("span").textContent=(open?"+ ":"− ")+b};wrap.append(btn,models);T.appendChild(wrap)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 function card(x){
  const key=encodeURIComponent(JSON.stringify(x));
  const specs=[x[2]+'–'+x[3],x[4],x[5]].filter(Boolean).join(' &nbsp; • &nbsp; ');
+ const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
  const button=priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
- return '<div class="card"><div><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+specs+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
+ return '<div class="card"><div><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
 }
 function updateCart(){document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
