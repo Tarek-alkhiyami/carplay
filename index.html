@@ -24,7 +24,17 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .chat-body{height:calc(100% - 132px);padding:15px;overflow:auto;background:#f6f8fb}.bubble{max-width:85%;padding:11px 13px;border-radius:14px;margin:0 0 10px;line-height:1.35;font-size:14px}.bot{background:#fff;border:1px solid var(--line);border-top-left-radius:4px}.user{background:#0860bd;color:#fff;margin-left:auto;border-top-right-radius:4px}
 .chat-compose{height:70px;padding:10px;display:flex;gap:8px;border-top:1px solid var(--line);background:#fff}.chat-compose input{flex:1;border:1px solid #cfd6df;border-radius:10px;padding:0 12px;font-size:15px;outline:none}.chat-send{border:0;background:#0860bd;color:#fff;border-radius:10px;padding:0 16px;font-weight:800;cursor:pointer}
 @media(max-width:800px){.catalog-layout{display:block}.product-tree{position:static;margin-bottom:16px}.brands{grid-template-columns:1fr}.top{flex-wrap:wrap;gap:10px;padding:12px 14px}.logo{font-size:27px}.phone{font-size:14px}.vehicle{order:4;min-width:100%}.vehicle select{padding:14px 8px;font-size:13px}.nav{padding:0 14px}.wrap{padding:22px 14px}.brands{grid-template-columns:repeat(2,1fr)}.card,.service-card{align-items:flex-start;flex-direction:column}.add-cart{width:100%}}
-.cart-modal{display:none;position:fixed;inset:0;background:#0008;z-index:50}.cart-box{background:#f6f8fb;position:absolute;right:0;top:0;width:min(520px,100%);height:100%;padding:22px;overflow:auto}.cart-top{display:flex;justify-content:space-between;align-items:center}.cart-top h2{margin:0}.close-cart{border:0;background:none;font-size:28px;cursor:pointer}.cart-item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:12px}.cart-line{display:flex;justify-content:space-between;gap:15px}.cart-actions{display:flex;align-items:center;gap:8px;margin-top:12px}.cart-actions button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 10px;cursor:pointer}.cart-actions .remove{margin-left:auto;color:#b42318}.cart-total{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:18px;display:flex;justify-content:space-between;font-size:21px;font-weight:900}.empty{padding:45px 10px;text-align:center;color:#667085}</style></head><body>
+.cart-modal{display:none;position:fixed;inset:0;background:#0008;z-index:50}.cart-box{background:#f6f8fb;position:absolute;right:0;top:0;width:min(520px,100%);height:100%;padding:22px;overflow:auto}.cart-top{display:flex;justify-content:space-between;align-items:center}.cart-top h2{margin:0}.close-cart{border:0;background:none;font-size:28px;cursor:pointer}.cart-item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:12px}.cart-line{display:flex;justify-content:space-between;gap:15px}.cart-actions{display:flex;align-items:center;gap:8px;margin-top:12px}.cart-actions button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 10px;cursor:pointer}.cart-actions .remove{margin-left:auto;color:#b42318}.cart-total{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:18px;display:flex;justify-content:space-between;font-size:21px;font-weight:900}.empty{padding:45px 10px;text-align:center;color:#667085}
+.product-gallery{width:min(520px,100%);margin-bottom:18px}
+.product-gallery-main{display:block;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#f6f8fb}
+.product-gallery-main img{display:block;width:100%;aspect-ratio:4/3;object-fit:contain}
+.product-thumbnails{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.product-thumbnail{padding:3px;border:2px solid var(--line);border-radius:7px;background:#fff;cursor:pointer}
+.product-thumbnail[aria-pressed="true"]{border-color:var(--blue)}
+.product-thumbnail:focus-visible{outline:3px solid #0860bd;outline-offset:2px}
+.product-thumbnail img{display:block;width:100%;aspect-ratio:4/3;object-fit:contain}
+.product-photo-count{font-size:13px;color:#667085;margin-top:8px}
+</style></head><body>
 <header class="top"><div class="logo">CARPLAY</div><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button></nav>
 <main class="wrap">
@@ -105,6 +115,23 @@ document.querySelector("#totalQty").textContent=physicalCodes.length;
 allBrands.forEach(b=>{const wrap=document.createElement("div"),brandItems=stock.filter(x=>x[0]===b);const btn=document.createElement("button");btn.className="tree-brand";btn.innerHTML='<span>+ '+b+'</span><span class="tree-count">'+brandItems.length+'</span>';const models=document.createElement("div");models.style.display="none";[...new Set(brandItems.map(x=>x[1]))].sort().forEach(m=>{const modelItems=brandItems.filter(x=>x[1]===m);const mb=document.createElement("button");mb.className="tree-model";mb.innerHTML='<span>'+m+'</span> <span class="tree-count">'+modelItems.length+'</span>';mb.onclick=()=>{M.value=b;Y.value="";loadModels();D.value=m;render();setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)};models.appendChild(mb)});btn.onclick=()=>{const open=models.style.display!=="none";models.style.display=open?"none":"block";btn.querySelector("span").textContent=(open?"+ ":"− ")+b};wrap.append(btn,models);T.appendChild(wrap)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
+
+const productImages={
+ CR019:['images/CR019/01.png','images/CR019/02.avif','images/CR019/03.avif','images/CR019/04.avif','images/CR019/05.avif','images/CR019/06.avif','images/CR019/07.avif','images/CR019/08.avif']
+};
+function productGallery(code){
+ const images=productImages[code];
+ if(!images)return '';
+ const label='BMW 3 Series E46 1999–2004 — CR019';
+ return '<div class="product-gallery" aria-label="'+label+' photos"><a class="product-gallery-main" href="'+images[0]+'" target="_blank" rel="noopener" aria-label="Open full-size product photo"><img src="'+images[0]+'" alt="'+label+' — photo 1 of '+images.length+'" decoding="async"></a><div class="product-thumbnails">'+images.map((src,i)=>'<button type="button" class="product-thumbnail" aria-label="Show photo '+(i+1)+' of '+images.length+'" aria-pressed="'+(i===0)+'" data-src="'+src+'" data-alt="'+label+' — photo '+(i+1)+' of '+images.length+'" data-number="'+(i+1)+'" onclick="selectProductPhoto(this)"><img src="'+src+'" alt="" loading="lazy" decoding="async"></button>').join('')+'</div><div class="product-photo-count" aria-live="polite">Photo 1 of '+images.length+' · Click image to enlarge</div></div>';
+}
+function selectProductPhoto(button){
+ const gallery=button.closest('.product-gallery'),link=gallery.querySelector('.product-gallery-main'),image=link.querySelector('img');
+ link.href=button.dataset.src;image.src=button.dataset.src;image.alt=button.dataset.alt;
+ gallery.querySelectorAll('.product-thumbnail').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+ gallery.querySelector('.product-photo-count').textContent='Photo '+button.dataset.number+' of '+gallery.querySelectorAll('.product-thumbnail').length+' · Click image to enlarge';
+}
+
 function card(x){
  const key=encodeURIComponent(JSON.stringify(x));
  const specs=[x[2]+'–'+x[3],x[4],x[5]].filter(Boolean).join(' &nbsp; • &nbsp; ');
@@ -112,7 +139,7 @@ function card(x){
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
  const button=priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
- return '<div class="card"><div><b>'+x[0]+' '+x[1]+'</b><div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
+ return '<div class="card"><div>'+productGallery(codes)+'<b>'+x[0]+' '+x[1]+'</b><div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
 }
 function updateCart(){document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
