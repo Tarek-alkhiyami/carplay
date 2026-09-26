@@ -136,6 +136,8 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR011:["images/CR011/01.png","images/CR011/02.avif","images/CR011/03.avif","images/CR011/04.avif","images/CR011/05.avif","images/CR011/06.avif","images/CR011/07.avif","images/CR011/08.avif"],
+ "CR008 / CR009 / CR010":["images/CR011/01.png","images/CR011/02.avif","images/CR011/03.avif","images/CR011/04.avif","images/CR011/05.avif","images/CR011/06.avif","images/CR011/07.avif","images/CR011/08.avif"],
  CR005:["images/CR005/01.png","images/CR005/02.jpg","images/CR005/03.jpg","images/CR005/04.jpg","images/CR005/05.jpg","images/CR005/06.jpg","images/CR005/07.jpg","images/CR005/08.jpg"],
  CR014:["images/CR014/01.png","images/CR014/02.avif","images/CR014/03.jpg","images/CR014/04.avif","images/CR014/05.avif","images/CR014/06.jpg","images/CR014/07.jpg","images/CR014/08.jpeg"],
  "CR015 / CR016 / CR017":["images/CR014/01.png","images/CR014/02.avif","images/CR014/03.jpg","images/CR014/04.avif","images/CR014/05.avif","images/CR014/06.jpg","images/CR014/07.jpg","images/CR014/08.jpeg"],
