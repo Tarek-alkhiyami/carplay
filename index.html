@@ -127,12 +127,13 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR027:["images/CR027/01.jpg","images/CR027/02.jpg","images/CR027/03.jpg","images/CR027/04.jpg","images/CR027/05.jpg","images/CR027/06.jpg","images/CR027/07.jpg","images/CR027/08.jpg"],
  CR019:['images/CR019/01.png','images/CR019/02.avif','images/CR019/03.avif','images/CR019/04.avif','images/CR019/05.avif','images/CR019/06.avif','images/CR019/07.avif','images/CR019/08.avif']
 };
-function productGallery(code){
+function productGallery(code,item){
  const images=productImages[code];
  if(!images)return '';
- const label='BMW 3 Series E46 1999–2004 — CR019';
+ const label=item[0]+' '+item[1]+' '+item[2]+'–'+item[3]+' — '+code;
  return '<div class="product-gallery" aria-label="'+label+' photos"><a class="product-gallery-main" href="'+images[0]+'" target="_blank" rel="noopener" aria-label="Open full-size product photo"><img src="'+images[0]+'" alt="'+label+' — photo 1 of '+images.length+'" decoding="async"></a><div class="product-thumbnails">'+images.map((src,i)=>'<button type="button" class="product-thumbnail" aria-label="Show photo '+(i+1)+' of '+images.length+'" aria-pressed="'+(i===0)+'" data-src="'+src+'" data-alt="'+label+' — photo '+(i+1)+' of '+images.length+'" data-number="'+(i+1)+'" onclick="selectProductPhoto(this)"><img src="'+src+'" alt="" loading="lazy" decoding="async"></button>').join('')+'</div><div class="product-photo-count" aria-live="polite">Photo 1 of '+images.length+' · Click image to enlarge</div></div>';
 }
 function selectProductPhoto(button){
@@ -150,7 +151,8 @@ function card(x){
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
  const button=priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
  const name=x[0]+' '+x[1];
- const title=productImages[codes]?'<a class="product-name" href="#product/'+encodeURIComponent(codes)+'"><b>'+name+'</b></a>':'<b>'+name+'</b>';
+ const detailPath=encodeURIComponent(codes)+(stock.filter(item=>item[7]===codes).length>1?'/'+encodeURIComponent(name):'');
+ const title=productImages[codes]?'<a class="product-name" href="#product/'+detailPath+'"><b>'+name+'</b></a>':'<b>'+name+'</b>';
  return '<div class="card"><div>'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
 }
 function updateCart(){document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
@@ -186,8 +188,8 @@ function routeProduct(){
   }
   return;
  }
- const code=location.hash.slice(prefix.length);
- const item=stock.find(x=>encodeURIComponent(x[7])===code && productImages[x[7]]);
+ const [code,vehicle]=location.hash.slice(prefix.length).split('/');
+ const item=stock.find(x=>encodeURIComponent(x[7])===code && productImages[x[7]] && (!vehicle||encodeURIComponent(x[0]+' '+x[1])===vehicle));
  if(!item){history.replaceState(null,'','#brands');showPage('brands');return;}
  document.querySelector('#brandsPage').style.display='none';
  document.querySelector('#servicesPage').style.display='none';
@@ -196,7 +198,7 @@ function routeProduct(){
  document.querySelector('#servicesTab').classList.remove('active');
  const title=document.querySelector('#productTitle');
  title.textContent=item[0]+' '+item[1];
- document.querySelector('#productDetails').innerHTML=productGallery(item[7])+card(item).replace(/<a class="product-name"[^>]*>(.*?)<\/a>/,'$1');
+ document.querySelector('#productDetails').innerHTML=productGallery(item[7],item)+card(item).replace(/<a class="product-name"[^>]*>(.*?)<\/a>/,'$1');
  window.scrollTo(0,0);title.focus({preventScroll:true});
 }
 window.addEventListener('hashchange',routeProduct);
