@@ -43,6 +43,15 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .product-detail-layout .card{border:0;padding:0;margin:0;display:block}
 .product-detail-layout .add-cart{margin-top:24px}
 @media(max-width:800px){.product-detail-layout{grid-template-columns:1fr;padding:16px}}
+
+.card-with-photo{display:grid;grid-template-columns:160px minmax(0,1fr) auto;align-items:center}
+.card-photo{display:block;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#f6f8fb}
+.card-photo img{display:block;width:100%;aspect-ratio:4/3;object-fit:contain}
+.card-info{min-width:0}
+@media(max-width:800px){
+ .card-with-photo{grid-template-columns:110px minmax(0,1fr);gap:14px}
+ .card-with-photo .add-cart{grid-column:1/-1}
+}
 </style></head><body>
 <header class="top"><div class="logo">CARPLAY</div><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button></nav>
@@ -146,7 +155,7 @@ function selectProductPhoto(button){
  gallery.querySelector('.product-photo-count').textContent='Photo '+button.dataset.number+' of '+gallery.querySelectorAll('.product-thumbnail').length+' · Click image to enlarge';
 }
 
-function card(x){
+function card(x,detail=false){
  const key=encodeURIComponent(JSON.stringify(x));
  const specs=[x[2]+'–'+x[3],x[4],x[5]].filter(Boolean).join(' &nbsp; • &nbsp; ');
  const codes=x[7]||"";
@@ -156,7 +165,8 @@ function card(x){
  const name=x[0]+' '+x[1];
  const detailPath=encodeURIComponent(codes)+(stock.filter(item=>item[7]===codes).length>1?'/'+encodeURIComponent(name):'');
  const title=productImages[codes]?'<a class="product-name" href="#product/'+detailPath+'"><b>'+name+'</b></a>':'<b>'+name+'</b>';
- return '<div class="card"><div>'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
+ const photo=detail!==true && productImages[codes]?'<a class="card-photo" href="#product/'+detailPath+'" aria-label="View '+name+' photos"><img src="'+productImages[codes][0]+'" alt="'+name+'" loading="lazy" decoding="async"></a>':'';
+ return '<div class="card'+(photo?' card-with-photo':'')+'">'+photo+'<div class="card-info">'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
 }
 function updateCart(){document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
@@ -201,7 +211,7 @@ function routeProduct(){
  document.querySelector('#servicesTab').classList.remove('active');
  const title=document.querySelector('#productTitle');
  title.textContent=item[0]+' '+item[1];
- document.querySelector('#productDetails').innerHTML=productGallery(item[7],item)+card(item).replace(/<a class="product-name"[^>]*>(.*?)<\/a>/,'$1');
+ document.querySelector('#productDetails').innerHTML=productGallery(item[7],item)+card(item,true).replace(/<a class="product-name"[^>]*>(.*?)<\/a>/,'$1');
  window.scrollTo(0,0);title.focus({preventScroll:true});
 }
 window.addEventListener('hashchange',routeProduct);
