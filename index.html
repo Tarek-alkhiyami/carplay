@@ -52,6 +52,10 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
  .card-with-photo{grid-template-columns:110px minmax(0,1fr);gap:14px}
  .card-with-photo .add-cart{grid-column:1/-1}
 }
+.brand{min-width:0;min-height:100px;padding:16px 12px;gap:12px;font-weight:500}.brand-logo{width:76px;height:64px;flex:0 0 76px}.brand-name{min-width:0;overflow-wrap:normal}.brand:focus-visible{outline:3px solid #0860bd;outline-offset:3px}
+@media(max-width:1100px) and (min-width:801px){.brands{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.brands{gap:10px;padding:12px}.brand{gap:8px;padding:12px 10px;min-height:90px;font-size:14px}.brand-logo{width:48px;height:48px;flex-basis:48px}.brand-arrow{font-size:20px}}
+@media(max-width:380px){.brands{grid-template-columns:1fr}}
 </style></head><body>
 <header class="top"><div class="logo">CARPLAY</div><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button></nav>
@@ -113,18 +117,18 @@ function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(x=>opt(M,x));
 const brandLogos={
-"BMW":"https://cdn.simpleicons.org/bmw",
-"Chevrolet":"https://cdn.simpleicons.org/chevrolet",
-"Dodge":"https://www.carlogos.org/logo/Dodge-logo-2010-1920x1080.png",
-"Fiat":"https://cdn.simpleicons.org/fiat",
-"Ford":"https://cdn.simpleicons.org/ford",
-"GMC":"https://cdn.simpleicons.org/gmc",
-"Honda":"https://cdn.simpleicons.org/honda",
-"Hyundai":"https://cdn.simpleicons.org/hyundai",
-"Mercedes-Benz":"https://www.carlogos.org/logo/Mercedes-Benz-logo-2011-1920x1080.png",
-"Nissan":"https://cdn.simpleicons.org/nissan",
-"Toyota":"https://cdn.simpleicons.org/toyota",
-"Volkswagen":"https://cdn.simpleicons.org/volkswagen"
+  "BMW": "images/brands/bmw.png",
+  "Chevrolet": "images/brands/chevrolet.png",
+  "Dodge": "images/brands/dodge.png",
+  "Fiat": "images/brands/fiat.png",
+  "Ford": "images/brands/ford.png",
+  "GMC": "images/brands/gmc.png",
+  "Honda": "images/brands/honda.png",
+  "Hyundai": "images/brands/hyundai.png",
+  "Mercedes-Benz": "images/brands/mercedes-benz.png",
+  "Nissan": "images/brands/nissan.png",
+  "Toyota": "images/brands/toyota.png",
+  "Volkswagen": "images/brands/volkswagen.png"
 };
 allBrands.forEach(b=>{const x=document.createElement("button");x.className="brand";const logo=brandLogos[b];x.innerHTML=(logo?'<img class="brand-logo" src="'+logo+'" alt="'+b+' logo">':'<span class="brand-logo"></span>')+'<span class="brand-name">'+b+'</span><span class="brand-arrow">›</span>';x.onclick=()=>{M.value=b;Y.value="";loadModels();showBrand(b,x)};B.appendChild(x)});
 
