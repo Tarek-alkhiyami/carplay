@@ -34,12 +34,22 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .product-thumbnail:focus-visible{outline:3px solid #0860bd;outline-offset:2px}
 .product-thumbnail img{display:block;width:100%;aspect-ratio:4/3;object-fit:contain}
 .product-photo-count{font-size:13px;color:#667085;margin-top:8px}
+
+.product-name{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+#productPage{display:none}
+.back-products{display:inline-block;margin-bottom:20px;color:var(--blue);font-weight:700}
+.product-detail-layout{display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:28px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
+.product-detail-layout .product-gallery{margin:0}
+.product-detail-layout .card{border:0;padding:0;margin:0;display:block}
+.product-detail-layout .add-cart{margin-top:24px}
+@media(max-width:800px){.product-detail-layout{grid-template-columns:1fr;padding:16px}}
 </style></head><body>
 <header class="top"><div class="logo">CARPLAY</div><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button></nav>
 <main class="wrap">
 <section id="brandsPage"><div class="catalog-layout"><aside class="product-tree"><div class="tree-title"><span>Products</span><span class="qty-head">QTY <span id="totalQty"></span></span></div><div id="productTree"></div></aside><div><section class="intro"><h1>CarPlay Screen Inventory</h1><p>Select your vehicle or browse by brand to see available screens.</p></section><section class="panel"><div class="panel-title">Shop by Brand</div><div class="brands" id="brands"></div></section><section class="results" id="results"></section></div></div></section>
 <section id="servicesPage"><section class="intro"><h1>Our Services</h1><p>Add professional installation to your cart.</p></section><div class="service-card"><div class="service-copy"><h2>CarPlay / Android Auto Installation</h2><p>Professional installation for your CarPlay or Android head unit.</p><div class="price">$200.00 CAD</div><div class="service-points">🔧 Professional installation<br>🛡️ Clean and safe wiring<br>✓ Compatible with most vehicles<br>🚗 Burlington / Hamilton area</div></div><button class="add-cart" onclick="addService()">🛒 &nbsp; Add to Cart</button></div></section>
+<section id="productPage" aria-label="Product details"><a class="back-products" href="#brands">← Back to products</a><h1 id="productTitle" tabindex="-1"></h1><div id="productDetails" class="product-detail-layout"></div></section>
 </main>
 <button class="chat-fab" onclick="toggleChat()" aria-label="Chat with us">💬</button>
 <div class="chat-panel" id="chatPanel"><div class="chat-head"><div><b>CarPlay Assistant</b><small>Ask about screens & installation</small></div><button class="chat-close" onclick="toggleChat()">×</button></div><div class="chat-body" id="chatBody"><div class="bubble bot">Hi! 👋 Tell me your vehicle make, model and year, and I’ll help you find a CarPlay screen.</div></div><div class="chat-compose"><input id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()"><button class="chat-send" onclick="sendChat()">Send</button></div></div>
@@ -139,7 +149,9 @@ function card(x){
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
  const button=priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
- return '<div class="card"><div>'+productGallery(codes)+'<b>'+x[0]+' '+x[1]+'</b><div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
+ const name=x[0]+' '+x[1];
+ const title=productImages[codes]?'<a class="product-name" href="#product/'+encodeURIComponent(codes)+'"><b>'+name+'</b></a>':'<b>'+name+'</b>';
+ return '<div class="card"><div>'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
 }
 function updateCart(){document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
@@ -157,10 +169,36 @@ function removeItem(i){cart.splice(i,1);updateCart();renderCart();}
 function addProduct(key){const d=JSON.parse(decodeURIComponent(key));addItem({key:"p:"+JSON.stringify(d),name:d[0]+" "+d[1],price:d[6]});}
 function addService(){addItem({key:"installation",name:"CarPlay / Android Auto Installation",price:200});}
 function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));const a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):"";}
-function showPage(page){const services=page==="services";document.querySelector("#brandsPage").style.display=services?"none":"block";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",!services);document.querySelector("#servicesTab").classList.toggle("active",services);}
+function showPage(page){document.querySelector("#productPage").style.display="none";if(location.hash.startsWith("#product/"))history.replaceState(null,"","#"+page);const services=page==="services";document.querySelector("#brandsPage").style.display=services?"none":"block";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",!services);document.querySelector("#servicesTab").classList.toggle("active",services);}
 function toggleChat(){const p=document.querySelector("#chatPanel");p.style.display=p.style.display==="block"?"none":"block";if(p.style.display==="block")setTimeout(()=>document.querySelector("#chatInput").focus(),100)}
 function chatBubble(text,who){const d=document.createElement("div");d.className="bubble "+who;d.textContent=text;document.querySelector("#chatBody").appendChild(d);document.querySelector("#chatBody").scrollTop=document.querySelector("#chatBody").scrollHeight}
 function demoReply(q){const s=q.toLowerCase();if(s.includes("install"))return "Professional CarPlay / Android Auto installation is $200 CAD. Screen price is separate.";if(s.includes("price")||s.includes("cost"))return "Screen prices depend on the vehicle. Tell me the make, model and year and I’ll check the current inventory.";return "Thanks! This is a preview of the CarPlay Assistant. Please send your vehicle make, model and year so I can help you find the right screen."}
 function sendChat(){const i=document.querySelector("#chatInput"),q=i.value.trim();if(!q)return;chatBubble(q,"user");i.value="";setTimeout(()=>chatBubble(demoReply(q),"bot"),350)}
 M.onchange=loadModels;D.onchange=render;Y.onchange=render;
+
+function routeProduct(){
+ const prefix='#product/';
+ if(!location.hash.startsWith(prefix)){
+  if(document.querySelector('#productPage').style.display==='block'){
+   document.querySelector('#productPage').style.display='none';
+   showPage(location.hash==='#services'?'services':'brands');
+   if(R.firstElementChild)R.scrollIntoView({block:'start'});
+  }
+  return;
+ }
+ const code=location.hash.slice(prefix.length);
+ const item=stock.find(x=>encodeURIComponent(x[7])===code && productImages[x[7]]);
+ if(!item){history.replaceState(null,'','#brands');showPage('brands');return;}
+ document.querySelector('#brandsPage').style.display='none';
+ document.querySelector('#servicesPage').style.display='none';
+ document.querySelector('#productPage').style.display='block';
+ document.querySelector('#brandsTab').classList.add('active');
+ document.querySelector('#servicesTab').classList.remove('active');
+ const title=document.querySelector('#productTitle');
+ title.textContent=item[0]+' '+item[1];
+ document.querySelector('#productDetails').innerHTML=productGallery(item[7])+card(item).replace(/<a class="product-name"[^>]*>(.*?)<\/a>/,'$1');
+ window.scrollTo(0,0);title.focus({preventScroll:true});
+}
+window.addEventListener('hashchange',routeProduct);
+routeProduct();
 </script></body></html>
