@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CarPlay Screen Inventory</title>
+<title>CarPlay Screen</title>
 <style>
 :root{--blue:#073d82;--ink:#18202b;--line:#e3e7ec;--bg:#f6f8fb}*{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:var(--bg)}
@@ -67,7 +67,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 <header class="top"><a class="installation-logo" href="#brands" aria-label="CarPlay and Dashcam Installation — home"><img src="images/technician-transparent.png" alt="CarPlay & Dashcam Installation" width="112" height="112"></a><a class="logo carplay-wordmark" href="#brands" aria-label="CarPlay home"><img src="images/carplay-wordmark.svg" alt="CarPlay — CarPlay & Android Auto Solutions" width="210" height="68"></a><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button></nav>
 <main class="wrap">
-<section id="brandsPage"><div class="catalog-layout"><aside class="product-tree"><div class="tree-title"><span>Products</span><span class="qty-head">QTY <span id="totalQty"></span></span></div><div id="productTree"></div></aside><div><section class="intro"><h1>CarPlay Screen Inventory</h1><p>Select your vehicle or browse by brand to see available screens.</p></section><section class="panel"><div class="panel-title">Shop by Brand</div><div class="brands" id="brands"></div></section><section class="results" id="results"></section></div></div></section>
+<section id="brandsPage"><div class="catalog-layout"><aside class="product-tree"><div class="tree-title"><span>Products</span><span class="qty-head">QTY <span id="totalQty"></span></span></div><div id="productTree"></div></aside><div><section class="intro"><h1>CarPlay Screen</h1><p>Select your vehicle or browse by brand to see available screens.</p></section><section class="panel"><div class="panel-title">Shop by Brand</div><div class="brands" id="brands"></div></section><section class="results" id="results"></section></div></div></section>
 <section id="servicesPage"><section class="intro"><h1>Our Services</h1><p>Add professional installation to your cart.</p></section><div class="service-card"><div class="service-copy"><h2>CarPlay / Android Auto Installation</h2><p>Professional installation for your CarPlay or Android head unit.</p><div class="price">$200.00 CAD</div><div class="service-points">🔧 Professional installation<br>🛡️ Clean and safe wiring<br>✓ Compatible with most vehicles<br>🚗 Burlington / Hamilton area</div></div><button class="add-cart" onclick="addService()">🛒 &nbsp; Add to Cart</button></div></section>
 <section id="productPage" aria-label="Product details"><a class="back-products" href="#brands">← Back to products</a><h1 id="productTitle" tabindex="-1"></h1><div id="productDetails" class="product-detail-layout"></div></section>
 </main>
