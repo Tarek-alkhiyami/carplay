@@ -221,7 +221,29 @@ function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.rem
 function showPage(page){document.querySelector("#productPage").style.display="none";if(location.hash.startsWith("#product/"))history.replaceState(null,"","#"+page);const services=page==="services";document.querySelector("#brandsPage").style.display=services?"none":"block";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",!services);document.querySelector("#servicesTab").classList.toggle("active",services);}
 function toggleChat(){const p=document.querySelector("#chatPanel");p.style.display=p.style.display==="block"?"none":"block";if(p.style.display==="block")setTimeout(()=>document.querySelector("#chatInput").focus(),100)}
 function chatBubble(text,who){const d=document.createElement("div");d.className="bubble "+who;d.textContent=text;document.querySelector("#chatBody").appendChild(d);document.querySelector("#chatBody").scrollTop=document.querySelector("#chatBody").scrollHeight}
-function demoReply(q){const s=q.toLowerCase();if(s.includes("install"))return "Professional CarPlay / Android Auto installation is $200 CAD. Screen price is separate.";if(s.includes("price")||s.includes("cost"))return "Screen prices depend on the vehicle. Tell me the make, model and year and I’ll check the current inventory.";return "Thanks! This is a preview of the CarPlay Assistant. Please send your vehicle make, model and year so I can help you find the right screen."}
+function demoReply(q){
+ const s=q.toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+ if(s.includes("install"))return "Professional CarPlay / Android Auto installation is $200 CAD. Screen price is separate.";
+ const year=(s.match(/\b(19|20)\d{2}\b/)||[])[0];
+ const aliases={"rave 4":"rav4","rave4":"rav4","rav 4":"rav4","benz":"mercedes benz","mercedes":"mercedes benz","vw":"volkswagen","chevy":"chevrolet"};
+ let normalized=" "+s+" ";Object.keys(aliases).forEach(a=>{normalized=normalized.replace(" "+a+" "," "+aliases[a]+" ")});normalized=normalized.trim();
+ const matches=stock.filter(x=>{
+   const make=x[0].toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+   const model=x[1].toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+   const makeHit=normalized.includes(make);
+   const modelParts=model.split(" ").filter(w=>w.length>1&&!["basic","series","sedan","class"].includes(w));
+   const modelHit=modelParts.some(w=>normalized.includes(w))||normalized.includes(model);
+   const yearHit=!year||(+year>=x[2]&&+year<=x[3]);
+   return makeHit&&modelHit&&yearHit;
+ });
+ if(matches.length){
+   return matches.map(x=>"Yes — I have a "+x[4]+" CarPlay / Android Auto screen for "+x[0]+" "+x[1]+" ("+x[2]+"–"+x[3]+"), "+x[5]+", $"+x[6].toFixed(2)+" CAD. Inventory: "+x[7]+". Installation is $200 CAD extra. Please send a photo of your current radio/dashboard so I can confirm compatibility before purchase.").join("\n\n");
+ }
+ const makeOnly=stock.some(x=>normalized.includes(x[0].toLowerCase().replace(/[^a-z0-9]+/g," ").trim()));
+ if(makeOnly&&year)return "I don’t see an exact matching screen in the current inventory for that vehicle/year. Please send the exact model and a photo of your current radio/dashboard and I’ll check compatibility.";
+ if(s.includes("price")||s.includes("cost"))return "Screen prices depend on the vehicle. Tell me the make, model and year and I’ll check the current inventory.";
+ return "Please send your vehicle make, model and year (for example: Toyota RAV4 2018). I’ll check the current inventory and price for you.";
+}
 function sendChat(){const i=document.querySelector("#chatInput"),q=i.value.trim();if(!q)return;chatBubble(q,"user");i.value="";setTimeout(()=>chatBubble(demoReply(q),"bot"),350)}
 M.onchange=loadModels;D.onchange=render;Y.onchange=render;
 
