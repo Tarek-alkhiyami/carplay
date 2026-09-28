@@ -88,6 +88,15 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
  #brandsPage .brand-arrow{display:none}
  #productTree{grid-template-columns:minmax(0,1fr)}
 }
+
+.photo-viewer{width:min(1100px,calc(100% - 24px));max-width:none;max-height:calc(100dvh - 24px);padding:16px;border:0;border-radius:14px;background:#111;color:#fff}
+.photo-viewer::backdrop{background:#000c}
+.photo-viewer-head,.photo-viewer-controls{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.photo-viewer button{min-width:44px;min-height:44px;border:1px solid #666;border-radius:8px;background:#222;color:#fff;font-size:18px;cursor:pointer}
+.photo-viewer button:focus-visible{outline:3px solid #70b7ff;outline-offset:2px}
+.photo-viewer-image{display:block;width:100%;height:min(65dvh,700px);object-fit:contain;margin:12px 0}
+.photo-viewer-controls{justify-content:center}
+.photo-viewer-count{min-width:110px;text-align:center}
 </style></head><body>
 <header class="top"><a class="installation-logo" href="#brands" aria-label="CarPlay and Dashcam Installation — home"><img src="images/technician-transparent.png" alt="CarPlay & Dashcam Installation" width="112" height="112"></a><a class="logo carplay-wordmark" href="#brands" aria-label="CarPlay home"><img src="images/carplay-wordmark.svg" alt="CarPlay — CarPlay & Android Auto Solutions" width="210" height="68"></a><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button><button id="aboutTab" onclick="showPage('about')">About</button></nav>
@@ -107,6 +116,11 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 <button class="chat-fab" onclick="toggleChat()" aria-label="Chat with us">💬</button>
 <div class="chat-panel" id="chatPanel"><div class="chat-head"><div><b>CarPlay Assistant</b><small>Ask about screens & installation</small></div><button class="chat-close" onclick="toggleChat()">×</button></div><div class="chat-body" id="chatBody" role="log" aria-live="polite" aria-relevant="additions text"><div class="bubble bot">Hi! 👋 Tell me your vehicle make, model and year, and I’ll help you find a CarPlay screen.</div></div><div class="chat-compose"><input id="chatPhoto" type="file" accept="image/jpeg,image/png,image/webp" hidden onchange="sendPhoto(this)"><button class="chat-photo" onclick="document.querySelector('#chatPhoto').click()" aria-label="Upload dashboard photo">📷</button><input id="chatInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter'&&!event.isComposing)sendChat()"><button class="chat-send" onclick="sendChat()">Send</button></div></div>
 <div class="cart-modal" id="cartModal" onclick="if(event.target===this)closeCart()"><div class="cart-box"><div class="cart-top"><h2>Shopping Cart</h2><button class="close-cart" onclick="closeCart()">×</button></div><div id="cartItems"></div><div id="cartTotal"></div></div></div>
+<dialog class="photo-viewer" id="photoViewer" aria-labelledby="photoViewerTitle">
+<div class="photo-viewer-head"><strong id="photoViewerTitle">Product photos</strong><button type="button" id="closePhotoViewer" aria-label="Close photo viewer" autofocus>×</button></div>
+<img class="photo-viewer-image" id="photoViewerImage" alt="">
+<div class="photo-viewer-controls"><button type="button" id="previousPhoto" aria-label="Previous photo">‹</button><span class="photo-viewer-count" id="photoViewerCount" aria-live="polite"></span><button type="button" id="nextPhoto" aria-label="Next photo">›</button></div>
+</dialog>
 <script>
 const stock=[
 ["BMW","3 Series E46",1999,2004,'7"',"2GB/64GB",200.00,"CR019"],
@@ -213,7 +227,7 @@ function productGallery(code,item){
  const images=productImages[code];
  if(!images)return '';
  const label=item[0]+' '+item[1]+' '+item[2]+'–'+item[3]+' — '+code;
- return '<div class="product-gallery" aria-label="'+label+' photos"><a class="product-gallery-main" href="'+images[0]+'" target="_blank" rel="noopener" aria-label="Open full-size product photo"><img src="'+images[0]+'" alt="'+label+' — photo 1 of '+images.length+'" decoding="async"></a><div class="product-thumbnails">'+images.map((src,i)=>'<button type="button" class="product-thumbnail" aria-label="Show photo '+(i+1)+' of '+images.length+'" aria-pressed="'+(i===0)+'" data-src="'+src+'" data-alt="'+label+' — photo '+(i+1)+' of '+images.length+'" data-number="'+(i+1)+'" onclick="selectProductPhoto(this)"><img src="'+src+'" alt="" loading="lazy" decoding="async"></button>').join('')+'</div><div class="product-photo-count" aria-live="polite">Photo 1 of '+images.length+' · Click image to enlarge</div></div>';
+ return '<div class="product-gallery" aria-label="'+label+' photos"><a class="product-gallery-main" href="'+images[0]+'" onclick="openPhotoViewer(this);return false" aria-label="Enlarge product photo"><img src="'+images[0]+'" alt="'+label+' — photo 1 of '+images.length+'" decoding="async"></a><div class="product-thumbnails">'+images.map((src,i)=>'<button type="button" class="product-thumbnail" aria-label="Show photo '+(i+1)+' of '+images.length+'" aria-pressed="'+(i===0)+'" data-src="'+src+'" data-alt="'+label+' — photo '+(i+1)+' of '+images.length+'" data-number="'+(i+1)+'" onclick="selectProductPhoto(this)"><img src="'+src+'" alt="" loading="lazy" decoding="async"></button>').join('')+'</div><div class="product-photo-count" aria-live="polite">Photo 1 of '+images.length+' · Click image to enlarge</div></div>';
 }
 function selectProductPhoto(button){
  const gallery=button.closest('.product-gallery'),link=gallery.querySelector('.product-gallery-main'),image=link.querySelector('img');
@@ -221,6 +235,49 @@ function selectProductPhoto(button){
  gallery.querySelectorAll('.product-thumbnail').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
  gallery.querySelector('.product-photo-count').textContent='Photo '+button.dataset.number+' of '+gallery.querySelectorAll('.product-thumbnail').length+' · Click image to enlarge';
 }
+
+const photoViewer=document.querySelector('#photoViewer');
+let viewerPhotos=[],viewerIndex=0,viewerTrigger=null,viewerOverflow='';
+function renderViewerPhoto(){
+ const photo=viewerPhotos[viewerIndex];
+ const image=document.querySelector('#photoViewerImage');
+ image.src=photo.dataset.src;image.alt=photo.dataset.alt;
+ document.querySelector('#photoViewerCount').textContent='Photo '+(viewerIndex+1)+' of '+viewerPhotos.length;
+ document.querySelector('#previousPhoto').disabled=viewerPhotos.length<2;
+ document.querySelector('#nextPhoto').disabled=viewerPhotos.length<2;
+}
+function openPhotoViewer(link){
+ viewerTrigger=link;
+ viewerPhotos=[...link.closest('.product-gallery').querySelectorAll('.product-thumbnail')];
+ viewerIndex=Math.max(0,viewerPhotos.findIndex(photo=>photo.getAttribute('aria-pressed')==='true'));
+ renderViewerPhoto();
+ viewerOverflow=document.body.style.overflow;
+ document.body.style.overflow='hidden';
+ photoViewer.showModal();
+}
+function moveViewerPhoto(step){
+ viewerIndex=(viewerIndex+step+viewerPhotos.length)%viewerPhotos.length;
+ renderViewerPhoto();
+}
+document.querySelector('#closePhotoViewer').onclick=()=>photoViewer.close();
+document.querySelector('#previousPhoto').onclick=()=>moveViewerPhoto(-1);
+document.querySelector('#nextPhoto').onclick=()=>moveViewerPhoto(1);
+photoViewer.addEventListener('keydown',event=>{
+ if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+  event.preventDefault();moveViewerPhoto(event.key==='ArrowLeft'?-1:1);
+ }
+});
+photoViewer.addEventListener('click',event=>{
+ if(event.target===photoViewer){
+  const bounds=photoViewer.getBoundingClientRect();
+  if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)photoViewer.close();
+ }
+});
+photoViewer.addEventListener('close',()=>{
+ document.body.style.overflow=viewerOverflow;
+ if(viewerTrigger&&viewerTrigger.isConnected)viewerTrigger.focus({preventScroll:true});
+});
+window.addEventListener('hashchange',()=>{if(photoViewer.open)photoViewer.close()});
 
 function card(x,detail=false){
  const key=encodeURIComponent(JSON.stringify(x));
