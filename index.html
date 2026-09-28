@@ -64,11 +64,42 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .installation-logo{background:transparent;border-radius:0;overflow:visible}.carplay-wordmark{display:block;width:210px;flex:0 0 210px;line-height:0}.carplay-wordmark img{display:block;width:100%;height:auto}.top{gap:16px}
 @media(max-width:800px){.carplay-wordmark{width:180px;flex-basis:180px}}
 @media(max-width:380px){.carplay-wordmark{width:156px;flex-basis:156px}.top{gap:8px}}
+
+/* Brands browse sections stay full-width and follow their reading order. */
+#brandsPage .catalog-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+#brandsPage .catalog-layout> *{min-width:0}
+#brandsPage .brands{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+#brandsPage .brand-name{overflow-wrap:anywhere}
+#brandsPage .brand-arrow{flex:0 0 auto}
+#brandsPage .product-tree{position:static;margin:0}
+#productTree{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 24px;align-items:start}
+#productTree>div{min-width:0}
+#brandsPage .tree-brand{gap:8px;min-height:44px}
+#brandsPage .tree-brand>span:first-child{min-width:0;overflow-wrap:anywhere}
+#brandsPage .tree-count{flex-shrink:0}
+#brandsPage .tree-model{min-height:44px;overflow-wrap:anywhere}
+#brandsPage .results{margin-top:0}
+#brandsPage .results:empty{display:none}
+@media(max-width:600px){
+ #brandsPage .brands{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #brandsPage .brand{flex-direction:column;justify-content:center;text-align:center;gap:8px;padding:14px 10px}
+ #brandsPage .brand-logo{width:64px;height:52px;flex:0 0 52px}
+ #brandsPage .brand-name{flex:0 0 auto;width:100%;line-height:1.4}
+ #brandsPage .brand-arrow{display:none}
+ #productTree{grid-template-columns:minmax(0,1fr)}
+}
 </style></head><body>
 <header class="top"><a class="installation-logo" href="#brands" aria-label="CarPlay and Dashcam Installation — home"><img src="images/technician-transparent.png" alt="CarPlay & Dashcam Installation" width="112" height="112"></a><a class="logo carplay-wordmark" href="#brands" aria-label="CarPlay home"><img src="images/carplay-wordmark.svg" alt="CarPlay — CarPlay & Android Auto Solutions" width="210" height="68"></a><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button><button id="aboutTab" onclick="showPage('about')">About</button></nav>
 <main class="wrap">
-<section id="brandsPage"><div class="catalog-layout"><div><section class="intro"><h1>CarPlay Screen</h1><p>Select your vehicle or browse by brand to see available screens.</p></section><section class="panel"><div class="panel-title">Shop by Brand</div><div class="brands" id="brands"></div></section><section class="results" id="results"></section></div><aside class="product-tree"><div class="tree-title"><span>Products</span><span class="qty-head">QTY <span id="totalQty"></span></span></div><div id="productTree"></div></aside></div></section>
+<section id="brandsPage">
+<section class="intro"><h1>CarPlay Screen</h1><p>Select your vehicle or browse by brand to see available screens.</p></section>
+<div class="catalog-layout">
+<section class="panel" aria-labelledby="brandsHeading"><div class="panel-title" id="brandsHeading">Shop by Brand</div><div class="brands" id="brands"></div></section>
+<aside class="product-tree" aria-labelledby="productsHeading"><div class="tree-title"><span id="productsHeading">Products</span><span class="qty-head">QTY <span id="totalQty"></span></span></div><div id="productTree"></div></aside>
+<section class="results" id="results"></section>
+</div>
+</section>
 <section id="servicesPage"><section class="intro"><h1>Our Services</h1><p>Add professional installation to your cart.</p></section><div class="service-card"><div class="service-copy"><h2>CarPlay / Android Auto Installation</h2><p>Professional installation for your CarPlay or Android head unit.</p><div class="price">$200.00 CAD</div><div class="service-points">🔧 Professional installation<br>🛡️ Clean and safe wiring<br>✓ Compatible with most vehicles<br>🚗 Burlington / Hamilton area</div></div><button class="add-cart" onclick="addService()">🛒 &nbsp; Add to Cart</button></div><div class="service-card"><div class="service-copy"><h2>Dashcam Installation</h2><p>Professional dashcam installation with clean and safe wiring.</p><div class="price">$150.00 CAD</div><div class="service-points">📹 Dashcam installation<br>🔧 Clean cable routing<br>🛡️ Professional and safe wiring<br>🚗 Burlington / Hamilton area</div></div><button class="add-cart" onclick="addDashcamService()">🛒 &nbsp; Add to Cart</button></div></section>
 <section id="aboutPage"><section class="intro"><h1>About Us</h1><p>ISC CarPlay &amp; Dashcam Installation</p></section><div class="about-card"><h2>Upgrade your driving experience with modern technology.</h2><p>We specialize in <b>Apple CarPlay &amp; Android Auto screen upgrades, dashcams, backup cameras, and professional installation services</b> for a wide range of vehicles.</p><p>Based in the <b>Burlington / Hamilton area, serving the GTA</b>, we offer convenient mobile installation and help you find the right system for your vehicle.</p><p>Not sure which screen fits your car? Simply send us your <b>vehicle year, make, model, and a photo of your current radio/dashboard</b>, and we’ll help you check compatibility.</p><div class="about-services"><b>Our Services</b><br>• Apple CarPlay &amp; Android Auto<br>• Android Head Units<br>• Dashcam Installation<br>• Backup Camera Installation<br>• Professional Mobile Installation</div><p><b>☎ 365-737-4556</b></p><p><b>ISC CarPlay — Upgrade. Connect. Drive.</b></p><button class="about-ai" onclick="openAIChat()">💬 Check Compatibility with AI</button></div></section>
 <section id="productPage" aria-label="Product details"><a class="back-products" href="#brands">← Back to products</a><h1 id="productTitle" tabindex="-1"></h1><div id="productDetails" class="product-detail-layout"></div></section>
