@@ -239,14 +239,9 @@ function setChatBusy(busy){
 }
 function workerMessage(message){
  // The deployed Worker accepts one message (up to 2,000 characters), not a messages array.
- const current="Current customer message:
-"+message;
- const context=chatHistory.join("
-").slice(-Math.max(0,1900-current.length));
- return context?"Recent conversation:
-"+context+"
-
-"+current:message;
+ const current="Current customer message:\n"+message;
+ const context=chatHistory.join("\n").slice(-Math.max(0,1900-current.length));
+ return context?"Recent conversation:\n"+context+"\n\n"+current:message;
 }
 async function requestChat(message,image){
  const pending=chatBubble(image?"Analyzing your photo…":"Thinking…","bot");
