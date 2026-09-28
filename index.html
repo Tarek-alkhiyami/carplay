@@ -72,7 +72,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 <section id="productPage" aria-label="Product details"><a class="back-products" href="#brands">← Back to products</a><h1 id="productTitle" tabindex="-1"></h1><div id="productDetails" class="product-detail-layout"></div></section>
 </main>
 <button class="chat-fab" onclick="toggleChat()" aria-label="Chat with us">💬</button>
-<div class="chat-panel" id="chatPanel"><div class="chat-head"><div><b>CarPlay Assistant</b><small>Ask about screens & installation</small></div><button class="chat-close" onclick="toggleChat()">×</button></div><div class="chat-body" id="chatBody"><div class="bubble bot">Hi! 👋 Tell me your vehicle make, model and year, and I’ll help you find a CarPlay screen.</div></div><div class="chat-compose"><input id="chatPhoto" type="file" accept="image/*" hidden onchange="sendPhoto(this)"><button class="chat-photo" onclick="document.querySelector('#chatPhoto').click()" aria-label="Upload dashboard photo">📷</button><input id="chatInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()"><button class="chat-send" onclick="sendChat()">Send</button></div></div>
+<div class="chat-panel" id="chatPanel"><div class="chat-head"><div><b>CarPlay Assistant</b><small>Ask about screens & installation</small></div><button class="chat-close" onclick="toggleChat()">×</button></div><div class="chat-body" id="chatBody" role="log" aria-live="polite" aria-relevant="additions text"><div class="bubble bot">Hi! 👋 Tell me your vehicle make, model and year, and I’ll help you find a CarPlay screen.</div></div><div class="chat-compose"><input id="chatPhoto" type="file" accept="image/jpeg,image/png,image/webp" hidden onchange="sendPhoto(this)"><button class="chat-photo" onclick="document.querySelector('#chatPhoto').click()" aria-label="Upload dashboard photo">📷</button><input id="chatInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter'&&!event.isComposing)sendChat()"><button class="chat-send" onclick="sendChat()">Send</button></div></div>
 <div class="cart-modal" id="cartModal" onclick="if(event.target===this)closeCart()"><div class="cart-box"><div class="cart-top"><h2>Shopping Cart</h2><button class="close-cart" onclick="closeCart()">×</button></div><div id="cartItems"></div><div id="cartTotal"></div></div></div>
 <script>
 const stock=[
@@ -220,38 +220,87 @@ function addService(){addItem({key:"installation",name:"CarPlay / Android Auto I
 function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));const a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):"";}
 function showPage(page){document.querySelector("#productPage").style.display="none";if(location.hash.startsWith("#product/"))history.replaceState(null,"","#"+page);const services=page==="services";document.querySelector("#brandsPage").style.display=services?"none":"block";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",!services);document.querySelector("#servicesTab").classList.toggle("active",services);}
 function toggleChat(){const p=document.querySelector("#chatPanel");p.style.display=p.style.display==="block"?"none":"block";if(p.style.display==="block")setTimeout(()=>document.querySelector("#chatInput").focus(),100)}
-function chatBubble(text,who){const d=document.createElement("div");d.className="bubble "+who;d.textContent=text;document.querySelector("#chatBody").appendChild(d);document.querySelector("#chatBody").scrollTop=document.querySelector("#chatBody").scrollHeight}
-function sendPhoto(input){
- const file=input.files&&input.files[0];if(!file)return;
- if(!file.type.startsWith("image/")){chatBubble("Please choose an image file.","bot");input.value="";return;}
- const reader=new FileReader();
- reader.onload=()=>{const d=document.createElement("div");d.className="bubble user";d.textContent="Dashboard / radio photo";const img=document.createElement("img");img.className="bubble-photo";img.src=reader.result;img.alt="Uploaded dashboard or radio photo";d.appendChild(img);document.querySelector("#chatBody").appendChild(d);document.querySelector("#chatBody").scrollTop=document.querySelector("#chatBody").scrollHeight;setTimeout(()=>chatBubble("Photo received. This version can attach and preview your photo. Automatic photo compatibility analysis will be added next.","bot"),300);};
- reader.readAsDataURL(file);input.value="";
+const CHAT_ENDPOINT="https://isc-carplay-ai.mr1world2wide.workers.dev/";
+let chatBusy=false;
+const chatHistory=[];
+function chatBubble(text,who){
+ const d=document.createElement("div");d.className="bubble "+who;d.textContent=text;
+ d.style.whiteSpace="pre-wrap";
+ const body=document.querySelector("#chatBody");body.appendChild(d);body.scrollTop=body.scrollHeight;
+ return d;
 }
-function demoReply(q){
- const s=q.toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
- if(s.includes("install"))return "Professional CarPlay / Android Auto installation is $200 CAD. Screen price is separate.";
- const year=(s.match(/\b(19|20)\d{2}\b/)||[])[0];
- const aliases={"rave 4":"rav4","rave4":"rav4","rav 4":"rav4","benz":"mercedes benz","mercedes":"mercedes benz","vw":"volkswagen","chevy":"chevrolet"};
- let normalized=" "+s+" ";Object.keys(aliases).forEach(a=>{normalized=normalized.replace(" "+a+" "," "+aliases[a]+" ")});normalized=normalized.trim();
- const matches=stock.filter(x=>{
-   const make=x[0].toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
-   const model=x[1].toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
-   const makeHit=normalized.includes(make);
-   const modelParts=model.split(" ").filter(w=>w.length>1&&!["basic","series","sedan","class"].includes(w));
-   const modelHit=modelParts.some(w=>normalized.includes(w))||normalized.includes(model);
-   const yearHit=!year||(+year>=x[2]&&+year<=x[3]);
-   return makeHit&&modelHit&&yearHit;
- });
- if(matches.length){
-   return matches.map(x=>"Yes — I have a "+x[4]+" CarPlay / Android Auto screen for "+x[0]+" "+x[1]+" ("+x[2]+"–"+x[3]+"), "+x[5]+", $"+x[6].toFixed(2)+" CAD. Inventory: "+x[7]+". Installation is $200 CAD extra. Please send a photo of your current radio/dashboard so I can confirm compatibility before purchase.").join("\n\n");
+function setChatBusy(busy){
+ chatBusy=busy;
+ document.querySelectorAll(".chat-compose button, #chatPhoto").forEach(el=>el.disabled=busy);
+ document.querySelector("#chatBody").setAttribute("aria-busy",String(busy));
+}
+function workerMessage(message){
+ // The deployed Worker accepts one message (up to 2,000 characters), not a messages array.
+ const current="Current customer message:\n"+message;
+ const context=chatHistory.join("\n").slice(-Math.max(0,1900-current.length));
+ return context?"Recent conversation:\n"+context+"\n\n"+current:message;
+}
+async function requestChat(message,image){
+ const pending=chatBubble(image?"Analyzing your photo…":"Thinking…","bot");
+ const controller=new AbortController();
+ const timeout=setTimeout(()=>controller.abort(),60000);
+ try{
+  const payload={message:workerMessage(message)};
+  if(image)payload.image=image;
+  const response=await fetch(CHAT_ENDPOINT,{
+   method:"POST",headers:{"Content-Type":"application/json"},
+   body:JSON.stringify(payload),signal:controller.signal,credentials:"omit"
+  });
+  const data=await response.json();
+  if(!response.ok||data.ok===false||typeof data.reply!=="string"||!data.reply.trim())throw new Error("Invalid AI response");
+  pending.textContent=data.reply.trim();
+  chatHistory.push("Customer: "+message,"Assistant: "+data.reply.trim());
+  while(chatHistory.length>8)chatHistory.splice(0,2);
+ }catch(error){
+  pending.textContent=error.name==="AbortError"?"The reply took too long. Please try again.":"Sorry, the assistant couldn't reply. Please try again or call 365-737-4556.";
+  const retry=document.createElement("button");retry.type="button";retry.textContent="Retry";
+  retry.style.display="block";
+  retry.onclick=async()=>{
+   if(chatBusy)return;
+   setChatBusy(true);pending.remove();
+   try{await requestChat(message,image);}finally{setChatBusy(false);}
+  };
+  pending.appendChild(retry);
+ }finally{
+  clearTimeout(timeout);
+  const body=document.querySelector("#chatBody");body.scrollTop=body.scrollHeight;
  }
- const makeOnly=stock.some(x=>normalized.includes(x[0].toLowerCase().replace(/[^a-z0-9]+/g," ").trim()));
- if(makeOnly&&year)return "I don’t see an exact matching screen in the current inventory for that vehicle/year. Please send the exact model and a photo of your current radio/dashboard and I’ll check compatibility.";
- if(s.includes("price")||s.includes("cost"))return "Screen prices depend on the vehicle. Tell me the make, model and year and I’ll check the current inventory.";
- return "Please send your vehicle make, model and year (for example: Toyota RAV4 2018). I’ll check the current inventory and price for you.";
 }
-function sendChat(){const i=document.querySelector("#chatInput"),q=i.value.trim();if(!q)return;chatBubble(q,"user");i.value="";setTimeout(()=>chatBubble(demoReply(q),"bot"),350)}
+async function sendPhoto(input){
+ const file=input.files&&input.files[0];input.value="";
+ if(!file||chatBusy)return;
+ if(!/^image\/(jpeg|jpg|png|webp)$/i.test(file.type)){chatBubble("Please choose a JPEG, PNG or WebP photo.","bot");return;}
+ // Base64 expands the file; stay below the Worker's 8,000,000-character limit.
+ if(file.size>5_900_000){chatBubble("Photo is too large. Please choose a photo smaller than 5.9 MB.","bot");return;}
+ const field=document.querySelector("#chatInput"),caption=field.value.trim();
+ if(caption.length>1500){chatBubble("Please keep your message under 1,500 characters.","bot");return;}
+ setChatBusy(true);
+ try{
+  const image=await new Promise((resolve,reject)=>{
+   const reader=new FileReader();
+   reader.onload=()=>resolve(reader.result);
+   reader.onerror=reader.onabort=()=>reject(new Error("Photo read failed"));
+   reader.readAsDataURL(file);
+  });
+  if(typeof image!=="string"||image.length>8_000_000)throw new Error("Photo too large");
+  const d=chatBubble(caption||"Dashboard / radio photo","user");
+  const img=document.createElement("img");img.className="bubble-photo";img.src=image;img.alt="Uploaded dashboard or radio photo";d.appendChild(img);
+  if(field.value.trim()===caption)field.value="";
+  await requestChat(caption||"Please analyze this dashboard/radio photo for CarPlay compatibility.",image);
+ }catch(error){chatBubble("Couldn't read that photo. Please choose a JPEG, PNG or WebP photo smaller than 5.9 MB and try again.","bot");}
+ finally{setChatBusy(false);}
+}
+async function sendChat(){
+ const i=document.querySelector("#chatInput"),q=i.value.trim();if(!q||chatBusy)return;
+ if(q.length>1500){chatBubble("Please keep your message under 1,500 characters.","bot");return;}
+ setChatBusy(true);chatBubble(q,"user");i.value="";
+ try{await requestChat(q);}finally{setChatBusy(false);}
+}
 M.onchange=loadModels;D.onchange=render;Y.onchange=render;
 
 function routeProduct(){
