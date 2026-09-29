@@ -97,6 +97,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .photo-viewer-image{display:block;width:100%;height:min(65dvh,700px);object-fit:contain;margin:12px 0}
 .photo-viewer-controls{justify-content:center}
 .photo-viewer-count{min-width:110px;text-align:center}
+.sold-label{display:inline-block;padding:12px 20px;border-radius:9px;background:#fee4e2;color:#b42318;font-size:18px;font-weight:800;white-space:nowrap}.product-detail-layout .sold-label{margin-top:24px}
 </style></head><body>
 <header class="top"><a class="installation-logo" href="#brands" aria-label="CarPlay and Dashcam Installation — home"><img src="images/technician-transparent.png" alt="CarPlay & Dashcam Installation" width="112" height="112"></a><a class="logo carplay-wordmark" href="#brands" aria-label="CarPlay home"><img src="images/carplay-wordmark.svg" alt="CarPlay — CarPlay & Android Auto Solutions" width="210" height="68"></a><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button><button id="aboutTab" onclick="showPage('about')">About</button></nav>
@@ -123,6 +124,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Toyota","Corolla",2013,2017,'10.1" IPS',"4CORE • 4GB/64GB",250.00,"CR004","sold"],
 ["Ford","Mondeo",2013,2016,'9"',"4CORE • 2GB/32GB",150.00,"CR041"],
 ["Chevrolet","Silverado",2007,2014,'9.7"',"4CORE • 2GB/32GB",190.00,"CR040"],
 ["Chevrolet","Avalanche",2007,2014,'9.7"',"4CORE • 2GB/32GB",190.00,"CR040"],
@@ -210,6 +212,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR004:["images/CR004/01.png"],
  CR041:["images/CR041/01.jpg","images/CR041/02.jpg","images/CR041/03.jpg","images/CR041/04.jpg","images/CR041/05.jpg","images/CR041/06.jpg","images/CR041/07.jpg"],
  CR040:["images/CR040/01.png","images/CR040/02.jpg","images/CR040/03.jpg","images/CR040/04.jpg","images/CR040/05.jpg","images/CR040/06.jpg","images/CR040/07.jpg","images/CR040/08.jpg"],
  CR038:["images/CR038/01.jpg","images/CR038/02.jpg","images/CR038/03.jpg","images/CR038/04.jpg","images/CR038/05.jpg","images/CR038/06.jpg","images/CR038/07.jpg","images/CR038/08.jpg"],
@@ -309,7 +312,8 @@ function card(x,detail=false){
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
- const button=priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
+ const sold=x[8]==='sold';
+ const button=sold?'<span class="sold-label">SOLD</span>':priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
  const name=x[0]+' '+x[1];
  const detailPath=encodeURIComponent(codes)+(stock.filter(item=>item[7]===codes).length>1?'/'+encodeURIComponent(name):'');
  const title=productImages[codes]?'<a class="product-name" href="#product/'+detailPath+'"><b>'+name+'</b></a>':'<b>'+name+'</b>';
@@ -329,7 +333,7 @@ function renderCart(){
 }
 function qty(i,d){cart[i].qty+=d;if(cart[i].qty<1)cart.splice(i,1);updateCart();renderCart();}
 function removeItem(i){cart.splice(i,1);updateCart();renderCart();}
-function addProduct(key){const d=JSON.parse(decodeURIComponent(key));addItem({key:"p:"+JSON.stringify(d),name:d[0]+" "+d[1],price:d[6]});}
+function addProduct(key){const d=JSON.parse(decodeURIComponent(key));const item=stock.find(x=>JSON.stringify(x)===JSON.stringify(d));if(!item||item[8]==='sold')return;addItem({key:"p:"+JSON.stringify(d),name:d[0]+" "+d[1],price:d[6]});}
 function addService(){addItem({key:"installation",name:"CarPlay / Android Auto Installation",price:200});}
 function addDashcamService(){addItem({key:"dashcam-installation",name:"Dashcam Installation",price:150});}
 function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));const a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):"";}
