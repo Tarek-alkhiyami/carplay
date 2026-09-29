@@ -123,6 +123,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Ford","Fiesta",2017,2023,'10"',"4CORE • 2GB/32GB",175.00,"CR037"],
 ["Ford","Mustang",2005,2009,'10"',"4CORE • 2GB/64GB",170.00,"CR035"],
 ["Ford","Explorer",2006,2010,'10"',"4CORE • 2GB/64GB",170.00,"CR035"],
 ["Hyundai","Genesis",2009,2014,'9"',"4CORE • 4GB/64GB",180.00,"CR034"],
@@ -198,6 +199,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR037:["images/CR037/01.jpg","images/CR037/02.png","images/CR037/03.png","images/CR037/04.jpg","images/CR037/05.jpg","images/CR037/06.jpg","images/CR037/07.jpg","images/CR037/08.jpg"],
  CR035:["images/CR035/01.jpg","images/CR035/02.jpg","images/CR035/03.jpg","images/CR035/04.jpg","images/CR035/05.jpg","images/CR035/06.jpg","images/CR035/07.jpg","images/CR035/08.jpg"],
  CR034:["images/CR034/1.jpg","images/CR034/2.jpg","images/CR034/3.jpg","images/CR034/4.jpg","images/CR034/5.jpg","images/CR034/6.jpg","images/CR034/7.jpg","images/CR034/8.jpg"],
  CR031:["images/CR031/01.jpeg","images/CR031/02.avif","images/CR031/03.avif","images/CR031/04.avif","images/CR031/05.avif","images/CR031/06.avif","images/CR031/07.avif","images/CR031/08.avif"],
