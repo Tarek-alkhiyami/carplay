@@ -124,6 +124,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Mercedes-Benz","W204 / S204 / C300",2007,2010,'9.7"',"2GB/32GB",200.00,"CR043"],
 ["Honda","Accord",2003,2007,'10.1" IPS',"8CORE • 4GB/64GB",200.00,"CR042"],
 ["Toyota","Corolla",2013,2017,'10.1" IPS',"4CORE • 4GB/64GB",250.00,"CR004","sold"],
 ["Ford","Mondeo",2013,2016,'9"',"4CORE • 2GB/32GB",150.00,"CR041"],
@@ -213,6 +214,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR043:["images/CR043/01.png","images/CR043/02.jpg","images/CR043/03.jpg","images/CR043/04.jpg","images/CR043/05.jpg","images/CR043/06.jpg","images/CR043/07.jpg","images/CR043/08.jpg"],
  CR042:["images/CR042/01.png","images/CR042/02.jpg","images/CR042/03.jpg","images/CR042/04.jpg","images/CR042/05.jpg","images/CR042/06.jpg","images/CR042/07.jpg","images/CR042/08.jpg"],
  CR004:["images/CR004/01.png"],
  CR041:["images/CR041/01.jpg","images/CR041/02.jpg","images/CR041/03.jpg","images/CR041/04.jpg","images/CR041/05.jpg","images/CR041/06.jpg","images/CR041/07.jpg"],
