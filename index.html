@@ -123,6 +123,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Ford","Mondeo",2013,2016,'9"',"4CORE • 2GB/32GB",150.00,"CR041"],
 ["Chevrolet","Silverado",2007,2014,'9.7"',"4CORE • 2GB/32GB",190.00,"CR040"],
 ["Chevrolet","Avalanche",2007,2014,'9.7"',"4CORE • 2GB/32GB",190.00,"CR040"],
 ["Chevrolet","Suburban",2007,2014,'9.7"',"4CORE • 2GB/32GB",190.00,"CR040"],
@@ -209,6 +210,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR041:["images/CR041/01.jpg","images/CR041/02.jpg","images/CR041/03.jpg","images/CR041/04.jpg","images/CR041/05.jpg","images/CR041/06.jpg","images/CR041/07.jpg"],
  CR040:["images/CR040/01.png","images/CR040/02.jpg","images/CR040/03.jpg","images/CR040/04.jpg","images/CR040/05.jpg","images/CR040/06.jpg","images/CR040/07.jpg","images/CR040/08.jpg"],
  CR038:["images/CR038/01.jpg","images/CR038/02.jpg","images/CR038/03.jpg","images/CR038/04.jpg","images/CR038/05.jpg","images/CR038/06.jpg","images/CR038/07.jpg","images/CR038/08.jpg"],
  CR037:["images/CR037/01.jpg","images/CR037/02.png","images/CR037/03.png","images/CR037/04.jpg","images/CR037/05.jpg","images/CR037/06.jpg","images/CR037/07.jpg","images/CR037/08.jpg"],
