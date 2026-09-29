@@ -123,6 +123,9 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Chevrolet","Silverado",2006,2013,'9.7"',"4CORE • 2GB/32GB",190.00,"CR040"],
+["GMC","Sierra",2007,2014,'9.7"',"4CORE • 2GB/32GB",190.00,"CR040"],
+["GMC","Yukon",2007,2014,'9.7"',"4CORE • 2GB/32GB",190.00,"CR040"],
 ["Ford","Mustang",2005,2009,'10"',"8CORE • 2GB/64GB",190.00,"CR039"],
 ["Ford","Explorer",2006,2010,'10"',"8CORE • 2GB/64GB",190.00,"CR039"],
 ["Jeep","Renegade",2015,2020,'9" IPS',"4CORE • 2GB/32GB",150.00,"CR038"],
@@ -202,6 +205,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR040:["images/CR040/01.png","images/CR040/02.jpg","images/CR040/03.jpg","images/CR040/04.jpg","images/CR040/05.jpg","images/CR040/06.jpg","images/CR040/07.jpg","images/CR040/08.jpg"],
  CR038:["images/CR038/01.jpg","images/CR038/02.jpg","images/CR038/03.jpg","images/CR038/04.jpg","images/CR038/05.jpg","images/CR038/06.jpg","images/CR038/07.jpg","images/CR038/08.jpg"],
  CR037:["images/CR037/01.jpg","images/CR037/02.png","images/CR037/03.png","images/CR037/04.jpg","images/CR037/05.jpg","images/CR037/06.jpg","images/CR037/07.jpg","images/CR037/08.jpg"],
  CR035:["images/CR035/01.jpg","images/CR035/02.jpg","images/CR035/03.jpg","images/CR035/04.jpg","images/CR035/05.jpg","images/CR035/06.jpg","images/CR035/07.jpg","images/CR035/08.jpg"],
