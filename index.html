@@ -126,6 +126,18 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["GMC","Sierra (Denali)",2007,2011,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["GMC","Yukon (Denali)",2007,2013,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["GMC","Acadia (Denali)",2007,2012,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["GMC","Savana",2008,2013,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Buick","Enclave",2008,2012,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Chevrolet","Silverado 1500HD / 2500HD / 3500HD (2nd gen; not 2007 Classic)",2007,2012,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Chevrolet","Avalanche (GMT900)",2007,2011,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Chevrolet","Express Van",2008,2011,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Chevrolet","Impala (9th gen)",2006,2012,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Chevrolet","Equinox (1st gen)",2005,2009,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Chevrolet","HHR (SS / LT / Panel / LS)",2006,2011,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Chevrolet","Monte Carlo (7th gen)",2006,2007,"8\"","4CORE • 2GB/32GB",150,"CR047"],
 ["Mazda","6 III GL / GJ",2012,2017,'9"',"4CORE • 2GB/64GB",180.00,"CR046"],
 ["Audi","A3 / S3 / RS3",2003,2012,'9" IPS',"4CORE • 2GB/32GB",180.00,"CR044"],
 ["Mercedes-Benz","W204 / S204 / C300",2007,2010,'9.7"',"2GB/32GB",200.00,"CR043"],
@@ -195,6 +207,7 @@ function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(x=>opt(M,x));
 const brandLogos={
+ "Buick": "images/brands/buick.svg",
  "Mazda": "images/brands/mazda.svg",
   "Audi": "images/brands/audi.svg",
   "Jeep": "images/brands/jeep.svg",
@@ -221,6 +234,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR047:["images/CR047/01.png","images/CR047/02.jpg","images/CR047/03.jpg","images/CR047/04.jpg","images/CR047/05.jpg","images/CR047/06.jpg","images/CR047/07.jpg","images/CR047/08.jpg"],
  CR046:["images/CR046/01.png","images/CR046/02.jpg","images/CR046/03.jpg","images/CR046/04.jpg","images/CR046/05.jpg","images/CR046/06.jpg","images/CR046/07.jpg","images/CR046/08.jpg"],
  CR044:["images/CR044/01.png","images/CR044/02.jpg","images/CR044/03.jpg","images/CR044/04.jpg","images/CR044/05.jpg","images/CR044/06.jpg","images/CR044/07.jpg","images/CR044/08.jpg"],
  CR043:["images/CR043/01.png","images/CR043/02.jpg","images/CR043/03.jpg","images/CR043/04.jpg","images/CR043/05.jpg","images/CR043/06.jpg","images/CR043/07.jpg","images/CR043/08.jpg"],
