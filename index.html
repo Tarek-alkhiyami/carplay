@@ -124,6 +124,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Audi","A3 / S3 / RS3",2003,2012,'9" IPS',"4CORE • 2GB/32GB",180.00,"CR044"],
 ["Mercedes-Benz","W204 / S204 / C300",2007,2010,'9.7"',"2GB/32GB",200.00,"CR043"],
 ["Honda","Accord",2003,2007,'10.1" IPS',"8CORE • 4GB/64GB",200.00,"CR042"],
 ["Toyota","Corolla",2013,2017,'10.1" IPS',"4CORE • 4GB/64GB",250.00,"CR004","sold"],
@@ -190,6 +191,7 @@ function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(x=>opt(M,x));
 const brandLogos={
+  "Audi": "images/brands/audi.svg",
   "Jeep": "images/brands/jeep.svg",
   "BMW": "images/brands/bmw.png",
   "Chevrolet": "images/brands/chevrolet.png",
@@ -214,6 +216,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR044:["images/CR044/01.png","images/CR044/02.jpg","images/CR044/03.jpg","images/CR044/04.jpg","images/CR044/05.jpg","images/CR044/06.jpg","images/CR044/07.jpg","images/CR044/08.jpg"],
  CR043:["images/CR043/01.png","images/CR043/02.jpg","images/CR043/03.jpg","images/CR043/04.jpg","images/CR043/05.jpg","images/CR043/06.jpg","images/CR043/07.jpg","images/CR043/08.jpg"],
  CR042:["images/CR042/01.png","images/CR042/02.jpg","images/CR042/03.jpg","images/CR042/04.jpg","images/CR042/05.jpg","images/CR042/06.jpg","images/CR042/07.jpg","images/CR042/08.jpg"],
  CR004:["images/CR004/01.png"],
