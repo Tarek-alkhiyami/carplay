@@ -172,8 +172,7 @@ const stock=[
 ["Nissan","Frontier",2005,2008,'7"',"2GB/32GB",150.00,"CR015 / CR016 / CR017"],
 ["Nissan","Frontier (8-Core)",2005,2008,'7"',"2GB/32GB",180.00,"CR014"],
 ["Ford","F-150",2009,2012,'9" IPS',"2GB/64GB • Android 12 • 5G (WiFi6)",200.00,"CR020"],
-["Ford","Escape",2013,2019,'9"',"4GB/64GB",250.00,"CR021"],
-["Ford","Escape",2013,2019,'9"',"4CORE • 4GB/64GB",250.00,"CR045"],
+["Ford","Escape",2013,2019,'9"',"4CORE • 4GB/64GB",250.00,"CR021 / CR045"],
 ["Ford","Mustang",2005,2009,'7"',"2GB/64GB",150.00,"CR022"],
 ["Ford","Fusion",2005,2011,'7" IPS',"4-Core • 4GB/64GB",200.00,"CR023"],
 ["Ford","Fiesta",2005,2017,'7" IPS',"4-Core • 4GB/64GB",200.00,"CR023"],
@@ -267,7 +266,7 @@ const productImages={
  CR024:["images/CR024/01.png","images/CR024/02.avif","images/CR024/03.avif","images/CR024/04.avif","images/CR024/05.avif","images/CR024/06.avif","images/CR024/07.avif","images/CR024/08.avif"],
  CR023:["images/CR023/01.png","images/CR023/02.avif","images/CR023/03.avif","images/CR023/04.avif","images/CR023/05.png","images/CR023/06.avif","images/CR023/07.avif","images/CR023/08.avif"],
  CR022:["images/CR022/01.png","images/CR022/02.jpg","images/CR022/03.avif","images/CR022/04.jpg","images/CR022/05.jpg","images/CR022/06.jpg","images/CR022/07.jpg","images/CR022/08.jpg"],
- CR021:["images/CR021/01.png","images/CR021/02.jpg","images/CR021/03.jpg","images/CR021/04.jpg","images/CR021/05.jpg","images/CR021/06.jpg","images/CR021/07.jpg","images/CR021/08.jpg"],
+ "CR021 / CR045":["images/CR021/01.png","images/CR021/02.jpg","images/CR021/03.jpg","images/CR021/04.jpg","images/CR021/05.jpg","images/CR021/06.jpg","images/CR021/07.jpg","images/CR021/08.jpg"],
  CR045:["images/CR021/01.png","images/CR021/02.jpg","images/CR021/03.jpg","images/CR021/04.jpg","images/CR021/05.jpg","images/CR021/06.jpg","images/CR021/07.jpg","images/CR021/08.jpg"],
  CR020:["images/CR020/01.jpg","images/CR020/02.jpg","images/CR020/03.jpg","images/CR020/04.jpg","images/CR020/05.jpg","images/CR020/06.jpg","images/CR020/07.jpg"],
  CR026:["images/CR026/01.png","images/CR026/02.avif","images/CR026/03.avif","images/CR026/04.avif","images/CR026/05.avif","images/CR026/06.avif","images/CR026/07.avif","images/CR026/08.avif"],
@@ -341,12 +340,14 @@ function card(x,detail=false){
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
  const sold=x[8]==='sold';
+ const available=codes.split(' / ').filter(Boolean).length;
+ const availability=!sold && available>1?'<div class="muted"><b>'+available+' available</b></div>':'';
  const button=sold?'<span class="sold-label">SOLD</span>':priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
  const name=x[0]+' '+x[1];
  const detailPath=encodeURIComponent(codes)+(stock.filter(item=>item[7]===codes).length>1?'/'+encodeURIComponent(name):'');
  const title=productImages[codes]?'<a class="product-name" href="#product/'+detailPath+'"><b>'+name+'</b></a>':'<b>'+name+'</b>';
  const photo=detail!==true && productImages[codes]?'<a class="card-photo" href="#product/'+detailPath+'" aria-label="View '+name+' photos"><img src="'+productImages[codes][0]+'" alt="'+name+'" loading="lazy" decoding="async"></a>':'';
- return '<div class="card'+(photo?' card-with-photo':'')+'">'+photo+'<div class="card-info">'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div><div class="price">'+price+'</div></div>'+button+'</div>';
+ return '<div class="card'+(photo?' card-with-photo':'')+'">'+photo+'<div class="card-info">'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div>'+availability+'<div class="price">'+price+'</div></div>'+button+'</div>';
 }
 function updateCart(){document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
@@ -462,7 +463,7 @@ function routeProduct(){
   return;
  }
  const [code,vehicle]=location.hash.slice(prefix.length).split('/');
- const item=stock.find(x=>encodeURIComponent(x[7])===code && productImages[x[7]] && (!vehicle||encodeURIComponent(x[0]+' '+x[1])===vehicle));
+ const item=stock.find(x=>(encodeURIComponent(x[7])===code || x[7].split(' / ').some(c=>encodeURIComponent(c)===code)) && productImages[x[7]] && (!vehicle||encodeURIComponent(x[0]+' '+x[1])===vehicle));
  if(!item){history.replaceState(null,'','#brands');showPage('brands');return;}
  document.querySelector('#brandsPage').style.display='none';
  document.querySelector('#servicesPage').style.display='none';
