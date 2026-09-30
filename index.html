@@ -126,6 +126,22 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Jeep","Wrangler / Unlimited",2007,2016,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Jeep","Patriot",2009,2014,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Jeep","Liberty",2008,2011,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Jeep","Compass",2009,2014,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Jeep","Commander",2008,2011,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Chrysler","Sebring",2007,2010,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Chrysler","300C",2007,2010,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Chrysler","Aspen",2007,2010,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Dodge","Caliber",2009,2011,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Dodge","Dakota",2009,2011,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Dodge","Avenger",2008,2014,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Dodge","Ram",2009,2012,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Dodge","Journey",2009,2011,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Dodge","Durango",2009,2011,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Dodge","Grand Caravan",2011,2013,"10\"","4CORE • 4GB/64GB",220,"CR052"],
+["Dodge","Challenger",2009,2011,"10\"","4CORE • 4GB/64GB",220,"CR052"],
 ["Toyota","Venza",2008,2016,'9"',"4CORE • 4GB/64GB",175.00,"CR051"],
 ["Chevrolet","Cobalt",2007,2010,'10"',"4CORE • 2GB/32GB",170.00,"CR050"],
 ["Honda","Civic",2016,2020,'9"',"4CORE • 2GB/64GB",150.00,"CR049"],
@@ -210,6 +226,7 @@ function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(x=>opt(M,x));
 const brandLogos={
+ "Chrysler": "images/brands/chrysler.svg",
  "Buick": "images/brands/buick.svg",
  "Mazda": "images/brands/mazda.svg",
   "Audi": "images/brands/audi.svg",
@@ -237,6 +254,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR052:["images/CR052/01.png","images/CR052/02.jpeg","images/CR052/03.jpg","images/CR052/04.avif","images/CR052/05.avif","images/CR052/06.avif","images/CR052/07.avif","images/CR052/08.avif"],
  CR051:["images/CR051/01.png","images/CR051/02.jpg","images/CR051/03.jpg","images/CR051/04.jpg","images/CR051/05.jpg","images/CR051/06.jpg","images/CR051/07.jpg","images/CR051/08.jpg"],
  CR050:["images/CR050/01.jpg","images/CR050/02.jpg","images/CR050/03.jpg","images/CR050/04.jpg","images/CR050/05.jpg","images/CR050/06.jpg","images/CR050/07.jpg","images/CR050/08.jpg"],
  CR049:["images/CR049/01.png","images/CR049/02.jpg","images/CR049/03.jpg","images/CR049/04.jpg","images/CR049/05.jpg","images/CR049/06.jpg","images/CR049/07.jpg","images/CR049/08.jpg"],
