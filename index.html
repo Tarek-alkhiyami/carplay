@@ -126,6 +126,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Honda","Civic",2016,2020,'9"',"4CORE • 2GB/64GB",150.00,"CR049"],
 ["Ford","Fusion",2006,2009,'7"',"8CORE • 2GB/32GB",200.00,"CR048"],
 ["GMC","Sierra (Denali)",2007,2011,"8\"","4CORE • 2GB/32GB",150,"CR047"],
 ["GMC","Yukon (Denali)",2007,2013,"8\"","4CORE • 2GB/32GB",150,"CR047"],
@@ -234,6 +235,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR049:["images/CR049/01.png","images/CR049/02.jpg","images/CR049/03.jpg","images/CR049/04.jpg","images/CR049/05.jpg","images/CR049/06.jpg","images/CR049/07.jpg","images/CR049/08.jpg"],
  CR048:["images/CR048/01.png","images/CR048/02.jpg","images/CR048/03.jpg","images/CR048/04.jpg","images/CR048/05.jpg","images/CR048/06.jpg","images/CR048/07.jpg","images/CR048/08.jpg"],
  CR047:["images/CR047/01.png","images/CR047/02.jpg","images/CR047/03.jpg","images/CR047/04.jpg","images/CR047/05.jpg","images/CR047/06.jpg","images/CR047/07.jpg","images/CR047/08.jpg"],
  CR046:["images/CR046/01.png","images/CR046/02.jpg","images/CR046/03.jpg","images/CR046/04.jpg","images/CR046/05.jpg","images/CR046/06.jpg","images/CR046/07.jpg","images/CR046/08.jpg"],
