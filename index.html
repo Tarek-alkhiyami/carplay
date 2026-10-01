@@ -100,6 +100,20 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .photo-viewer-controls{justify-content:center}
 .photo-viewer-count{min-width:110px;text-align:center}
 .sold-label{display:inline-block;padding:12px 20px;border-radius:9px;background:#fee4e2;color:#b42318;font-size:18px;font-weight:800;white-space:nowrap}.product-detail-layout .sold-label{margin-top:24px}
+
+.catalog-view-controls{display:flex;justify-content:flex-end;gap:8px;margin:0 0 12px}
+.catalog-view-controls[hidden]{display:none}
+.catalog-view-controls button{border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--blue);padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
+.catalog-view-controls button[aria-pressed="true"]{background:var(--blue);color:#fff;border-color:var(--blue)}
+.catalog-view-controls button:focus-visible{outline:3px solid #7cb5ff;outline-offset:3px}
+#results.grid-view{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+#results.grid-view .card{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:12px;margin:0;padding:16px;min-width:0}
+#results.grid-view .card-photo{width:100%}
+#results.grid-view .card-info{flex:1;overflow-wrap:anywhere}
+#results.grid-view .add-cart{width:100%;margin-top:auto}
+#results.grid-view .notice{grid-column:1/-1}
+@media(max-width:1000px){#results.grid-view{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){#results.grid-view{grid-template-columns:minmax(0,1fr)}}
 </style></head><body>
 <header class="top"><a class="installation-logo" href="#brands" aria-label="CarPlay and Dashcam Installation — home"><img src="images/technician-transparent.png" alt="CarPlay & Dashcam Installation" width="112" height="112"></a><a class="logo carplay-wordmark" href="#brands" aria-label="CarPlay home"><img src="images/carplay-wordmark.svg" alt="CarPlay — CarPlay & Android Auto Solutions" width="210" height="68"></a><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="phone" href="tel:+13657374556">☎&nbsp; 365-737-4556</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button><button id="aboutTab" onclick="showPage('about')">About</button></nav>
@@ -109,7 +123,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 <div class="catalog-layout">
 <section class="panel" aria-labelledby="brandsHeading"><div class="panel-title" id="brandsHeading">Shop by Brand</div><div class="brands" id="brands"></div></section>
 <aside class="product-tree" aria-labelledby="productsHeading"><div class="tree-title"><span id="productsHeading">Products</span><span class="qty-head">QTY <span id="totalQty"></span></span></div><div id="productTree"></div></aside>
-<section class="results" id="results"></section>
+<div><div class="catalog-view-controls" id="catalogViewControls" role="group" aria-label="Product view" hidden><button type="button" data-catalog-view="list" aria-pressed="true" aria-controls="results">☰ List</button><button type="button" data-catalog-view="grid" aria-pressed="false" aria-controls="results">▦ Grid</button></div><section class="results" id="results"></section></div>
 </div>
 </section>
 <section id="servicesPage"><section class="intro"><h1>Our Services</h1><p>Add professional installation to your cart.</p></section><div class="service-card"><div class="service-copy"><h2>CarPlay / Android Auto Installation</h2><p>Professional installation for your CarPlay or Android head unit.</p><div class="price">$200.00 CAD</div><div class="service-points">🔧 Professional installation<br>🛡️ Clean and safe wiring<br>✓ Compatible with most vehicles<br>🚗 Burlington / Hamilton area</div></div><button class="add-cart" onclick="addService()">🛒 &nbsp; Add to Cart</button></div><div class="service-card"><div class="service-copy"><h2>Dashcam Installation</h2><p>Professional dashcam installation with clean and safe wiring.</p><div class="price">$150.00 CAD</div><div class="service-points">📹 Dashcam installation<br>🔧 Clean cable routing<br>🛡️ Professional and safe wiring<br>🚗 Burlington / Hamilton area</div></div><button class="add-cart" onclick="addDashcamService()">🛒 &nbsp; Add to Cart</button></div></section>
@@ -223,6 +237,17 @@ const stock=[
 ];
 const allBrands=[...new Set(stock.map(x=>x[0]))].sort();
 const Y=document.querySelector("#year"),M=document.querySelector("#make"),D=document.querySelector("#model"),B=document.querySelector("#brands"),R=document.querySelector("#results");
+const viewControls=document.querySelector('#catalogViewControls');
+function setCatalogView(view){
+ const grid=view==='grid';R.classList.toggle('grid-view',grid);
+ viewControls.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.catalogView===(grid?'grid':'list'))));
+ try{localStorage.setItem('isc-catalog-view',grid?'grid':'list')}catch{}
+}
+let savedCatalogView='list';try{savedCatalogView=localStorage.getItem('isc-catalog-view')||'list'}catch{}
+setCatalogView(savedCatalogView);
+viewControls.addEventListener('click',e=>{const b=e.target.closest('button[data-catalog-view]');if(b)setCatalogView(b.dataset.catalogView)});
+new MutationObserver(()=>{viewControls.hidden=!R.querySelector('.card')}).observe(R,{childList:true});
+
 let cart=[];
 function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
@@ -251,7 +276,7 @@ allBrands.forEach(b=>{const x=document.createElement("button");x.className="bran
 const T=document.querySelector("#productTree");
 const physicalCodes=[...new Set(stock.flatMap(x=>(x[7]||"").split(" / ").filter(Boolean)))];
 document.querySelector("#totalQty").textContent=physicalCodes.length;
-allBrands.forEach(b=>{const wrap=document.createElement("div"),brandItems=stock.filter(x=>x[0]===b);const btn=document.createElement("button");btn.className="tree-brand";btn.innerHTML='<span>+ '+b+'</span><span class="tree-count">'+brandItems.length+'</span>';const models=document.createElement("div");models.style.display="none";[...new Set(brandItems.map(x=>x[1]))].sort().forEach(m=>{const modelItems=brandItems.filter(x=>x[1]===m);const mb=document.createElement("button");mb.className="tree-model";mb.innerHTML='<span>'+m+'</span> <span class="tree-count">'+modelItems.length+'</span>';mb.onclick=()=>{M.value=b;Y.value="";loadModels();D.value=m;render();setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)};models.appendChild(mb)});btn.onclick=()=>{const open=models.style.display!=="none";models.style.display=open?"none":"block";btn.querySelector("span").textContent=(open?"+ ":"− ")+b};wrap.append(btn,models);T.appendChild(wrap)});
+allBrands.forEach(b=>{const wrap=document.createElement("div"),brandItems=stock.filter(x=>x[0]===b);const btn=document.createElement("button");btn.className="tree-brand";btn.innerHTML='<span>+ '+b+'</span><span class="tree-count">'+brandItems.length+'</span>';const models=document.createElement("div");models.style.display="none";[...new Set(brandItems.map(x=>x[1]))].sort().forEach(m=>{const modelItems=brandItems.filter(x=>x[1]===m);const mb=document.createElement("button");mb.className="tree-model";mb.innerHTML='<span>'+m+'</span> <span class="tree-count">'+modelItems.length+'</span>';mb.onclick=()=>{M.value=b;Y.value="";loadModels();D.value=m;render();setTimeout(()=>viewControls.scrollIntoView({behavior:"smooth",block:"start"}),50)};models.appendChild(mb)});btn.onclick=()=>{const open=models.style.display!=="none";models.style.display=open?"none":"block";btn.querySelector("span").textContent=(open?"+ ":"− ")+b};wrap.append(btn,models);T.appendChild(wrap)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
