@@ -140,6 +140,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Nissan","Altima",2013,2018,'9"',"8CORE • 2GB/32GB",170.00,"CR058"],
 ["Honda","CR-V",2012,2016,'10"',"4CORE • 2GB/64GB",160.00,"CR057"],
 ["Dodge","Durango",2014,2020,'9"',"4CORE • 2GB/64GB",210.00,"CR056"],
 ["Nissan","Sylphy",2012,2018,'10"',"4CORE • 2GB/32GB",150.00,"CR055"],
@@ -205,7 +206,7 @@ const stock=[
 ["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/32GB",150.00,"CR008 / CR009 / CR010"],
 ["Toyota","RAV4",2013,2019,'10.1"',"4GB/64GB",175.00,"CR006","sold"],
 ["Toyota","Tacoma",2005,2013,'10"',"8-Core • 2GB/32GB",250.00,"CR007"],
-["Nissan","Altima",2013,2018,'9"',"2GB/32GB",150.00,"CR018"],
+["Nissan","Altima",2013,2018,'9"',"4CORE • 2GB/32GB",150.00,"CR018"],
 ["Nissan","Altima / Teana",2013,2018,'10"',"Quad-Core • 2GB/64GB",150.00,"CR012"],
 ["Nissan","Versa Sedan",2015,2019,'10"',"2GB/32GB",150.00,"CR013"],
 ["Nissan","Frontier",2005,2008,'7"',"2GB/32GB",150.00,"CR015 / CR016 / CR017"],
@@ -284,6 +285,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR058:["images/CR018/01.png","images/CR018/02.avif","images/CR018/03.avif","images/CR018/04.avif","images/CR018/05.avif","images/CR018/06.avif","images/CR018/07.avif","images/CR018/08.avif"],
  CR057:["images/CR057/01.jpg","images/CR057/02.jpg","images/CR057/03.jpg","images/CR057/04.jpg","images/CR057/05.jpg","images/CR057/06.jpg","images/CR057/07.jpg","images/CR057/08.jpg"],
  CR056:["images/CR056/01.png","images/CR056/02.jpg","images/CR056/03.jpg","images/CR056/04.jpg","images/CR056/05.jpg","images/CR056/06.jpg","images/CR056/07.jpg","images/CR056/08.jpg"],
  CR055:["images/CR055/01.png","images/CR055/02.jpg","images/CR055/03.jpg","images/CR055/04.jpg","images/CR055/05.jpg","images/CR055/06.jpg","images/CR055/07.jpg","images/CR055/08.jpg"],
