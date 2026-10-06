@@ -141,6 +141,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Honda","CR-Z",2010,2016,'9"',"4CORE • 2GB/64GB",150.00,"CR065"],
 ["Jeep","Grand Cherokee",2014,2022,"8.4\"","8CORE • 2GB/32GB • Factory 8.4″ screen only",200,"CR061"],
 ["Jeep","Wrangler",2018,2020,"8.4\"","8CORE • 2GB/32GB • Factory 8.4″ screen only",200,"CR061"],
 ["Jeep","Compass",2018,2020,"8.4\"","8CORE • 2GB/32GB • Factory 8.4″ screen only",200,"CR061"],
@@ -302,6 +303,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR065:["images/CR065/01.png","images/CR065/02.jpg","images/CR065/03.jpg","images/CR065/04.jpg","images/CR065/05.jpg","images/CR065/06.jpg","images/CR065/07.jpg","images/CR065/08.jpg"],
  CR061:["images/CR061/01.jpg","images/CR061/02.jpg","images/CR061/03.jpg","images/CR061/04.jpg","images/CR061/05.jpg","images/CR061/06.jpg","images/CR061/07.jpg","images/CR061/08.jpg"],
  CR060:["images/CR060/01.png","images/CR060/02.jpg","images/CR060/03.jpg","images/CR060/04.jpg","images/CR060/05.jpg","images/CR060/06.jpg","images/CR060/07.jpg","images/CR060/08.jpg"],
  CR059:["images/CR059/01.png","images/CR059/02.jpg","images/CR059/03.jpg","images/CR059/04.jpg","images/CR059/05.jpg","images/CR059/06.jpg","images/CR059/07.jpg","images/CR059/08.jpg"],
