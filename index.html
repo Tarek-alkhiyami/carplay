@@ -141,6 +141,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Ford","Escape",2013,2019,'9"',"8CORE • 4GB/64GB",280.00,"CR067"],
 ["Dodge","Grand Caravan",2011,2013,"9.7\"","4CORE • 2GB/32GB",180,"CR066"],
 ["Jeep","Patriot",2009,2014,"9.7\"","4CORE • 2GB/32GB",180,"CR066"],
 ["Jeep","Liberty",2008,2011,"9.7\"","4CORE • 2GB/32GB",180,"CR066"],
@@ -319,6 +320,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+ CR067:["images/CR021/01.png","images/CR021/02.jpg","images/CR021/03.jpg","images/CR021/04.jpg","images/CR021/05.jpg","images/CR021/06.jpg","images/CR021/07.jpg","images/CR021/08.jpg"],
  CR066:["images/CR066/01.jpg","images/CR066/02.jpg","images/CR066/03.jpg","images/CR066/04.jpg","images/CR066/05.jpg","images/CR066/06.jpg","images/CR066/07.jpg","images/CR066/08.jpg"],
  CR065:["images/CR065/01.png","images/CR065/02.jpg","images/CR065/03.jpg","images/CR065/04.jpg","images/CR065/05.jpg","images/CR065/06.jpg","images/CR065/07.jpg","images/CR065/08.jpg"],
  CR061:["images/CR061/01.jpg","images/CR061/02.jpg","images/CR061/03.jpg","images/CR061/04.jpg","images/CR061/05.jpg","images/CR061/06.jpg","images/CR061/07.jpg","images/CR061/08.jpg"],
