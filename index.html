@@ -224,7 +224,7 @@ const stock=[
 ["Toyota","Yaris",2006,2011,"9\"","4CORE • 4GB/64GB",150,"CR101"],
 ["Toyota","Prius",2010,2015,"9\"","4CORE • 4GB/64GB",170,"CR102"],
 ["Toyota","RAV4",2006,2012,"9\"","4CORE • 4GB/64GB",120,"CR103"],
-["Toyota","RAV4",2013,2018,"10.1\"","4CORE • 4GB/64GB",175,"CR104"],
+["Toyota","RAV4",2013,2018,"10.1\"","4CORE • 4GB/64GB",175,"CR104 / CR006","",["CR006"]],
 ["Toyota","Tacoma",2005,2015,"9.7\"","4CORE • 2GB/32GB",180,"CR105"],
 ["Toyota","Venza",2008,2016,'9"',"4CORE • 4GB/64GB",175.00,"CR051"],
 ["Chevrolet","Cobalt",2007,2010,'10"',"4CORE • 2GB/32GB",170.00,"CR050"],
@@ -270,7 +270,6 @@ const stock=[
 ["Toyota","Corolla",2009,2013,'9"',"Quad-Core • 1GB/32GB",175.00,"CR005"],
 ["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/64GB",160.00,"CR011"],
 ["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/32GB",150.00,"CR008 / CR009 / CR010"],
-["Toyota","RAV4",2013,2019,'10.1"',"4GB/64GB",175.00,"CR006","sold"],
 ["Toyota","Tacoma",2005,2013,'10"',"8-Core • 2GB/32GB",250.00,"CR007"],
 ["Nissan","Altima",2013,2018,'9"',"4CORE • 2GB/32GB",150.00,"CR018"],
 ["Nissan","Altima / Teana",2013,2018,'10"',"Quad-Core • 2GB/64GB",150.00,"CR012"],
@@ -368,7 +367,7 @@ const productImages={
 "CR101":["images/CR101/01.avif","images/CR101/02.jpeg","images/CR101/03.avif","images/CR101/04.avif","images/CR101/05.avif","images/CR101/06.jpg","images/CR101/07.jpg","images/CR101/08.jpg"],
 "CR102":["images/CR102/01.jpg","images/CR102/02.jpg","images/CR102/03.jpg","images/CR102/04.jpg","images/CR102/05.jpg","images/CR102/06.jpg","images/CR102/07.jpg","images/CR102/08.jpg"],
 "CR103":["images/CR103/01.jpg","images/CR103/02.jpg","images/CR103/03.jpg","images/CR103/04.jpg","images/CR103/05.jpg","images/CR103/06.jpg","images/CR103/07.jpg","images/CR103/08.jpg"],
-"CR104":["images/CR104/01.jpg","images/CR104/02.jpg","images/CR104/03.jpg","images/CR104/04.jpg","images/CR104/05.jpg","images/CR104/06.jpg","images/CR104/07.jpg","images/CR104/08.jpg"],
+"CR104 / CR006":["images/CR104/01.jpg","images/CR104/02.jpg","images/CR104/03.jpg","images/CR104/04.jpg","images/CR104/05.jpg","images/CR104/06.jpg","images/CR104/07.jpg","images/CR104/08.jpg"],
 "CR105":["images/CR105/01.png","images/CR105/02.webp","images/CR105/03.webp","images/CR105/04.webp","images/CR105/05.webp","images/CR105/06.webp","images/CR105/07.webp","images/CR105/08.jpg"],
 "CR088":["images/CR088/01.jpg","images/CR088/02.jpg","images/CR088/03.jpg","images/CR088/04.jpg","images/CR088/05.jpg","images/CR088/06.jpg","images/CR088/07.jpg"],
 "CR089":["images/CR089/01.webp","images/CR089/02.webp","images/CR089/04.webp","images/CR089/05.webp","images/CR089/06.webp","images/CR089/07.webp","images/CR089/08.webp"],
@@ -513,8 +512,9 @@ function card(x,detail=false){
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
  const sold=x[8]==='sold';
- const available=codes.split(' / ').filter(Boolean).length;
- const availability=!sold && available>1?'<div class="muted"><b>'+available+' available</b></div>':'';
+ const soldCodes=Array.isArray(x[9])?x[9]:[];
+ const available=codes.split(' / ').filter(Boolean).length-soldCodes.length;
+ const availability=!sold && (available>1||soldCodes.length)?'<div class="muted"><b>'+available+' available'+(soldCodes.length?' · '+soldCodes.length+' sold ('+soldCodes.join(', ')+')':'')+'</b></div>':'';
  const button=sold?'<span class="sold-label">SOLD</span>':priced?'<button class="add-cart" data-key="'+key+'" onclick="addProduct(this.dataset.key)">🛒 &nbsp; Add to Cart</button>':'';
  const name=x[0]+' '+x[1];
  const detailPath=encodeURIComponent(codes)+(stock.filter(item=>item[7]===codes).length>1?'/'+encodeURIComponent(name):'');
