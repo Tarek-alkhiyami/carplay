@@ -180,6 +180,12 @@ const stock=[
 ["Chrysler","300 / 300C / 300S",2011,2023,"8.4\"","8CORE • 2GB/32GB • Factory 8.4″ screen only",200,"CR061","sold"],
 ["Chrysler","200 / 200C",2015,2020,"8.4\"","8CORE • 2GB/32GB • Factory 8.4″ screen only",200,"CR061","sold"],
 ["Nissan","Rogue / X-Trail / Qashqai",2014,2018,'10.1"',"4CORE • 2GB/32GB",150.00,"CR059"],
+["Hyundai","Elantra",2004,2010,"9\"","4CORE • 4GB/64GB",120,"CR081"],
+["Hyundai","Elantra",2011,2016,"9\"","4CORE • 4GB/64GB",150,"CR082 / CR083"],
+["Hyundai","Elantra",2017,2018,"9.7\"","4CORE • 2GB/32GB",180,"CR084"],
+["Hyundai","Tucson / ix35",2010,2015,"9.7\"","4CORE • 2GB/32GB",150,"CR085"],
+["Hyundai","Santa Fe",2006,2012,"9.7\"","4CORE • 4GB/64GB",200,"CR086"],
+["Hyundai","IX45 / Santa Fe",2013,2018,"9\"","4CORE • 4GB/64GB",180,"CR087"],
 ["Hyundai","IX45 / Santa Fe",2013,2018,'9"',"4CORE • 2GB/32GB",200.00,"CR060"],
 ["Nissan","Altima",2013,2018,'9"',"8CORE • 2GB/32GB",170.00,"CR058"],
 ["Honda","CR-V",2012,2016,'10"',"4CORE • 2GB/64GB",160.00,"CR057"],
@@ -329,6 +335,12 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+"CR081":["images/CR081/01.jpg","images/CR081/02.jpg","images/CR081/03.jpg","images/CR081/04.jpg","images/CR081/05.jpg","images/CR081/06.jpg","images/CR081/07.jpg","images/CR081/08.jpg"],
+"CR082 / CR083":["images/CR082/01.jpg","images/CR082/02.jpg","images/CR082/03.jpg","images/CR082/04.jpg","images/CR082/05.jpg","images/CR082/06.jpg","images/CR082/07.jpg","images/CR082/08.jpg"],
+"CR084":["images/CR084/01.jpg","images/CR084/02.png","images/CR084/03.png","images/CR084/04.jpg","images/CR084/05.jpg","images/CR084/06.jpg","images/CR084/07.jpg","images/CR084/08.jpg"],
+"CR085":["images/CR085/01.png","images/CR085/02.jpg","images/CR085/03.jpg","images/CR085/04.jpg","images/CR085/05.jpg","images/CR085/06.jpg","images/CR085/07.jpg","images/CR085/08.jpg"],
+"CR086":["images/CR086/01.png","images/CR086/02.jpg","images/CR086/03.jpg","images/CR086/04.jpg","images/CR086/05.jpg","images/CR086/06.jpg","images/CR086/07.jpg","images/CR086/08.jpg"],
+"CR087":["images/CR087/01.jpg","images/CR087/02.jpg","images/CR087/03.jpg","images/CR087/04.jpg","images/CR087/05.jpg","images/CR087/06.jpg","images/CR087/07.jpg","images/CR087/08.jpg"],
 "CR071":["images/CR071/01.webp","images/CR071/02.jpg","images/CR071/03.jpg","images/CR071/04.jpg"],
 "CR072":["images/CR072/01.jpg?v=8237fc0a","images/CR072/02.jpg","images/CR072/03.jpg","images/CR072/04.jpg","images/CR072/05.jpg","images/CR072/06.jpg","images/CR072/07.jpg","images/CR072/08.jpg"],
 "CR073 / CR074":["images/CR073/01.jpg","images/CR073/02.jpg","images/CR073/03.jpg","images/CR073/04.jpg","images/CR073/05.jpg"],
