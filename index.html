@@ -242,6 +242,8 @@ const stock=[
 ["Chevrolet","Equinox (1st gen)",2005,2009,"8\"","4CORE • 2GB/32GB",150,"CR047"],
 ["Chevrolet","HHR (SS / LT / Panel / LS)",2006,2011,"8\"","4CORE • 2GB/32GB",150,"CR047"],
 ["Chevrolet","Monte Carlo (7th gen)",2006,2007,"8\"","4CORE • 2GB/32GB",150,"CR047"],
+["Mazda","3",2004,2009,"9\"","4CORE • 4GB/64GB",160,"CR106"],
+["Mazda","3",2010,2013,"9\"","4CORE • 4GB/64GB",160,"CR107"],
 ["Mazda","6 III GL / GJ",2012,2017,'9"',"4CORE • 2GB/64GB",180.00,"CR046"],
 ["Audi","A3 / S3 / RS3",2003,2012,'9" IPS',"4CORE • 2GB/32GB",180.00,"CR044 / CR062"],
 ["Mercedes-Benz","W204 / S204 / C300",2007,2010,'9.7"',"2GB/32GB",200.00,"CR043"],
@@ -353,6 +355,8 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+"CR106":["images/CR106/01.jpg","images/CR106/02.jpg","images/CR106/03.jpg","images/CR106/04.jpg","images/CR106/05.jpg","images/CR106/06.jpg","images/CR106/07.jpg","images/CR106/08.jpg"],
+"CR107":["images/CR107/01.jpg","images/CR107/02.jpg","images/CR107/03.jpg","images/CR107/04.jpg","images/CR107/05.jpg","images/CR107/06.jpg","images/CR107/07.jpg","images/CR107/08.jpg"],
 "CR093":["images/CR093/01.jpg","images/CR093/02.jpg","images/CR093/03.jpg","images/CR093/04.jpg","images/CR093/05.jpg","images/CR093/06.jpg","images/CR093/07.jpg"],
 "CR094":["images/CR094/01.jpg","images/CR094/02.jpg","images/CR094/03.jpg","images/CR094/04.jpg","images/CR094/05.jpg","images/CR094/06.jpg","images/CR094/07.jpg","images/CR094/08.jpg"],
 "CR095":["images/CR095/01.jpg","images/CR095/02.jpg","images/CR095/03.jpg","images/CR095/04.jpg","images/CR095/05.jpg","images/CR095/06.jpg","images/CR095/07.jpg","images/CR095/08.jpg"],
