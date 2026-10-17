@@ -141,6 +141,10 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 </dialog>
 <script>
 const stock=[
+["Kia","Forte / K3 / Cerato",2013,2018,"9\"","4CORE • 4GB/64GB",150,"CR088"],
+["Kia","Forte / K4 / Cerato",2012,2016,"9\"","4CORE • 4GB/64GB",175,"CR089"],
+["Kia","Sportage",2010,2016,"9\"","4CORE • 4GB/64GB",180,"CR090"],
+["Kia","Sportage",2016,2022,"9.7\"","4CORE • 2GB/32GB",200,"CR091 / CR092"],
 ["Ford","Escape",2013,2019,'9"',"8CORE • 4GB/64GB",280.00,"CR067"],
 ["Dodge","Grand Caravan",2011,2013,"9.7\"","4CORE • 2GB/32GB",180,"CR066"],
 ["Jeep","Patriot",2009,2014,"9.7\"","4CORE • 2GB/32GB",180,"CR066"],
@@ -335,6 +339,10 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+"CR088":["images/CR088/01.jpg","images/CR088/02.jpg","images/CR088/03.jpg","images/CR088/04.jpg","images/CR088/05.jpg","images/CR088/06.jpg","images/CR088/07.jpg"],
+"CR089":["images/CR089/01.webp","images/CR089/02.webp","images/CR089/04.webp","images/CR089/05.webp","images/CR089/06.webp","images/CR089/07.webp","images/CR089/08.webp"],
+"CR090":["images/CR090/01.png","images/CR090/02.jpg","images/CR090/03.jpg","images/CR090/04.jpg","images/CR090/05.jpg","images/CR090/06.jpg","images/CR090/07.jpg","images/CR090/08.jpg"],
+"CR091 / CR092":["images/CR091/01.jpg","images/CR091/02.jpg","images/CR091/03.jpg","images/CR091/04.jpg","images/CR091/06.jpg","images/CR091/07.jpg"],
 "CR081":["images/CR081/01.jpg","images/CR081/02.jpg","images/CR081/03.jpg","images/CR081/04.jpg","images/CR081/05.jpg","images/CR081/06.jpg","images/CR081/07.jpg","images/CR081/08.jpg"],
 "CR082 / CR083":["images/CR082/01.jpg?v=648029bf","images/CR082/02.jpg","images/CR082/03.jpg","images/CR082/04.jpg","images/CR082/05.jpg","images/CR082/06.jpg","images/CR082/07.jpg","images/CR082/08.jpg"],
 "CR084":["images/CR084/01.jpg","images/CR084/02.png","images/CR084/03.png","images/CR084/04.jpg","images/CR084/05.jpg","images/CR084/06.jpg","images/CR084/07.jpg","images/CR084/08.jpg"],
