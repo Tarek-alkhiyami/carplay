@@ -380,8 +380,24 @@ function card(x,detail=false){
  const detailPath=encodeURIComponent(codes)+(stock.filter(item=>item[7]===codes).length>1?'/'+encodeURIComponent(name):'');
  const title=productImages[codes]?'<a class="product-name" href="#product/'+detailPath+'"><b>'+name+'</b></a>':'<b>'+name+'</b>';
  const photo=detail!==true && productImages[codes]?'<a class="card-photo" href="#product/'+detailPath+'" aria-label="View '+name+' photos"><img src="'+productImages[codes][0]+'" alt="'+name+'" loading="lazy" decoding="async"></a>':'';
- return '<div class="card'+(photo?' card-with-photo':'')+'">'+photo+'<div class="card-info">'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div>'+availability+'<div class="price">'+price+'</div></div>'+button+'</div>';
+ return '<div class="card'+(photo?' card-with-photo':'')+'">'+photo+'<div class="card-info">'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div>'+availability+'<div class="price">'+price+'</div></div>'+'<div class="product-actions">'+button+'<button type="button" class="share-product" data-key="'+key+'" onclick="shareProduct(this)" aria-label="Share product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m9 10 6-4M9 14l6 4"/></svg><span>Share</span></button></div></div>';
 }
+
+async function shareProduct(button){
+ const x=JSON.parse(decodeURIComponent(button.dataset.key));
+ const path=productImages[x[7]]?'/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/':'/#product/'+encodeURIComponent(x[7]);
+ const url='https://isc-carplay.ca'+path;
+ const title=x[0]+' '+x[1]+' '+x[2]+'–'+x[3]+' | ISC CarPlay';
+ if(navigator.share){
+  try{await navigator.share({title,url});return;}catch(error){if(error.name==='AbortError')return;}
+ }
+ try{
+  await navigator.clipboard.writeText(url);
+  const label=button.querySelector('span');label.textContent='Copied!';
+  setTimeout(()=>{label.textContent='Share';},2500);
+ }catch(error){window.prompt('Copy this product link:',url);}
+}
+
 function updateCart(){try{sessionStorage.setItem('isc-cart',JSON.stringify(cart))}catch(e){}document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
 function openCart(){renderCart();document.querySelector("#cartModal").style.display="block"}
