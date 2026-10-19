@@ -180,7 +180,8 @@ setCatalogView(savedCatalogView);
 viewControls.addEventListener('click',e=>{const b=e.target.closest('button[data-catalog-view]');if(b)setCatalogView(b.dataset.catalogView)});
 new MutationObserver(()=>{viewControls.hidden=!R.querySelector('.card')}).observe(R,{childList:true});
 
-let cart=[];try{cart=JSON.parse(sessionStorage.getItem('isc-cart')||'[]')}catch(e){}
+let cart=[];try{const saved=JSON.parse(sessionStorage.getItem('isc-cart')||'[]');if(Array.isArray(saved))cart=saved;}catch{}
+
 function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(x=>opt(M,x));
@@ -398,7 +399,7 @@ async function shareProduct(button){
  }catch(error){window.prompt('Copy this product link:',url);}
 }
 
-function updateCart(){try{sessionStorage.setItem('isc-cart',JSON.stringify(cart))}catch(e){}document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
+function updateCart(){try{sessionStorage.setItem('isc-cart',JSON.stringify(cart))}catch{};document.querySelector("#cartCount").textContent=cart.reduce((n,x)=>n+(x.qty||1),0)}
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
 function openCart(){renderCart();document.querySelector("#cartModal").style.display="block"}
 function closeCart(){document.querySelector("#cartModal").style.display="none"}
@@ -418,23 +419,32 @@ function quoteLines(items){
   return item.qty+' × '+row[0]+' '+row[1]+' '+row[2]+'–'+row[3]+' ['+codes.slice(0,item.qty).join(' / ')+'] — $'+(row[6]*item.qty).toFixed(2)+' CAD';
  });
 }
-function requestQuote(event){
- event.preventDefault();
- const error=document.querySelector('#quoteError');error.textContent='';
+const CHECKOUT_API='https://isc-carplay-checkout.mr1world2wide.workers.dev';
+async function startCheckout(event){
+ event.preventDefault();const error=document.querySelector('#quoteError'),button=event.submitter;error.textContent='';
  try{
-  if(!cart.length)throw new Error('Add an item to your cart first.');
-  const lines=quoteLines(cart),get=id=>document.getElementById(id).value.trim();
-
-  const message=['Hello ISC CarPlay, I would like to pay for a pickup order.','Name: '+get('quoteName'),...lines,
-   'Local pickup: 460 Dundas St E, Waterdown, ON L8B 2A5',
-   'Subtotal: $'+cart.reduce((s,x)=>s+x.price*x.qty,0).toFixed(2)+' CAD',
-   'HST (13%): $'+(Math.round(cart.reduce((s,x)=>s+x.price*x.qty,0)*100)*0.13/100).toFixed(2)+' CAD',
-   get('quoteNotes')?'Vehicle / notes: '+get('quoteNotes'):'',
-   'Please confirm availability and pickup time, and send a secure Stripe payment link including 13% HST.'].filter(Boolean).join('\n');
-  if(message.length>6000)throw new Error('Please request a quote for fewer items at once.');
-  window.open('https://wa.me/19056382020?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
- }catch(e){error.textContent=e.message;}
+  quoteLines(cart);if(!cart.length)throw new Error('Your cart is empty.');
+  const items=cart.map(x=>({key:x.key,qty:x.qty}));const fingerprint=JSON.stringify(items);
+  let pending;try{pending=JSON.parse(sessionStorage.getItem('isc-checkout')||'null')}catch{}
+  if(!pending||pending.fingerprint!==fingerprint)pending={id:crypto.randomUUID(),fingerprint};
+  sessionStorage.setItem('isc-checkout',JSON.stringify(pending));updateCart();button.disabled=true;button.textContent='Opening secure payment…';
+  const res=await fetch(CHECKOUT_API+'/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requestId:pending.id,items}),signal:AbortSignal.timeout(25000)});
+  const data=await res.json();if(!res.ok){if(res.status===409)sessionStorage.removeItem('isc-checkout');throw new Error(data.error||'Payment is unavailable. Please try again.');}
+  const target=new URL(data.url);if(target.origin!=='https://checkout.stripe.com')throw new Error('Unexpected payment address.');
+  location.assign(target.href);
+ }catch(e){error.textContent=e.name==='TimeoutError'?'Connection timed out. Please try again.':e.message;button.disabled=false;button.textContent='Pay now';}
 }
+async function checkPaymentReturn(){
+ const query=new URLSearchParams(location.search);if(!query.has('checkout'))return;
+ const panel=document.createElement('div');panel.className='notice';panel.setAttribute('role','status');document.querySelector('main').prepend(panel);
+ if(query.get('checkout')==='cancelled'){panel.textContent='Payment was not completed. Your cart is saved.';updateCart();return;}
+ panel.textContent='Checking payment…';
+ try{const res=await fetch(CHECKOUT_API+'/status?session_id='+encodeURIComponent(query.get('session_id')||''),{signal:AbortSignal.timeout(25000)});const data=await res.json();if(!res.ok)throw Error();
+ if(data.paid){panel.textContent='Payment received: $'+(data.total/100).toFixed(2)+' CAD. Pickup: 460 Dundas St E, Waterdown, ON L8B 2A5. Call 905-638-2020 to arrange a time.';cart=[];sessionStorage.removeItem('isc-checkout');updateCart();}
+ else{panel.textContent='Payment is not confirmed yet. Please check your Stripe receipt or call 905-638-2020 before trying again.';}
+ }catch{panel.textContent='Unable to confirm payment right now. Please check your Stripe receipt or call 905-638-2020 before paying again.';}
+}
+updateCart();checkPaymentReturn();
 
 function renderCart(){
  const b=document.querySelector("#cartItems"),t=document.querySelector("#cartTotal");

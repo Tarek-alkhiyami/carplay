@@ -13,14 +13,13 @@ const files=[];const write=(p,c)=>{fs.mkdirSync(path.dirname(path.join(out,p)),{
 // Keep index.html as the authoritative inventory and original application.
 const css=source.match(/<style>([\s\S]*?)<\/style>/)[1];
 write('assets/catalog.css',css);
+write('checkout-catalog.json',JSON.stringify(stock));
 let js=source.match(/<script>([\s\S]*?)<\/script>/)[1];
 const productUrlCode=`function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}`;
 js=productUrlCode+'\n'+js;
 js=js.replace(" if(!location.hash.startsWith(prefix)){"," if(!location.hash.startsWith(prefix) && !location.pathname.startsWith('/products/')){");
 js=js.replace(' const item=stock.find(x=>',' const item=location.pathname.startsWith(\'/products/\')?stock.find(x=>productUrl(x)===location.pathname):stock.find(x=>');
 js=js.replace('if(location.hash.startsWith("#product/"))history.replaceState(null,"","#"+page);','if(location.pathname!=="/"||location.hash.startsWith("#product/"))history.replaceState(null,"","/#"+page);');
-js=js.replace('let cart=[];',"let cart=[];try{cart=JSON.parse(sessionStorage.getItem('isc-cart')||'[]')}catch(e){}");
-js=js.replace('function updateCart(){','function updateCart(){try{sessionStorage.setItem(\'isc-cart\',JSON.stringify(cart))}catch(e){}');
 js+='\nupdateCart();\nif(location.pathname===\'/services/\')showPage(\'services\');if(location.pathname===\'/about/\')showPage(\'about\');';
 new vm.Script(js);write('assets/catalog.js',js);
 const funcs=vm.runInNewContext('(function(){'+source.match(/function productGallery\(code,item\)\{[\s\S]*?\n\}/)[0]+source.match(/function card\(x,detail=false\)\{[\s\S]*?\n\}/)[0]+';return {card,productGallery};})()', {stock,productImages:images});
@@ -48,3 +47,4 @@ write('index.html',source);
 const urls=['/','/services/','/about/',...items.map(slug)];write('sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+urls.map(u=>'<url><loc>'+origin+u+'</loc></url>').join('\n')+'</urlset>');
 write('robots.txt','User-agent: *\nAllow: /\n\nSitemap: '+origin+'/sitemap.xml\n');
 fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify(files));console.log(JSON.stringify({products:items.length,files:files.length,urls:urls.length}));
+

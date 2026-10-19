@@ -1,0 +1,35 @@
+{
+  "name": "isc-carplay-checkout",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-18",
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ORDERS",
+        "class_name": "PickupOrders"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "PickupOrders"
+      ]
+    }
+  ],
+  "vars": {
+    "SITE_ORIGIN": "https://isc-carplay.ca",
+    "PAYMENTS_ENABLED": "true"
+  },
+  "ratelimits": [
+    {
+      "name": "CHECKOUT_LIMITER",
+      "namespace_id": "26101801",
+      "simple": {
+        "limit": 30,
+        "period": 60
+      }
+    }
+  ]
+}
