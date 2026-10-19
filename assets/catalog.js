@@ -403,11 +403,7 @@ function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{it
 function openCart(){renderCart();document.querySelector("#cartModal").style.display="block"}
 function closeCart(){document.querySelector("#cartModal").style.display="none"}
 
-function updateQuoteDelivery(){
- const shipping=document.querySelector('#quoteDelivery').value==='shipping';
- document.querySelector('#quoteShipping').hidden=!shipping;
- for(const id of ['quoteCity','quoteProvince','quotePostal'])document.getElementById(id).required=shipping;
-}
+
 function quoteLines(items){
  const used=new Set();
  return items.map(item=>{
@@ -428,11 +424,13 @@ function requestQuote(event){
  try{
   if(!cart.length)throw new Error('Add an item to your cart first.');
   const lines=quoteLines(cart),get=id=>document.getElementById(id).value.trim();
-  const shipping=get('quoteDelivery')==='shipping';
-  const message=['Hello ISC CarPlay, I would like a final quote.','Name: '+get('quoteName'),...lines,
-   shipping?'Delivery: Canada Post to '+get('quoteCity')+', '+get('quoteProvince')+' '+get('quotePostal').toUpperCase():'Delivery: Local pickup in Waterdown, ON',
+
+  const message=['Hello ISC CarPlay, I would like to pay for a pickup order.','Name: '+get('quoteName'),...lines,
+   'Local pickup: 460 Dundas St E, Waterdown, ON L8B 2A5',
+   'Subtotal: $'+cart.reduce((s,x)=>s+x.price*x.qty,0).toFixed(2)+' CAD',
+   'HST (13%): $'+(Math.round(cart.reduce((s,x)=>s+x.price*x.qty,0)*100)*0.13/100).toFixed(2)+' CAD',
    get('quoteNotes')?'Vehicle / notes: '+get('quoteNotes'):'',
-   'Please confirm availability, shipping, applicable taxes and the final CAD total. After I approve the quote, please send a secure Stripe payment link.'].filter(Boolean).join('\n');
+   'Please confirm availability and pickup time, and send a secure Stripe payment link including 13% HST.'].filter(Boolean).join('\n');
   if(message.length>6000)throw new Error('Please request a quote for fewer items at once.');
   window.open('https://wa.me/19056382020?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
  }catch(e){error.textContent=e.message;}
@@ -444,7 +442,8 @@ function renderCart(){
  if(!cart.length){b.innerHTML='<div class="empty">Your cart is empty.</div>';t.innerHTML='';return;}
  b.innerHTML=cart.map((x,i)=>'<div class="cart-item"><div class="cart-line"><b>'+x.name+'</b><b>$'+(x.price*x.qty).toFixed(2)+' CAD</b></div><div class="cart-actions"><button onclick="qty('+i+',-1)">−</button><b>'+x.qty+'</b><button onclick="qty('+i+',1)">+</button><button class="remove" onclick="removeItem('+i+')">Remove</button></div></div>').join('');
  const total=cart.reduce((s,x)=>s+x.price*x.qty,0);
- t.innerHTML='<div class="cart-total"><span>Subtotal (before shipping &amp; tax)</span><span>$'+total.toFixed(2)+' CAD</span></div>';
+ const subtotalCents=Math.round(total*100),taxCents=Math.round(subtotalCents*0.13);
+ t.innerHTML='<div class="cart-total"><span>Subtotal</span><span>$'+total.toFixed(2)+' CAD</span></div><div class="cart-total"><span>HST (13%)</span><span>$'+(taxCents/100).toFixed(2)+' CAD</span></div><div class="cart-total"><span>Pickup</span><span>Free</span></div><div class="cart-total"><span>Total</span><span>$'+((subtotalCents+taxCents)/100).toFixed(2)+' CAD</span></div>';
 }
 function qty(i,d){cart[i].qty+=d;if(cart[i].qty<1)cart.splice(i,1);updateCart();renderCart();}
 function removeItem(i){cart.splice(i,1);updateCart();renderCart();}
