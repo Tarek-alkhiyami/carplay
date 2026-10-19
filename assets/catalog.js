@@ -492,7 +492,7 @@ async function requestChat(message,image){
   chatHistory.push("Customer: "+message,"Assistant: "+data.reply.trim());
   while(chatHistory.length>8)chatHistory.splice(0,2);
  }catch(error){
-  pending.textContent=error.name==="AbortError"?"The reply took too long. Please try again.":"Sorry, the assistant couldn't reply. Please try again or call 365-737-4556.";
+  pending.textContent=error.name==="AbortError"?"The reply took too long. Please try again.":"Sorry, the assistant couldn't reply. Please try again or call 905-638-2020.";
   const retry=document.createElement("button");retry.type="button";retry.textContent="Retry";
   retry.style.display="block";
   retry.onclick=async()=>{
