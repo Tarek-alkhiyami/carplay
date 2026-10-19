@@ -402,12 +402,49 @@ function updateCart(){try{sessionStorage.setItem('isc-cart',JSON.stringify(cart)
 function addItem(item){let f=cart.find(x=>x.key===item.key);if(f)f.qty++;else{item.qty=1;cart.push(item)}updateCart()}
 function openCart(){renderCart();document.querySelector("#cartModal").style.display="block"}
 function closeCart(){document.querySelector("#cartModal").style.display="none"}
+
+function updateQuoteDelivery(){
+ const shipping=document.querySelector('#quoteDelivery').value==='shipping';
+ document.querySelector('#quoteShipping').hidden=!shipping;
+ for(const id of ['quoteCity','quoteProvince','quotePostal'])document.getElementById(id).required=shipping;
+}
+function quoteLines(items){
+ const used=new Set();
+ return items.map(item=>{
+  if(!Number.isSafeInteger(item.qty)||item.qty<1||item.qty>10)throw new Error('Please check the quantities in your cart.');
+  if(item.key==='installation')return item.qty+' × CarPlay / Android Auto Installation — $'+(200*item.qty).toFixed(2)+' CAD';
+  if(item.key==='dashcam-installation')return item.qty+' × Dashcam Installation — $'+(150*item.qty).toFixed(2)+' CAD';
+  let row;try{const requested=JSON.parse(item.key.slice(2));row=stock.find(x=>JSON.stringify(x)===JSON.stringify(requested));}catch{}
+  if(!row||row[8]==='sold')throw new Error('An item changed or is sold out. Remove it and select an available product.');
+  const codes=row[7].split(' / ').filter(c=>!(row[9]||[]).includes(c)&&!used.has(c));
+  if(item.qty>codes.length)throw new Error('Not enough stock for '+row[0]+' '+row[1]+'. Please reduce the quantity.');
+  codes.slice(0,item.qty).forEach(c=>used.add(c));
+  return item.qty+' × '+row[0]+' '+row[1]+' '+row[2]+'–'+row[3]+' ['+codes.slice(0,item.qty).join(' / ')+'] — $'+(row[6]*item.qty).toFixed(2)+' CAD';
+ });
+}
+function requestQuote(event){
+ event.preventDefault();
+ const error=document.querySelector('#quoteError');error.textContent='';
+ try{
+  if(!cart.length)throw new Error('Add an item to your cart first.');
+  const lines=quoteLines(cart),get=id=>document.getElementById(id).value.trim();
+  const shipping=get('quoteDelivery')==='shipping';
+  const message=['Hello ISC CarPlay, I would like a final quote.','Name: '+get('quoteName'),...lines,
+   shipping?'Delivery: Canada Post to '+get('quoteCity')+', '+get('quoteProvince')+' '+get('quotePostal').toUpperCase():'Delivery: Local pickup in Waterdown, ON',
+   get('quoteNotes')?'Vehicle / notes: '+get('quoteNotes'):'',
+   'Please confirm availability, shipping, applicable taxes and the final CAD total. After I approve the quote, please send a secure Stripe payment link.'].filter(Boolean).join('\n');
+  if(message.length>6000)throw new Error('Please request a quote for fewer items at once.');
+  window.open('https://wa.me/19056382020?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
+ }catch(e){error.textContent=e.message;}
+}
+
 function renderCart(){
  const b=document.querySelector("#cartItems"),t=document.querySelector("#cartTotal");
+ document.querySelector("#quoteForm").hidden=!cart.length;
  if(!cart.length){b.innerHTML='<div class="empty">Your cart is empty.</div>';t.innerHTML='';return;}
  b.innerHTML=cart.map((x,i)=>'<div class="cart-item"><div class="cart-line"><b>'+x.name+'</b><b>$'+(x.price*x.qty).toFixed(2)+' CAD</b></div><div class="cart-actions"><button onclick="qty('+i+',-1)">−</button><b>'+x.qty+'</b><button onclick="qty('+i+',1)">+</button><button class="remove" onclick="removeItem('+i+')">Remove</button></div></div>').join('');
  const total=cart.reduce((s,x)=>s+x.price*x.qty,0);
- t.innerHTML='<div class="cart-total"><span>Total</span><span>$'+total.toFixed(2)+' CAD</span></div>';
+ t.innerHTML='<div class="cart-total"><span>Subtotal (before shipping &amp; tax)</span><span>$'+total.toFixed(2)+' CAD</span></div>';
 }
 function qty(i,d){cart[i].qty+=d;if(cart[i].qty<1)cart.splice(i,1);updateCart();renderCart();}
 function removeItem(i){cart.splice(i,1);updateCart();renderCart();}
