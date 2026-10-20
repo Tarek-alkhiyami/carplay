@@ -178,7 +178,13 @@ const stock=[
 ["Chevrolet","Impala",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
 ["Chevrolet","Tahoe",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
 ["GMC","Sierra",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
-["GMC","Yukon",2003,2006,'7"',"4GB/64GB",125.00,"CR027"],
+["GMC","Yukon",2002,2009,'7"',"4GB/64GB",125.00,"CR027"],
+["Chevrolet","Colorado",2004,2012,"7\"","4GB/64GB",125,"CR027"],
+["Chevrolet","Avalanche",2003,2006,"7\"","4GB/64GB",125,"CR027"],
+["Chevrolet","Suburban",2003,2006,"7\"","4GB/64GB",125,"CR027"],
+["Chevrolet","SSR",2003,2006,"7\"","4GB/64GB",125,"CR027"],
+["GMC","Canyon",2004,2012,"7\"","4GB/64GB",125,"CR027"],
+["Hummer","H2",2003,2007,"7\"","4GB/64GB",125,"CR027"],
 ["Dodge","Nitro",2007,2011,'7"',"2GB/64GB",150.00,"CR030"],
 ["Dodge","Grand Caravan",2008,2020,'7"',"2GB/32GB",200.00,"CR029"],
 ["Volkswagen","Rabbit Mk5",2006,2009,'9"',"2GB/32GB",150.00,"CR031"],
@@ -403,7 +409,7 @@ function card(x,detail=false){
  const cpuBadge=cpu?'<div class="memory-spec">'+chip+'<strong>'+cpu[0].replace(/\s+/g,'')+'</strong><span>CPU</span></div>':'';
  const memoryBadges=memory?'<div class="memory-specs">'+cpuBadge+'<div class="memory-spec">'+ramIcon+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
  const specs=cpu?remaining.replace(cpu[0],'').replace(/^[\s•·]+|[\s•·]+$/g,''):remaining;
- const compatibility=detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
+ const compatibility=detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
