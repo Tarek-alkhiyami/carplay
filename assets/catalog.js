@@ -129,6 +129,30 @@ const stock=[
 ["Hyundai","Sonata (Basic)",2010,2014,'9.7" IPS',"4-Core • 4GB/64GB",300.00,"CR003"],
 ["Toyota","Corolla",2009,2013,'9"',"Quad-Core • 1GB/32GB",175.00,"CR005"],
 ["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/64GB",160.00,"CR011"],
+["Toyota","RAV4",2001,2008,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Prado",1996,2009,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Vios",2003,2010,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Hilux",2001,2011,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Daihatsu","Terios",2006,2010,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Vitz",2003,2010,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Avanza",2003,2010,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Land Cruiser 100",1998,2007,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","4Runner",2002,2009,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Sequoia",2003,2007,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Tundra",2003,2006,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Camry",2002,2006,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","FJ Cruiser",2003,2010,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","RunX",2003,2006,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Previa",2006,2011,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Estima",2006,2011,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Tarago",2006,2011,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Echo",2000,2005,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Alphard",2008,2015,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Fortuner",2008,2011,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Soluna Vios",2003,2007,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Daihatsu","Be-go",2006,2012,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Perodua","Nautica",2006,2012,"7\"","4-Core • 2GB/64GB",160,"CR011"],
+["Toyota","Rush",2006,2012,"7\"","4-Core • 2GB/64GB",160,"CR011"],
 ["Toyota","Corolla",2009,2013,'7"',"4-Core • 2GB/32GB",150.00,"CR008 / CR009 / CR010"],
 ["Toyota","Tacoma",2005,2013,'10"',"8-Core • 2GB/32GB",250.00,"CR007"],
 ["Nissan","Altima",2013,2018,'9"',"4CORE • 2GB/32GB",150.00,"CR018"],
@@ -377,7 +401,7 @@ function card(x,detail=false){
  const cpuBadge=cpu?'<div class="memory-spec">'+chip+'<strong>'+cpu[0].replace(/\s+/g,'')+'</strong><span>CPU</span></div>':'';
  const memoryBadges=memory?'<div class="memory-specs">'+cpuBadge+'<div class="memory-spec">'+ramIcon+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
  const specs=cpu?remaining.replace(cpu[0],'').replace(/^[\s•·]+|[\s•·]+$/g,''):remaining;
- const compatibility=detail&&x[7]==="CR011"?"<section class=\"compatibility-details\"><h3>Vehicle compatibility</h3><p>Compatibility listed in the supplied product chart. Confirm your dashboard and connections before ordering.</p><ul><li>Toyota RAV4: 2001–2008</li><li>Toyota Prado: 1996–2009</li><li>Toyota Vios: 2003–2010</li><li>Toyota Hilux: 2001–2011</li><li>Daihatsu Terios: 2006–2010</li><li>Toyota Vitz / Avanza: 2003–2010</li><li>Toyota Land Cruiser 100: 1998–2007</li><li>Toyota 4Runner: 2002–2009</li><li>Toyota Sequoia: 2003–2007</li><li>Toyota Tundra: 2003–2006</li><li>Toyota Camry: 2002–2006</li><li>Toyota FJ Cruiser: 2003–2010</li><li>Toyota RunX: 2003–2006</li><li>Toyota Previa / Estima / Tarago: 2006–2011</li><li>Toyota Echo: 2000–2005</li><li>Toyota Alphard: 2008–2015</li><li>Toyota Fortuner: 2008–2011</li><li>Toyota Soluna Vios: 2003–2007</li><li>Daihatsu Be-go: 2006–2012</li><li>Perodua Nautica: 2006–2012</li><li>Toyota Rush: 2006–2012</li></ul><p><strong>Corolla: does not fit E12 (2000–2006).</strong></p><p>The chart also lists these models without year ranges: Toyota Kluger, Hiace, Innova, MR2, Crown, Allion, Auris, Highlander and Yaris.</p></section>":"";
+ const compatibility=detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
