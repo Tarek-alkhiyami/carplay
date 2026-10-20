@@ -649,11 +649,13 @@ function render(){
  panel.replaceChildren();panel.hidden=!(M.value||D.value);
  if(!panel.hidden){
   const heading=document.createElement('h2');heading.textContent=[M.value,D.value].filter(Boolean).join(' ');
-  const hint=document.createElement('p');hint.textContent='Select a year range to see available CarPlay screens.';
+  const hint=document.createElement('p');hint.textContent=D.value?'Select a year range to see available CarPlay screens.':'Select your model, then choose a year range.';
   const buttons=document.createElement('div');buttons.className='year-range-buttons';
+  const models=document.createElement('div');models.className='year-range-buttons';models.style.marginBottom='12px';models.setAttribute('aria-label','Select vehicle model');
+  [...new Set(stock.filter(x=>x[0]===M.value).map(x=>x[1]))].sort().forEach(model=>{const button=document.createElement('button');button.type='button';button.textContent=model;button.setAttribute('aria-pressed',String(D.value===model));button.onclick=()=>{D.value=model;Y.value='';activeYearRange='';render();};models.appendChild(button);});
   const ranges=[...new Set(base.map(x=>x[2]+'–'+x[3]))].sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b));
-  ['',...ranges].forEach(range=>{const button=document.createElement('button');button.type='button';button.textContent=range||'All Years';button.setAttribute('aria-pressed',String(range===(activeYearRange||'')));button.setAttribute('aria-controls','results');button.onclick=()=>{Y.value='';yearRangeContext=[M.value,D.value,''].join('|');activeYearRange=range;render();};buttons.appendChild(button);});
-  panel.append(heading,hint,buttons);
+  if(D.value)['',...ranges].forEach(range=>{const button=document.createElement('button');button.type='button';button.textContent=range||'All Years';button.setAttribute('aria-pressed',String(range===(activeYearRange||'')));button.setAttribute('aria-controls','results');button.onclick=()=>{Y.value='';yearRangeContext=[M.value,D.value,''].join('|');activeYearRange=range;render();};buttons.appendChild(button);});
+  panel.append(heading,hint,models);if(D.value)panel.append(buttons);
  }
  const a=base.filter(x=>(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3]))&&(!activeYearRange||x[2]+'–'+x[3]===activeYearRange));
  R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(''):'<div class="notice">No matching screen is currently listed.</div>'):'';
