@@ -121,3 +121,20 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .product-detail-layout .product-actions .add-cart,.product-detail-layout .product-actions .sold-label{margin-top:0}
 @media(max-width:800px){.card-with-photo .product-actions{grid-column:1/-1;width:100%}}
 .quote-form{display:grid;gap:12px;margin-top:18px;border-top:1px solid #dce3ee;padding-top:18px}.quote-form label{display:grid;gap:5px;font-weight:600}.quote-form input,.quote-form select,.quote-form textarea{width:100%;box-sizing:border-box;padding:10px;border:1px solid #b6c4d8;border-radius:6px;font:inherit}.quote-form p{margin:0;font-size:14px;line-height:1.5}.quote-form button{width:100%;padding:13px;background:#087c45;color:white;border:0;border-radius:6px;font-weight:bold;cursor:pointer}.quote-form[hidden],.quote-form [hidden]{display:none}.quote-form .quote-error{color:#a31919}.cart-box{max-height:90vh;overflow-y:auto}
+/* Product headings and memory specifications */
+.card-heading{min-width:0;grid-column:1/-1;align-self:stretch}
+.card-heading .product-name{display:block;font-size:18px;line-height:1.3;text-decoration:none}
+.card-heading .product-name:hover{text-decoration:underline}
+.card-years{font-size:14px;font-weight:600;color:#334155;margin-top:3px}
+.card-screen{font-size:14px;color:#667085;margin-top:4px}
+.memory-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:2px 0 12px}
+.memory-spec{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:10px 6px;background:#f6f8fc;border:1px solid #e5eaf2;border-radius:9px}
+.memory-spec svg{width:27px;height:27px;margin-bottom:3px;color:#143b67}
+.memory-spec strong{font-size:15px;color:#182a42}
+.memory-spec span{font-size:12px;color:#667085}
+.cpu-spec{font-size:13px}
+.card-with-photo{row-gap:14px}
+#results.grid-view .card-heading{flex:none}
+.product-detail-layout .card-heading{margin-bottom:16px}
+@media(min-width:801px){#results:not(.grid-view) .card-info{max-width:480px}#results:not(.grid-view) .memory-specs{max-width:270px}}
+

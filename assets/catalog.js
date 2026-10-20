@@ -368,7 +368,12 @@ window.addEventListener('hashchange',()=>{if(photoViewer.open)photoViewer.close(
 
 function card(x,detail=false){
  const key=encodeURIComponent(JSON.stringify(x));
- const specs=[x[2]+'–'+x[3],x[4],x[5]].filter(Boolean).join(' &nbsp; • &nbsp; ');
+ const memory=String(x[5]||'').match(/(\d+)\s*GB\s*\/\s*(\d+)\s*GB/i);
+ const remaining=String(x[5]||'').replace(/\d+\s*GB\s*\/\s*\d+\s*GB/i,'').replace(/^[\s•·]+|[\s•·]+$/g,'');
+ const chip='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 1v4m6-4v4M9 19v4m6-4v4M1 9h4m-4 6h4m14-6h4m-4 6h4"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>';
+ const disk='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 10c0 4 16 4 16 0M4 15c0 4 16 4 16 0"/></svg>';
+ const memoryBadges=memory?'<div class="memory-specs"><div class="memory-spec">'+chip+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
+ const specs=remaining;
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
@@ -381,7 +386,7 @@ function card(x,detail=false){
  const detailPath=encodeURIComponent(codes)+(stock.filter(item=>item[7]===codes).length>1?'/'+encodeURIComponent(name):'');
  const title=productImages[codes]?'<a class="product-name" href="#product/'+detailPath+'"><b>'+name+'</b></a>':'<b>'+name+'</b>';
  const photo=detail!==true && productImages[codes]?'<a class="card-photo" href="#product/'+detailPath+'" aria-label="View '+name+' photos"><img src="'+productImages[codes][0]+'" alt="'+name+'" loading="lazy" decoding="async"></a>':'';
- return '<div class="card'+(photo?' card-with-photo':'')+'">'+photo+'<div class="card-info">'+title+'<div class="muted">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div>'+availability+'<div class="price">'+price+'</div></div>'+'<div class="product-actions">'+button+'<button type="button" class="share-product" data-key="'+key+'" onclick="shareProduct(this)" aria-label="Share product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m9 10 6-4M9 14l6 4"/></svg><span>Share</span></button></div></div>';
+ return '<div class="card'+(photo?' card-with-photo':'')+'">'+'<div class="card-heading">'+title+'<div class="card-years">'+x[2]+'–'+x[3]+'</div><div class="card-screen">'+x[4]+' CarPlay Screen</div></div>'+photo+'<div class="card-info">'+memoryBadges+'<div class="muted cpu-spec">'+specs+'</div><div class="muted"><b>Inventory Code:</b> '+codes+'</div>'+availability+'<div class="price">'+price+'</div></div>'+'<div class="product-actions">'+button+'<button type="button" class="share-product" data-key="'+key+'" onclick="shareProduct(this)" aria-label="Share product"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m9 10 6-4M9 14l6 4"/></svg><span>Share</span></button></div></div>';
 }
 
 async function shareProduct(button){
