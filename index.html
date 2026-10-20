@@ -134,11 +134,11 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .card-heading .product-name:hover{text-decoration:underline}
 .card-years{font-size:14px;font-weight:600;color:#334155;margin-top:3px}
 .card-screen{font-size:14px;color:#667085;margin-top:4px}
-.memory-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:2px 0 12px}
-.memory-spec{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:10px 6px;background:#f6f8fc;border:1px solid #e5eaf2;border-radius:9px}
-.memory-spec svg{width:27px;height:27px;margin-bottom:3px;color:#143b67}
-.memory-spec strong{font-size:15px;color:#182a42}
-.memory-spec span{font-size:12px;color:#667085}
+.memory-specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:2px 0 9px}
+.memory-spec{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:6px 3px;background:#f6f8fc;border:1px solid #e5eaf2;border-radius:7px}
+.memory-spec svg{width:20px;height:20px;margin-bottom:2px;color:#143b67}
+.memory-spec strong{font-size:12px;color:#182a42}
+.memory-spec span{font-size:10px;color:#667085}
 .cpu-spec{font-size:13px}
 .card-with-photo{row-gap:14px}
 #results.grid-view .card-heading{flex:none}
@@ -542,8 +542,11 @@ function card(x,detail=false){
  const remaining=String(x[5]||'').replace(/\d+\s*GB\s*\/\s*\d+\s*GB/i,'').replace(/^[\s•·]+|[\s•·]+$/g,'');
  const chip='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 1v4m6-4v4M9 19v4m6-4v4M1 9h4m-4 6h4m14-6h4m-4 6h4"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>';
  const disk='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 10c0 4 16 4 16 0M4 15c0 4 16 4 16 0"/></svg>';
- const memoryBadges=memory?'<div class="memory-specs"><div class="memory-spec">'+chip+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
- const specs=remaining;
+ const cpu=remaining.match(/(?:\d+\s*[- ]?\s*core|quad[- ]?core|octa[- ]?core)/i);
+ const ramIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2" y="5" width="20" height="12" rx="2"/><path d="M5 17v3m4-3v3m6-3v3m4-3v3M6 9v4m4-4v4m4-4v4m4-4v4"/></svg>';
+ const cpuBadge=cpu?'<div class="memory-spec">'+chip+'<strong>'+cpu[0].replace(/\s+/g,'')+'</strong><span>CPU</span></div>':'';
+ const memoryBadges=memory?'<div class="memory-specs">'+cpuBadge+'<div class="memory-spec">'+ramIcon+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
+ const specs=cpu?remaining.replace(cpu[0],'').replace(/^[\s•·]+|[\s•·]+$/g,''):remaining;
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';

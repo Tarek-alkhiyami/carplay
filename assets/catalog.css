@@ -127,11 +127,11 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .card-heading .product-name:hover{text-decoration:underline}
 .card-years{font-size:14px;font-weight:600;color:#334155;margin-top:3px}
 .card-screen{font-size:14px;color:#667085;margin-top:4px}
-.memory-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:2px 0 12px}
-.memory-spec{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;padding:10px 6px;background:#f6f8fc;border:1px solid #e5eaf2;border-radius:9px}
-.memory-spec svg{width:27px;height:27px;margin-bottom:3px;color:#143b67}
-.memory-spec strong{font-size:15px;color:#182a42}
-.memory-spec span{font-size:12px;color:#667085}
+.memory-specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:2px 0 9px}
+.memory-spec{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;padding:6px 3px;background:#f6f8fc;border:1px solid #e5eaf2;border-radius:7px}
+.memory-spec svg{width:20px;height:20px;margin-bottom:2px;color:#143b67}
+.memory-spec strong{font-size:12px;color:#182a42}
+.memory-spec span{font-size:10px;color:#667085}
 .cpu-spec{font-size:13px}
 .card-with-photo{row-gap:14px}
 #results.grid-view .card-heading{flex:none}
