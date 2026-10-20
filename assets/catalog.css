@@ -138,3 +138,4 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .product-detail-layout .card-heading{margin-bottom:16px}
 @media(min-width:801px){#results:not(.grid-view) .card-info{max-width:480px}#results:not(.grid-view) .memory-specs{max-width:270px}}
 
+.year-range-filter{background:#fff;border:1px solid #dce3ef;border-radius:12px;padding:16px;margin:0 0 14px}.year-range-filter[hidden]{display:none}.year-range-filter h2{margin:0 0 5px;font-size:22px}.year-range-filter p{margin:0 0 12px;color:#667085;font-size:13px}.year-range-buttons{display:flex;flex-wrap:wrap;gap:8px}.year-range-buttons button{background:#fff;border:1px solid #dce3ef;border-radius:7px;padding:8px 13px;color:#143b67;cursor:pointer}.year-range-buttons button[aria-pressed="true"]{background:#075db7;color:#fff;border-color:#075db7}

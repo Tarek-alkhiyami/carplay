@@ -468,7 +468,25 @@ function removeItem(i){cart.splice(i,1);updateCart();renderCart();}
 function addProduct(key){const d=JSON.parse(decodeURIComponent(key));const item=stock.find(x=>JSON.stringify(x)===JSON.stringify(d));if(!item||item[8]==='sold')return;addItem({key:"p:"+JSON.stringify(d),name:d[0]+" "+d[1],price:d[6]});}
 function addService(){addItem({key:"installation",name:"CarPlay / Android Auto Installation",price:200});}
 function addDashcamService(){addItem({key:"dashcam-installation",name:"Dashcam Installation",price:150});}
-function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));const a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):"";}
+var activeYearRange='',yearRangeContext='';
+function render(){
+ document.querySelectorAll('.brand').forEach(x=>x.classList.remove('active'));
+ const context=[M.value,D.value,Y.value].join('|');
+ if(context!==yearRangeContext){activeYearRange='';yearRangeContext=context;}
+ const base=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value));
+ const panel=document.querySelector('#yearRangeFilter');
+ panel.replaceChildren();panel.hidden=!(M.value||D.value);
+ if(!panel.hidden){
+  const heading=document.createElement('h2');heading.textContent=[M.value,D.value].filter(Boolean).join(' ');
+  const hint=document.createElement('p');hint.textContent='Select a year range to see available CarPlay screens.';
+  const buttons=document.createElement('div');buttons.className='year-range-buttons';
+  const ranges=[...new Set(base.map(x=>x[2]+'–'+x[3]))].sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b));
+  ['',...ranges].forEach(range=>{const button=document.createElement('button');button.type='button';button.textContent=range||'All Years';button.setAttribute('aria-pressed',String(range===(activeYearRange||'')));button.setAttribute('aria-controls','results');button.onclick=()=>{Y.value='';yearRangeContext=[M.value,D.value,''].join('|');activeYearRange=range;render();};buttons.appendChild(button);});
+  panel.append(heading,hint,buttons);
+ }
+ const a=base.filter(x=>(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3]))&&(!activeYearRange||x[2]+'–'+x[3]===activeYearRange));
+ R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(''):'<div class="notice">No matching screen is currently listed.</div>'):'';
+}
 function showPage(page){document.querySelector("#productPage").style.display="none";if(location.pathname!=="/"||location.hash.startsWith("#product/"))history.replaceState(null,"","/#"+page);const services=page==="services",about=page==="about",brands=!services&&!about;document.querySelector("#brandsPage").style.display=brands?"block":"none";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#aboutPage").style.display=about?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",brands);document.querySelector("#servicesTab").classList.toggle("active",services);document.querySelector("#aboutTab").classList.toggle("active",about);}
 function openAIChat(){const p=document.querySelector("#chatPanel");p.style.display="block";setTimeout(()=>document.querySelector("#chatInput").focus(),100)}
 function toggleChat(){const p=document.querySelector("#chatPanel");p.style.display=p.style.display==="block"?"none":"block";if(p.style.display==="block")setTimeout(()=>document.querySelector("#chatInput").focus(),100)}

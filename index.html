@@ -145,6 +145,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 .product-detail-layout .card-heading{margin-bottom:16px}
 @media(min-width:801px){#results:not(.grid-view) .card-info{max-width:480px}#results:not(.grid-view) .memory-specs{max-width:270px}}
 
+.year-range-filter{background:#fff;border:1px solid #dce3ef;border-radius:12px;padding:16px;margin:0 0 14px}.year-range-filter[hidden]{display:none}.year-range-filter h2{margin:0 0 5px;font-size:22px}.year-range-filter p{margin:0 0 12px;color:#667085;font-size:13px}.year-range-buttons{display:flex;flex-wrap:wrap;gap:8px}.year-range-buttons button{background:#fff;border:1px solid #dce3ef;border-radius:7px;padding:8px 13px;color:#143b67;cursor:pointer}.year-range-buttons button[aria-pressed="true"]{background:#075db7;color:#fff;border-color:#075db7}
 </style></head><body>
 <header class="top"><a class="installation-logo" href="#brands" aria-label="CarPlay and Dashcam Installation — home"><img src="images/technician-transparent.png" alt="CarPlay & Dashcam Installation" width="112" height="112"></a><a class="logo carplay-wordmark" href="#brands" aria-label="CarPlay home"><img src="images/carplay-wordmark.svg" alt="CarPlay — CarPlay & Android Auto Solutions" width="210" height="68"></a><div class="vehicle"><select id="make"><option value="">Make</option></select><select id="year"><option value="">Year</option></select><select id="model"><option value="">Model</option></select></div><a class="marketplace-link" href="https://www.facebook.com/marketplace/profile/61561024928208/?ref=permalink&amp;mibextid=6ojiHh" target="_blank" rel="noopener noreferrer" aria-label="Facebook Marketplace (opens in a new tab)" title="Shop on Facebook Marketplace"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M13.5 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.8 1.8-1.8H17V2.3c-.3 0-1.4-.3-2.7-.3-2.7 0-4.5 1.6-4.5 4.6v2.9H7V13h2.8v9z"/></svg></a><a class="phone" href="tel:+19056382020">☎&nbsp; 905-638-2020</a><a class="cart" href="#cart" onclick="openCart();return false" aria-label="Shopping cart">🛒<span class="cart-count" id="cartCount">0</span></a></header>
 <nav class="nav"><button id="brandsTab" class="active" onclick="showPage('brands')">Brands</button><button id="servicesTab" onclick="showPage('services')">Services</button><button id="aboutTab" onclick="showPage('about')">About</button></nav>
@@ -153,7 +154,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background
 <section class="intro"><h1>CarPlay Screen</h1><p>Select your vehicle or browse by brand to see available screens.</p></section>
 <div class="catalog-layout">
 <section class="panel" aria-labelledby="brandsHeading"><div class="panel-title" id="brandsHeading">Shop by Brand</div><div class="brands" id="brands"></div></section>
-<div><div class="catalog-view-controls" id="catalogViewControls" role="group" aria-label="Product view" hidden><button type="button" data-catalog-view="list" aria-pressed="true" aria-controls="results">☰ List</button><button type="button" data-catalog-view="grid" aria-pressed="false" aria-controls="results">▦ Grid</button></div><section class="results" id="results"></section></div>
+<div><div class="catalog-view-controls" id="catalogViewControls" role="group" aria-label="Product view" hidden><button type="button" data-catalog-view="list" aria-pressed="true" aria-controls="results">☰ List</button><button type="button" data-catalog-view="grid" aria-pressed="false" aria-controls="results">▦ Grid</button></div><section id="yearRangeFilter" class="year-range-filter" aria-label="Filter products by year range" hidden></section><section class="results" id="results"></section></div>
 <aside class="product-tree" aria-labelledby="productsHeading"><div class="tree-title"><span id="productsHeading">Products</span><span class="qty-head">QTY <span id="totalQty"></span></span></div><div id="productTree"></div></aside>
 </div>
 </section>
@@ -638,7 +639,25 @@ function removeItem(i){cart.splice(i,1);updateCart();renderCart();}
 function addProduct(key){const d=JSON.parse(decodeURIComponent(key));const item=stock.find(x=>JSON.stringify(x)===JSON.stringify(d));if(!item||item[8]==='sold')return;addItem({key:"p:"+JSON.stringify(d),name:d[0]+" "+d[1],price:d[6]});}
 function addService(){addItem({key:"installation",name:"CarPlay / Android Auto Installation",price:200});}
 function addDashcamService(){addItem({key:"dashcam-installation",name:"Dashcam Installation",price:150});}
-function render(){document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));const a=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value)&&(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3])));R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(""):'<div class="notice">No matching screen is currently listed.</div>'):"";}
+var activeYearRange='',yearRangeContext='';
+function render(){
+ document.querySelectorAll('.brand').forEach(x=>x.classList.remove('active'));
+ const context=[M.value,D.value,Y.value].join('|');
+ if(context!==yearRangeContext){activeYearRange='';yearRangeContext=context;}
+ const base=stock.filter(x=>(!M.value||x[0]===M.value)&&(!D.value||x[1]===D.value));
+ const panel=document.querySelector('#yearRangeFilter');
+ panel.replaceChildren();panel.hidden=!(M.value||D.value);
+ if(!panel.hidden){
+  const heading=document.createElement('h2');heading.textContent=[M.value,D.value].filter(Boolean).join(' ');
+  const hint=document.createElement('p');hint.textContent='Select a year range to see available CarPlay screens.';
+  const buttons=document.createElement('div');buttons.className='year-range-buttons';
+  const ranges=[...new Set(base.map(x=>x[2]+'–'+x[3]))].sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b));
+  ['',...ranges].forEach(range=>{const button=document.createElement('button');button.type='button';button.textContent=range||'All Years';button.setAttribute('aria-pressed',String(range===(activeYearRange||'')));button.setAttribute('aria-controls','results');button.onclick=()=>{Y.value='';yearRangeContext=[M.value,D.value,''].join('|');activeYearRange=range;render();};buttons.appendChild(button);});
+  panel.append(heading,hint,buttons);
+ }
+ const a=base.filter(x=>(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3]))&&(!activeYearRange||x[2]+'–'+x[3]===activeYearRange));
+ R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(''):'<div class="notice">No matching screen is currently listed.</div>'):'';
+}
 function showPage(page){document.querySelector("#productPage").style.display="none";if(location.hash.startsWith("#product/"))history.replaceState(null,"","#"+page);const services=page==="services",about=page==="about",brands=!services&&!about;document.querySelector("#brandsPage").style.display=brands?"block":"none";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#aboutPage").style.display=about?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",brands);document.querySelector("#servicesTab").classList.toggle("active",services);document.querySelector("#aboutTab").classList.toggle("active",about);}
 function openAIChat(){const p=document.querySelector("#chatPanel");p.style.display="block";setTimeout(()=>document.querySelector("#chatInput").focus(),100)}
 function toggleChat(){const p=document.querySelector("#chatPanel");p.style.display=p.style.display==="block"?"none":"block";if(p.style.display==="block")setTimeout(()=>document.querySelector("#chatInput").focus(),100)}
