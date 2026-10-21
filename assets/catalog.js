@@ -1,6 +1,8 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["Toyota","Highlander",2008,2013,"7\"","4CORE • 2GB/32GB",140,"CR069"],
+["Toyota","Tundra",2003,2006,"7\"","4CORE • 2GB/32GB",140,"CR069"],
 ["Chevrolet","Cobalt",2007,2010,"8\"","4CORE • 4GB/64GB",160,"CR068"],
 ["Toyota","RAV4",2001,2008,"7\"","8CORE • 2GB/32GB",140,"CR114"],
 ["Toyota","4Runner",2003,2009,"7\"","8CORE • 2GB/32GB",140,"CR114"],
@@ -360,6 +362,7 @@ const productImages={
  "CR109 / CR111 / CR112 / CR113":["images/CR108/01.jpg","images/CR108/02.jpg","images/CR108/03.jpg","images/CR108/04.jpg","images/CR108/05.jpg","images/CR108/06.jpg","images/CR108/07.jpg","images/CR108/08.jpg"],
  CR114:["images/CR114/01.jpg","images/CR114/02.jpg","images/CR114/03.jpg","images/CR114/04.jpg","images/CR114/05.jpg","images/CR114/06.jpg","images/CR114/07.jpg","images/CR114/08.jpg"],
  CR068:["images/CR068/01.jpg","images/CR068/02.jpg","images/CR068/03.jpg","images/CR068/04.jpg","images/CR068/05.jpg","images/CR068/06.jpg","images/CR068/07.jpg","images/CR068/08.jpg"],
+ CR069:["images/CR069/01.jpg","images/CR069/02.jpg","images/CR069/03.jpg","images/CR069/04.jpg","images/CR069/05.jpg","images/CR069/06.jpg","images/CR069/07.jpg","images/CR069/08.jpg"],
  CR027:["images/CR027/01.jpg","images/CR027/02.jpg","images/CR027/03.jpg","images/CR027/04.jpg","images/CR027/05.jpg","images/CR027/06.jpg","images/CR027/07.jpg","images/CR027/08.jpg"],
  CR019:['images/CR019/01.png','images/CR019/02.avif','images/CR019/03.avif','images/CR019/04.avif','images/CR019/05.avif','images/CR019/06.avif','images/CR019/07.avif','images/CR019/08.avif']
 };
@@ -430,7 +433,7 @@ function card(x,detail=false){
  const cpuBadge=cpu?'<div class="memory-spec">'+chip+'<strong>'+cpu[0].replace(/\s+/g,'')+'</strong><span>CPU</span></div>':'';
  const memoryBadges=memory?'<div class="memory-specs">'+cpuBadge+'<div class="memory-spec">'+ramIcon+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
  const specs=cpu?remaining.replace(cpu[0],'').replace(/^[\s•·]+|[\s•·]+$/g,''):remaining;
- const compatibility=detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
+ const compatibility=detail===true&&x[7]==="CR069"?'<p class="fitment-note"><strong>JBL amplifier systems:</strong> An additional compatible wiring harness with protocol box is required and is not included. Confirm your original radio and connections before ordering.</p>':detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
