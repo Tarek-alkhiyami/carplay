@@ -1,6 +1,19 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["Toyota","RAV4",2001,2008,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","4Runner",2003,2009,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Camry",2002,2006,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Tundra",2003,2006,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Sequoia",2003,2007,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Daihatsu","Terios",2006,2010,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Land Cruiser 100",1998,2007,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Prado",1996,2009,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","FJ Cruiser",2003,2010,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Hilux",2001,2011,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Fortuner",2008,2011,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Alphard",2008,2015,"7\"","8CORE • 2GB/32GB",140,"CR114"],
+["Toyota","Echo",2000,2005,"7\"","8CORE • 2GB/32GB",140,"CR114"],
 ["Ford","Mustang",1994,2004,"7\"","8CORE • 2GB/32GB",140,"CR108 / CR110"],
 ["Ford","Mustang",1994,2004,"7\"","4CORE • 2GB/32GB",120,"CR109 / CR111 / CR112 / CR113"],
 ["Kia","Forte / K3 / Cerato",2013,2018,"9\"","4CORE • 4GB/64GB",150,"CR088"],
@@ -344,6 +357,7 @@ const productImages={
  CR036:["images/CR028/01.png","images/CR028/02.avif","images/CR028/03.avif","images/CR028/04.avif","images/CR028/05.avif","images/CR028/06.avif","images/CR028/07.avif","images/CR028/08.avif"],
  "CR108 / CR110":["images/CR108/01.jpg","images/CR108/02.jpg","images/CR108/03.jpg","images/CR108/04.jpg","images/CR108/05.jpg","images/CR108/06.jpg","images/CR108/07.jpg","images/CR108/08.jpg"],
  "CR109 / CR111 / CR112 / CR113":["images/CR108/01.jpg","images/CR108/02.jpg","images/CR108/03.jpg","images/CR108/04.jpg","images/CR108/05.jpg","images/CR108/06.jpg","images/CR108/07.jpg","images/CR108/08.jpg"],
+ CR114:["images/CR114/01.jpg","images/CR114/02.jpg","images/CR114/03.jpg","images/CR114/04.jpg","images/CR114/05.jpg","images/CR114/06.jpg","images/CR114/07.jpg","images/CR114/08.jpg"],
  CR027:["images/CR027/01.jpg","images/CR027/02.jpg","images/CR027/03.jpg","images/CR027/04.jpg","images/CR027/05.jpg","images/CR027/06.jpg","images/CR027/07.jpg","images/CR027/08.jpg"],
  CR019:['images/CR019/01.png','images/CR019/02.avif','images/CR019/03.avif','images/CR019/04.avif','images/CR019/05.avif','images/CR019/06.avif','images/CR019/07.avif','images/CR019/08.avif']
 };
