@@ -120,7 +120,7 @@ const stock=[
 ["Chevrolet","Equinox (1st gen)",2005,2009,"8\"","4CORE • 2GB/32GB",150,"CR047"],
 ["Chevrolet","HHR (SS / LT / Panel / LS)",2006,2011,"8\"","4CORE • 2GB/32GB",150,"CR047"],
 ["Chevrolet","Monte Carlo (7th gen)",2006,2007,"8\"","4CORE • 2GB/32GB",150,"CR047"],
-["Mazda","3",2004,2009,"9\"","4CORE • 4GB/64GB",160,"CR106"],
+["Mazda","3",2004,2009,"9\"","4CORE • 4GB/64GB",160,"CR106","sold"],
 ["Mazda","3",2010,2013,"9\"","4CORE • 4GB/64GB",160,"CR107","sold"],
 ["Mazda","6 III GL / GJ",2012,2017,'9"',"4CORE • 2GB/64GB",180.00,"CR046"],
 ["Audi","A3 / S3 / RS3",2003,2012,'9" IPS',"4CORE • 2GB/32GB",180.00,"CR044 / CR062"],
