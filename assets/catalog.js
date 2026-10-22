@@ -1,6 +1,24 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["Ford","E250",2009,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","E350",2009,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Shelby GT500",2007,2009,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Five Hundred",2005,2007,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Mercury","Montego",2005,2007,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Mercury","Milan",2006,2009,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Mercury","Sable",2008,2009,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Mercury","Mountaineer",2007,2010,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Fusion",2006,2009,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Taurus",2008,2009,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Escape",2008,2012,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Freestyle",2005,2007,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Freestar",2004,2007,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Lincoln","MKX",2007,2009,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Lincoln","Mark LT",2006,2008,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Edge",2007,2010,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Expedition",2007,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Expedition EL/MAX (U354)",2007,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
 ["Ford","F150",2004,2008,"7\"","4CORE • 4GB/64GB",180,"CR118"],
 ["Ford","F250",2006,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
 ["Ford","F350",2006,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
@@ -309,6 +327,8 @@ function opt(el,v){el.add(new Option(v,v))}
 for(let y=new Date().getFullYear()+1;y>=1995;y--)opt(Y,y);
 allBrands.forEach(x=>opt(M,x));
 const brandLogos={
+ "Lincoln":"images/brands/lincoln.svg",
+ "Mercury":"https://raw.githubusercontent.com/vehiclespecs/brand-logos/main/mercury-logo.png",
  "SEAT":"images/brands/seat.svg",
  "Skoda":"images/brands/skoda.svg",
  "Hummer": "images/brands/hummer.svg",
@@ -443,7 +463,7 @@ const productImages={
  CR070:["images/CR070/01.jpg","images/CR070/02.jpg","images/CR070/03.jpg","images/CR070/04.jpg","images/CR070/05.jpg","images/CR070/06.jpg","images/CR070/07.jpg","images/CR070/08.jpg"],
  CR115:["images/CR115/01.png","images/CR115/02.jpg","images/CR115/03.jpg","images/CR115/04.jpg","images/CR115/05.jpg","images/CR115/06.jpg","images/CR115/07.jpg","images/CR115/08.jpg"],
  CR116:["images/CR030/01.png","images/CR030/02.avif","images/CR030/03.avif","images/CR030/04.png","images/CR030/05.avif","images/CR030/06.avif","images/CR030/07.avif","images/CR030/08.avif"],
- CR118:["images/CR118/main.png"],
+ CR118:["images/CR118/1.png","images/CR118/2.png","images/CR118/3.png","images/CR118/4.png","images/CR118/5.png","images/CR118/6.png","images/CR118/7.png"],
  CR117:["images/CR117/main.png","images/CR031/02.avif","images/CR031/03.avif","images/CR031/04.avif","images/CR031/05.avif","images/CR031/06.avif","images/CR031/07.avif","images/CR031/08.avif"],
  CR027:["images/CR027/01.jpg","images/CR027/02.jpg","images/CR027/03.jpg","images/CR027/04.jpg","images/CR027/05.jpg","images/CR027/06.jpg","images/CR027/07.jpg","images/CR027/08.jpg"],
  CR019:['images/CR019/01.png','images/CR019/02.avif','images/CR019/03.avif','images/CR019/04.avif','images/CR019/05.avif','images/CR019/06.avif','images/CR019/07.avif','images/CR019/08.avif']
@@ -515,7 +535,7 @@ function card(x,detail=false){
  const cpuBadge=cpu?'<div class="memory-spec">'+chip+'<strong>'+cpu[0].replace(/\s+/g,'')+'</strong><span>CPU</span></div>':'';
  const memoryBadges=memory?'<div class="memory-specs">'+cpuBadge+'<div class="memory-spec">'+ramIcon+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
  const specs=cpu?remaining.replace(cpu[0],'').replace(/^[\s•·]+|[\s•·]+$/g,''):remaining;
- const compatibility=detail===true&&x[7]==="CR070"?'<p class="fitment-note"><strong>Fitment:</strong> Original rear-view cameras and rear headrest entertainment screens may not be compatible. Confirm your factory radio and connections before ordering.</p>':detail===true&&x[7]==="CR069"?'<p class="fitment-note"><strong>JBL amplifier systems:</strong> An additional compatible wiring harness with protocol box is required and is not included. Confirm your original radio and connections before ordering.</p>':detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
+ const compatibility=detail===true&&x[7]==="CR118"?'<p class="fitment-note"><strong>Fitment:</strong> Compare your original radio and dashboard with the compatibility photo before ordering. The factory navigation screen configuration shown as incompatible is not supported.</p>':detail===true&&x[7]==="CR070"?'<p class="fitment-note"><strong>Fitment:</strong> Original rear-view cameras and rear headrest entertainment screens may not be compatible. Confirm your factory radio and connections before ordering.</p>':detail===true&&x[7]==="CR069"?'<p class="fitment-note"><strong>JBL amplifier systems:</strong> An additional compatible wiring harness with protocol box is required and is not included. Confirm your original radio and connections before ordering.</p>':detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
