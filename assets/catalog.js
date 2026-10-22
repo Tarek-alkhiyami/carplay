@@ -1,6 +1,7 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["Chevrolet","Colorado",2004,2006,"7\"","4CORE • 2GB/32GB",140,"CR115"],
 ["GMC","Canyon",2004,2006,"7\"","4CORE • 2GB/32GB",140,"CR115"],
 ["Chevrolet","Silverado 1500",2007,2013,"7\"","8CORE • 4GB/64GB",160,"CR070"],
 ["Chevrolet","Silverado 2500 / 3500",2007,2014,"7\"","8CORE • 4GB/64GB",160,"CR070"],
