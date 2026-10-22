@@ -1,6 +1,26 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["Chevrolet","Silverado 1500",2007,2013,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Silverado 2500 / 3500",2007,2014,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Tahoe",2007,2014,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Equinox",2007,2009,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Traverse",2009,2012,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Express 1500",2008,2015,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Express 2500 / 3500",2008,2026,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Impala",2006,2013,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Suburban",2007,2014,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Avalanche",2007,2013,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Chevrolet","Monte Carlo",2006,2007,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["GMC","Sierra 1500",2007,2013,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["GMC","Sierra 2500 / 3500",2007,2014,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["GMC","Yukon",2007,2014,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["GMC","Savana 1500",2008,2014,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["GMC","Savana 2500 / 3500",2008,2026,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["GMC","Acadia",2007,2012,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Buick","Enclave",2008,2012,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Hummer","H2",2008,2009,"8\"","4CORE • 2GB/64GB",140,"CR119"],
+["Hummer","SUT",2008,2009,"8\"","4CORE • 2GB/64GB",140,"CR119"],
 ["Ford","E250",2009,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
 ["Ford","E350",2009,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
 ["Ford","Shelby GT500",2007,2009,"7\"","4CORE • 4GB/64GB",180,"CR118"],
@@ -460,6 +480,7 @@ const productImages={
  CR114:["images/CR114/01.jpg","images/CR114/02.jpg","images/CR114/03.jpg","images/CR114/04.jpg","images/CR114/05.jpg","images/CR114/06.jpg","images/CR114/07.jpg","images/CR114/08.jpg"],
  CR068:["images/CR068/01.jpg","images/CR068/02.jpg","images/CR068/03.jpg","images/CR068/04.jpg","images/CR068/05.jpg","images/CR068/06.jpg","images/CR068/07.jpg","images/CR068/08.jpg"],
  CR069:["images/CR069/01.jpg","images/CR069/02.jpg","images/CR069/03.jpg","images/CR069/04.jpg","images/CR069/05.jpg","images/CR069/06.jpg","images/CR069/07.jpg","images/CR069/08.jpg"],
+ CR119:["images/CR070/01.jpg","images/CR070/02.jpg","images/CR070/03.jpg","images/CR070/04.jpg","images/CR070/05.jpg","images/CR070/06.jpg","images/CR070/07.jpg","images/CR070/08.jpg"],
  CR070:["images/CR070/01.jpg","images/CR070/02.jpg","images/CR070/03.jpg","images/CR070/04.jpg","images/CR070/05.jpg","images/CR070/06.jpg","images/CR070/07.jpg","images/CR070/08.jpg"],
  CR115:["images/CR115/01.png","images/CR115/02.jpg","images/CR115/03.jpg","images/CR115/04.jpg","images/CR115/05.jpg","images/CR115/06.jpg","images/CR115/07.jpg","images/CR115/08.jpg"],
  CR116:["images/CR030/01.png","images/CR030/02.avif","images/CR030/03.avif","images/CR030/04.png","images/CR030/05.avif","images/CR030/06.avif","images/CR030/07.avif","images/CR030/08.avif"],
@@ -535,7 +556,7 @@ function card(x,detail=false){
  const cpuBadge=cpu?'<div class="memory-spec">'+chip+'<strong>'+cpu[0].replace(/\s+/g,'')+'</strong><span>CPU</span></div>':'';
  const memoryBadges=memory?'<div class="memory-specs">'+cpuBadge+'<div class="memory-spec">'+ramIcon+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
  const specs=cpu?remaining.replace(cpu[0],'').replace(/^[\s•·]+|[\s•·]+$/g,''):remaining;
- const compatibility=detail===true&&x[7]==="CR118"?'<p class="fitment-note"><strong>Fitment:</strong> Compare your original radio and dashboard with the compatibility photo before ordering. The factory navigation screen configuration shown as incompatible is not supported.</p>':detail===true&&x[7]==="CR070"?'<p class="fitment-note"><strong>Fitment:</strong> Original rear-view cameras and rear headrest entertainment screens may not be compatible. Confirm your factory radio and connections before ordering.</p>':detail===true&&x[7]==="CR069"?'<p class="fitment-note"><strong>JBL amplifier systems:</strong> An additional compatible wiring harness with protocol box is required and is not included. Confirm your original radio and connections before ordering.</p>':detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
+ const compatibility=detail===true&&x[7]==="CR118"?'<p class="fitment-note"><strong>Fitment:</strong> Compare your original radio and dashboard with the compatibility photo before ordering. The factory navigation screen configuration shown as incompatible is not supported.</p>':detail===true&&(x[7]==="CR070"||x[7]==="CR119")?'<p class="fitment-note"><strong>Fitment:</strong> Original rear-view cameras and rear headrest entertainment screens may not be compatible. Confirm your factory radio and connections before ordering.</p>':detail===true&&x[7]==="CR069"?'<p class="fitment-note"><strong>JBL amplifier systems:</strong> An additional compatible wiring harness with protocol box is required and is not included. Confirm your original radio and connections before ordering.</p>':detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
