@@ -1,6 +1,7 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["GMC","Canyon",2004,2006,"7\"","4CORE • 2GB/32GB",140,"CR115"],
 ["Chevrolet","Silverado 1500",2007,2013,"7\"","8CORE • 4GB/64GB",160,"CR070"],
 ["Chevrolet","Silverado 2500 / 3500",2007,2014,"7\"","8CORE • 4GB/64GB",160,"CR070"],
 ["Chevrolet","Tahoe",2007,2014,"7\"","8CORE • 4GB/64GB",160,"CR070"],
@@ -384,6 +385,7 @@ const productImages={
  CR068:["images/CR068/01.jpg","images/CR068/02.jpg","images/CR068/03.jpg","images/CR068/04.jpg","images/CR068/05.jpg","images/CR068/06.jpg","images/CR068/07.jpg","images/CR068/08.jpg"],
  CR069:["images/CR069/01.jpg","images/CR069/02.jpg","images/CR069/03.jpg","images/CR069/04.jpg","images/CR069/05.jpg","images/CR069/06.jpg","images/CR069/07.jpg","images/CR069/08.jpg"],
  CR070:["images/CR070/01.jpg","images/CR070/02.jpg","images/CR070/03.jpg","images/CR070/04.jpg","images/CR070/05.jpg","images/CR070/06.jpg","images/CR070/07.jpg","images/CR070/08.jpg"],
+ CR115:["images/CR115/01.png","images/CR115/02.jpg","images/CR115/03.jpg","images/CR115/04.jpg","images/CR115/05.jpg","images/CR115/06.jpg","images/CR115/07.jpg","images/CR115/08.jpg"],
  CR027:["images/CR027/01.jpg","images/CR027/02.jpg","images/CR027/03.jpg","images/CR027/04.jpg","images/CR027/05.jpg","images/CR027/06.jpg","images/CR027/07.jpg","images/CR027/08.jpg"],
  CR019:['images/CR019/01.png','images/CR019/02.avif','images/CR019/03.avif','images/CR019/04.avif','images/CR019/05.avif','images/CR019/06.avif','images/CR019/07.avif','images/CR019/08.avif']
 };
