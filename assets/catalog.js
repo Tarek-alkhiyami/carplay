@@ -1,6 +1,12 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["Ford","F150",2004,2008,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","F250",2006,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","F350",2006,2014,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Focus",2005,2007,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Mustang",2005,2009,"7\"","4CORE • 4GB/64GB",180,"CR118"],
+["Ford","Explorer (U251)",2006,2010,"7\"","4CORE • 4GB/64GB",180,"CR118"],
 ["Volkswagen","Amarok",2010,2015,"9\"","8CORE • 2GB/32GB",180,"CR117"],
 ["Volkswagen","Beetle",2011,2015,"9\"","8CORE • 2GB/32GB",180,"CR117"],
 ["Volkswagen","Bora",2006,2015,"9\"","8CORE • 2GB/32GB",180,"CR117"],
@@ -437,6 +443,7 @@ const productImages={
  CR070:["images/CR070/01.jpg","images/CR070/02.jpg","images/CR070/03.jpg","images/CR070/04.jpg","images/CR070/05.jpg","images/CR070/06.jpg","images/CR070/07.jpg","images/CR070/08.jpg"],
  CR115:["images/CR115/01.png","images/CR115/02.jpg","images/CR115/03.jpg","images/CR115/04.jpg","images/CR115/05.jpg","images/CR115/06.jpg","images/CR115/07.jpg","images/CR115/08.jpg"],
  CR116:["images/CR030/01.png","images/CR030/02.avif","images/CR030/03.avif","images/CR030/04.png","images/CR030/05.avif","images/CR030/06.avif","images/CR030/07.avif","images/CR030/08.avif"],
+ CR118:["images/CR118/main.png"],
  CR117:["images/CR117/main.png","images/CR031/02.avif","images/CR031/03.avif","images/CR031/04.avif","images/CR031/05.avif","images/CR031/06.avif","images/CR031/07.avif","images/CR031/08.avif"],
  CR027:["images/CR027/01.jpg","images/CR027/02.jpg","images/CR027/03.jpg","images/CR027/04.jpg","images/CR027/05.jpg","images/CR027/06.jpg","images/CR027/07.jpg","images/CR027/08.jpg"],
  CR019:['images/CR019/01.png','images/CR019/02.avif','images/CR019/03.avif','images/CR019/04.avif','images/CR019/05.avif','images/CR019/06.avif','images/CR019/07.avif','images/CR019/08.avif']
