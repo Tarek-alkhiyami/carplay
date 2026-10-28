@@ -1,6 +1,7 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["Toyota","4Runner",2009,2019,'9"',"8CORE • 2GB/32GB",170,"CR120"],
 ["Chevrolet","Silverado 1500",2007,2013,"8\"","8CORE • 4GB/64GB",160,"CR119"],
 ["Chevrolet","Silverado 2500 / 3500",2007,2014,"8\"","8CORE • 4GB/64GB",160,"CR119"],
 ["Chevrolet","Tahoe",2007,2014,"8\"","8CORE • 4GB/64GB",160,"CR119"],
@@ -480,6 +481,7 @@ const productImages={
  CR114:["images/CR114/01.jpg","images/CR114/02.jpg","images/CR114/03.jpg","images/CR114/04.jpg","images/CR114/05.jpg","images/CR114/06.jpg","images/CR114/07.jpg","images/CR114/08.jpg"],
  CR068:["images/CR068/01.jpg","images/CR068/02.jpg","images/CR068/03.jpg","images/CR068/04.jpg","images/CR068/05.jpg","images/CR068/06.jpg","images/CR068/07.jpg","images/CR068/08.jpg"],
  CR069:["images/CR069/01.jpg","images/CR069/02.jpg","images/CR069/03.jpg","images/CR069/04.jpg","images/CR069/05.jpg","images/CR069/06.jpg","images/CR069/07.jpg","images/CR069/08.jpg"],
+ CR120:["images/CR120/01.png","images/CR120/02.jpg","images/CR120/03.jpg","images/CR120/04.jpg","images/CR120/05.jpg","images/CR120/06.jpg","images/CR120/07.jpg"],
  CR119:["images/CR119/main.png","images/CR070/02.jpg","images/CR070/03.jpg","images/CR070/04.jpg","images/CR070/05.jpg","images/CR070/06.jpg","images/CR070/07.jpg","images/CR070/08.jpg"],
  CR070:["images/CR070/01.jpg","images/CR070/02.jpg","images/CR070/03.jpg","images/CR070/04.jpg","images/CR070/05.jpg","images/CR070/06.jpg","images/CR070/07.jpg","images/CR070/08.jpg"],
  CR115:["images/CR115/01.png","images/CR115/02.jpg","images/CR115/03.jpg","images/CR115/04.jpg","images/CR115/05.jpg","images/CR115/06.jpg","images/CR115/07.jpg","images/CR115/08.jpg"],
