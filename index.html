@@ -553,7 +553,7 @@ const physicalCodes=[...new Set(stock.flatMap(x=>(x[7]||"").split(" / ").filter(
 document.querySelector("#totalQty").textContent=physicalCodes.length;
 allBrands.forEach(b=>{const wrap=document.createElement("div"),brandItems=stock.filter(x=>x[0]===b);const btn=document.createElement("button");btn.className="tree-brand";btn.innerHTML='<span>+ '+b+'</span><span class="tree-count">'+brandItems.length+'</span>';const models=document.createElement("div");models.style.display="none";[...new Set(brandItems.map(x=>x[1]))].sort().forEach(m=>{const modelItems=brandItems.filter(x=>x[1]===m);const mb=document.createElement("button");mb.className="tree-model";mb.innerHTML='<span>'+m+'</span> <span class="tree-count">'+modelItems.length+'</span>';mb.onclick=()=>{M.value=b;Y.value="";loadModels();D.value=m;render();setTimeout(()=>viewControls.scrollIntoView({behavior:"smooth",block:"start"}),50)};models.appendChild(mb)});btn.onclick=()=>{const open=models.style.display!=="none";models.style.display=open?"none":"block";btn.querySelector("span").textContent=(open?"+ ":"− ")+b};wrap.append(btn,models);T.appendChild(wrap)});
 function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(stock.filter(x=>!M.value||x[0]===M.value).map(x=>x[1]))].sort().forEach(x=>opt(D,x));render()}
-function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
+function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).sort(availableFirst).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
 "CR106":["images/CR106/01.jpg","images/CR106/02.jpg","images/CR106/03.jpg","images/CR106/04.jpg","images/CR106/05.jpg","images/CR106/06.jpg","images/CR106/07.jpg","images/CR106/08.jpg"],
@@ -823,6 +823,8 @@ function addProduct(key){const d=JSON.parse(decodeURIComponent(key));const item=
 function addService(){addItem({key:"installation",name:"CarPlay / Android Auto Installation",price:200});}
 function addDashcamService(){addItem({key:"dashcam-installation",name:"Dashcam Installation",price:150});}
 var activeYearRange='',yearRangeContext='';
+// Keep available products ahead of sold products in every catalog view.
+function availableFirst(a,b){return Number(a[8]==='sold')-Number(b[8]==='sold');}
 function render(){
  document.querySelectorAll('.brand').forEach(x=>x.classList.remove('active'));
  const context=[M.value,D.value,Y.value].join('|');
@@ -841,7 +843,7 @@ function render(){
   panel.append(heading,hint,models);if(D.value)panel.append(buttons);
  }
  const a=base.filter(x=>(!Y.value||(+Y.value>=x[2]&&+Y.value<=x[3]))&&(!activeYearRange||x[2]+'–'+x[3]===activeYearRange));
- R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.map(card).join(''):'<div class="notice">No matching screen is currently listed.</div>'):'';
+ R.innerHTML=(M.value||D.value||Y.value)?(a.length?a.sort(availableFirst).map(card).join(''):'<div class="notice">No matching screen is currently listed.</div>'):'';
 }
 function showPage(page){document.querySelector("#productPage").style.display="none";if(location.hash.startsWith("#product/"))history.replaceState(null,"","#"+page);const services=page==="services",about=page==="about",brands=!services&&!about;document.querySelector("#brandsPage").style.display=brands?"block":"none";document.querySelector("#servicesPage").style.display=services?"block":"none";document.querySelector("#aboutPage").style.display=about?"block":"none";document.querySelector("#brandsTab").classList.toggle("active",brands);document.querySelector("#servicesTab").classList.toggle("active",services);document.querySelector("#aboutTab").classList.toggle("active",about);}
 function openAIChat(){const p=document.querySelector("#chatPanel");p.style.display="block";setTimeout(()=>document.querySelector("#chatInput").focus(),100)}
