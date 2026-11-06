@@ -1,6 +1,52 @@
 function productUrl(x){return '/products/'+[x[7].split(' / ')[0],x[0],x[1],x[2],x[3]].join('-').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'/';}
 
 const stock=[
+["Volkswagen","Amarok",2010,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Beetle",2011,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Bora",2006,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Caddy",2003,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","EOS",2006,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Mk5/V",2003,2009,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Mk5 Variant (Estate)",2007,2009,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Mk6 Variant (Estate/Wagon)",2009,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Plus",2004,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf R32",2005,2008,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Mk6/VI GTI",2009,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Mk6/VI R",2010,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Mk6/VI",2008,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Mk6/VI Cabriolet",2011,2016,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Golf Mk5/V GTI",2004,2009,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Jetta",2006,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Lavida",2011,2012,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Magotan",2006,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Passat CC",2008,2014,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Polo",2009,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Passat NMS",2012,2014,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Passat B6 Estate/Wagon/Sedan",2005,2011,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Passat B7 Alltrack",2012,2014,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Passat B7 Estate/Wagon/Sedan",2010,2014,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Polo GTI",2009,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Scirocco",2008,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Rabbit Mk5",2006,2009,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Sharan",2010,2014,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Sagitar",2005,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Touran",2003,2014,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","T5 Transporter",2010,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","T5 Multivan",2010,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","T5 Caravelle",2010,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Tiguan",2007,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Volkswagen","Vento",2009,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["SEAT","Altea",2004,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["SEAT","Alhambra",2010,2014,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["SEAT","Leon",2005,2012,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["SEAT","Toledo",2004,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Skoda","Fabia",2007,2013,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Skoda","Octavia",2006,2012,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Skoda","Praktik",2007,2011,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Skoda","Roomster",2003,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Skoda","Rapid",2012,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Skoda","Superb",2008,2014,"9\"","8CORE • 8GB/128GB",280,"CR121"],
+["Skoda","Yeti",2009,2015,"9\"","8CORE • 8GB/128GB",280,"CR121"],
 ["Toyota","4Runner",2009,2019,'9"',"8CORE • 2GB/32GB",170,"CR120"],
 ["Chevrolet","Silverado 1500",2007,2013,"8\"","8CORE • 4GB/64GB",160,"CR119"],
 ["Chevrolet","Silverado 2500 / 3500",2007,2014,"8\"","8CORE • 4GB/64GB",160,"CR119"],
@@ -384,6 +430,7 @@ function loadModels(){D.innerHTML='<option value="">Model</option>';[...new Set(
 function showBrand(b,el){M.value=b;Y.value="";loadModels();document.querySelectorAll(".brand").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active");R.innerHTML=stock.filter(x=>x[0]===b).sort(availableFirst).map(card).join("");setTimeout(()=>R.scrollIntoView({behavior:"smooth",block:"start"}),50)}
 
 const productImages={
+"CR121":["images/CR121/01.jpg","images/CR121/02.jpg","images/CR121/03.jpg","images/CR121/04.jpg","images/CR121/05.jpg","images/CR121/06.jpg","images/CR121/07.jpg","images/CR121/08.jpg","images/CR121/09.jpg"],
 "CR106":["images/CR106/01.jpg","images/CR106/02.jpg","images/CR106/03.jpg","images/CR106/04.jpg","images/CR106/05.jpg","images/CR106/06.jpg","images/CR106/07.jpg","images/CR106/08.jpg"],
 "CR107":["images/CR107/01.jpg","images/CR107/02.jpg","images/CR107/03.jpg","images/CR107/04.jpg","images/CR107/05.jpg","images/CR107/06.jpg","images/CR107/07.jpg","images/CR107/08.jpg"],
 "CR093":["images/CR093/01.jpg","images/CR093/02.jpg","images/CR093/03.jpg","images/CR093/04.jpg","images/CR093/05.jpg","images/CR093/06.jpg","images/CR093/07.jpg"],
@@ -558,7 +605,7 @@ function card(x,detail=false){
  const cpuBadge=cpu?'<div class="memory-spec">'+chip+'<strong>'+cpu[0].replace(/\s+/g,'')+'</strong><span>CPU</span></div>':'';
  const memoryBadges=memory?'<div class="memory-specs">'+cpuBadge+'<div class="memory-spec">'+ramIcon+'<strong>'+memory[1]+'GB</strong><span>RAM</span></div><div class="memory-spec">'+disk+'<strong>'+memory[2]+'GB</strong><span>Storage</span></div></div>':'';
  const specs=cpu?remaining.replace(cpu[0],'').replace(/^[\s•·]+|[\s•·]+$/g,''):remaining;
- const compatibility=detail===true&&x[7]==="CR118"?'<p class="fitment-note"><strong>Fitment:</strong> Compare your original radio and dashboard with the compatibility photo before ordering. The factory navigation screen configuration shown as incompatible is not supported.</p>':detail===true&&(x[7]==="CR070"||x[7]==="CR119")?'<p class="fitment-note"><strong>Fitment:</strong> Original rear-view cameras and rear headrest entertainment screens may not be compatible. Confirm your factory radio and connections before ordering.</p>':detail===true&&x[7]==="CR069"?'<p class="fitment-note"><strong>JBL amplifier systems:</strong> An additional compatible wiring harness with protocol box is required and is not included. Confirm your original radio and connections before ordering.</p>':detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
+ const compatibility=detail===true&&x[7]==="CR121"?'<p class="fitment-note"><strong>Eonon VWX6S-PRO:</strong> Android 13, wired and wireless Apple CarPlay / Android Auto, Bluetooth 5.1 and built-in DSP. Confirm your original dashboard and connections before ordering. Retaining a factory backup camera requires the Eonon A501 decoder box (not included).</p>':detail===true&&x[7]==="CR118"?'<p class="fitment-note"><strong>Fitment:</strong> Compare your original radio and dashboard with the compatibility photo before ordering. The factory navigation screen configuration shown as incompatible is not supported.</p>':detail===true&&(x[7]==="CR070"||x[7]==="CR119")?'<p class="fitment-note"><strong>Fitment:</strong> Original rear-view cameras and rear headrest entertainment screens may not be compatible. Confirm your factory radio and connections before ordering.</p>':detail===true&&x[7]==="CR069"?'<p class="fitment-note"><strong>JBL amplifier systems:</strong> An additional compatible wiring harness with protocol box is required and is not included. Confirm your original radio and connections before ordering.</p>':detail===true&&x[7]==="CR027"?'<p class="fitment-note"><strong>Fitment:</strong> For vehicles without a factory amplifier (AMP) only. Confirm the shape and size of your original radio and center console before ordering; not all dashboard styles are compatible. Contact us if unsure.</p>':detail===true&&x[7]==="CR011"&&x[1]==="Corolla"?'<p>Does not fit Corolla E12 (2000–2006).</p>':"";
  const codes=x[7]||"";
  const priced=typeof x[6]==='number' && isFinite(x[6]);
  const price=priced?'$'+x[6].toFixed(2)+' CAD':'Contact for price';
