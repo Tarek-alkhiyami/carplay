@@ -257,7 +257,7 @@ const stock=[
 ["Toyota","Corolla",2017,2019,"10.1\"","4CORE • 4GB/64GB",180,"CR096"],
 ["Toyota","Camry",2006,2011,"9\"","4CORE • 4GB/64GB",150,"CR097"],
 ["Toyota","Camry",2007,2011,"10.1\"","4CORE • 4GB/64GB",150,"CR098"],
-["Toyota","Camry",2012,2014,"10.1\"","4CORE • 4GB/64GB",150,"CR099"],
+["Toyota","Camry",2012,2014,"10.1\"","4CORE • 4GB/64GB",150,"CR099","sold"],
 ["Toyota","Camry",2015,2017,"10.1\"","4CORE • 4GB/64GB",160,"CR100"],
 ["Toyota","Yaris",2006,2011,"9\"","4CORE • 4GB/64GB",150,"CR101"],
 ["Toyota","Prius",2010,2015,"9\"","4CORE • 4GB/64GB",170,"CR102","sold"],
