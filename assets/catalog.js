@@ -364,7 +364,7 @@ const stock=[
 ["GMC","Canyon",2004,2012,"7\"","4GB/64GB",125,"CR027"],
 ["Hummer","H2",2003,2007,"7\"","4GB/64GB",125,"CR027"],
 ["Dodge","Nitro",2007,2011,'7"',"2GB/64GB",150.00,"CR030"],
-["Dodge","Grand Caravan",2008,2020,'7"',"2GB/32GB",200.00,"CR029"],
+["Dodge","Grand Caravan",2008,2020,'7"',"2GB/32GB",200.00,"CR029","sold"],
 ["Volkswagen","Rabbit Mk5",2006,2009,'9"',"2GB/32GB",150.00,"CR031"],
 ["Mercedes-Benz","SL-Class R230",2005,2012,'9"',"4GB/64GB",150.00,"CR032"],
 ["Mercedes-Benz","SL350",2005,2012,'9"',"4GB/64GB",150.00,"CR032"],
