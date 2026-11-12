@@ -836,3 +836,4 @@ routeProduct();
 
 updateCart();
 if(location.pathname==='/services/')showPage('services');if(location.pathname==='/about/')showPage('about');
+function addBookingTab(){const about=document.getElementById('aboutTab');if(about&&!about.nextElementSibling)about.insertAdjacentHTML('afterend',"<button onclick=\"location.href='/booking/'\">Book an installation</button>");}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addBookingTab);else addBookingTab();
