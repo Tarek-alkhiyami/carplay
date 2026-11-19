@@ -838,7 +838,7 @@ updateCart();
 if(location.pathname==='/services/')showPage('services');if(location.pathname==='/about/')showPage('about');
 function addBookingTab(){const about=document.getElementById('aboutTab');if(about&&!about.nextElementSibling)about.insertAdjacentHTML('afterend',"<button onclick=\"location.href='/booking/'\">Book an installation</button>");}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addBookingTab);else addBookingTab();
 
-function addScheduleTab(){const nav=document.getElementById('aboutTab')?.parentElement;if(nav&&!nav.textContent.includes('Installation schedule'))nav.insertAdjacentHTML('beforeend',"<button onclick=\"location.href='/schedule/'\">Installation schedule</button>");}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addScheduleTab);else addScheduleTab();
+
 function installInlineBooking(){
   const nav=document.getElementById('aboutTab')?.parentElement;
   if(!nav)return;
@@ -868,3 +868,5 @@ function installInlineBooking(){
   };
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installInlineBooking);else installInlineBooking();
+
+function removeScheduleTab(){document.querySelectorAll('nav button').forEach(button=>{if(button.textContent.trim()==='Installation schedule')button.remove();});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',removeScheduleTab);else removeScheduleTab();
