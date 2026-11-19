@@ -839,3 +839,32 @@ if(location.pathname==='/services/')showPage('services');if(location.pathname===
 function addBookingTab(){const about=document.getElementById('aboutTab');if(about&&!about.nextElementSibling)about.insertAdjacentHTML('afterend',"<button onclick=\"location.href='/booking/'\">Book an installation</button>");}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addBookingTab);else addBookingTab();
 
 function addScheduleTab(){const nav=document.getElementById('aboutTab')?.parentElement;if(nav&&!nav.textContent.includes('Installation schedule'))nav.insertAdjacentHTML('beforeend',"<button onclick=\"location.href='/schedule/'\">Installation schedule</button>");}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addScheduleTab);else addScheduleTab();
+function installInlineBooking(){
+  const nav=document.getElementById('aboutTab')?.parentElement;
+  if(!nav)return;
+  const bookingButton=Array.from(nav.querySelectorAll('button')).find(button=>button.textContent.trim()==='Book an installation');
+  if(!bookingButton)return;
+  bookingButton.removeAttribute('onclick');
+  bookingButton.setAttribute('aria-expanded','false');
+  bookingButton.setAttribute('aria-controls','inlineBooking');
+  bookingButton.onclick=function(){
+    let panel=document.getElementById('inlineBooking');
+    if(!panel){
+      panel=document.createElement('section');
+      panel.id='inlineBooking';
+      panel.style.cssText='max-width:1100px;margin:16px auto;padding:0 12px;';
+      const close=document.createElement('button');
+      close.type='button';close.textContent='Close booking';
+      close.style.cssText='display:block;margin:0 0 8px auto;padding:8px 14px;cursor:pointer';
+      close.onclick=()=>{panel.hidden=true;bookingButton.setAttribute('aria-expanded','false');bookingButton.focus();};
+      const frame=document.createElement('iframe');
+      frame.title='Book an installation';
+      frame.src='https://isc-carplay-installation.mr1world2wide.workers.dev/';
+      frame.style.cssText='display:block;width:100%;height:1100px;border:0;background:#f5f8fb;border-radius:12px';
+      panel.append(close,frame);nav.insertAdjacentElement('afterend',panel);
+    }
+    panel.hidden=false;bookingButton.setAttribute('aria-expanded','true');
+    panel.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installInlineBooking);else installInlineBooking();
