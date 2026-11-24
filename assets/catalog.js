@@ -339,7 +339,7 @@ const stock=[
 ["Nissan","Frontier",2005,2008,'7"',"2GB/32GB",150.00,"CR015 / CR016 / CR017"],
 ["Nissan","Frontier (8-Core)",2005,2008,'7"',"2GB/32GB",180.00,"CR014"],
 ["Ford","F-150",2009,2012,'9" IPS',"2GB/64GB • Android 12 • 5G (WiFi6)",200.00,"CR020"],
-["Ford","Escape",2013,2019,'9"',"4CORE • 4GB/64GB",250.00,"CR021 / CR045"],
+["Ford","Escape",2013,2019,'9"',"4CORE • 4GB/64GB",250.00,"CR021 / CR045","",["CR021"]],
 ["Ford","Mustang",2005,2009,'7"',"2GB/64GB",150.00,"CR022"],
 ["Ford","Fusion",2005,2011,'7" IPS',"4-Core • 4GB/64GB",200.00,"CR023"],
 ["Ford","Fiesta",2005,2017,'7" IPS',"4-Core • 4GB/64GB",200.00,"CR023"],
